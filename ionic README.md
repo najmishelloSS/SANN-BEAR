@@ -15,7 +15,7 @@ step 4 - `Integrate App into Project` via steps below <br>
 	<li>Replace the existing src file with the downloaded file from the repository</li>
 </ul>
 	
-step 10 - `Run App` via Command Prompt or Powershell in the project directory<br>
+step 5 - `Run App` via Command Prompt or Powershell in the project directory<br>
 
 	ionic serve
 
