@@ -10,9 +10,9 @@ step 3 - `Create Ionic Project` via Command Prompt or Powershell in desired dire
 	ionic start
 step 4 - `Integrate App into Project` via steps below <br>
 <ul>
-	<li>Download the src file in the repository</li>
+	<li>Download the src and tsconfig.json file in the repository</li>
 	<li>Go to the project directory eg. C:\Users\user\Documents\Project\AppName</li>
-	<li>Replace the existing src file with the downloaded file from the repository</li>
+	<li>Replace both existing src and tsconfig.json file with the downloaded file from the repository</li>
 </ul>
 	
 step 5 - `Run App` via Command Prompt or Powershell in the project directory<br>
