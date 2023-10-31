@@ -1,0 +1,22 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      Blank
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Insert Your Name</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <div id="container" style="margin: 10%">
+    <strong>Hello World</strong>
+    <br>
+    <ion-input label="Enter Your Name" labelPlacement="floating" fill="outline" [(ngModel)]="name" placeholder="Name"></ion-input>
+    <ion-button color="primary" (click)="submit()">Submit</ion-button>
+  </div>
+</ion-content>
