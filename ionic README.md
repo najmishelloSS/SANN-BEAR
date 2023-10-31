@@ -34,4 +34,13 @@ step 2 - `Install Capacitor Plugin for Android` via Command Prompt or Powershell
 step 3 - `Build Project into Android Studio` via Command Prompt or Powershell in the project directory<br>
 
 	ionic capacitor build android
+
+ # Important Dependencies
+ step 1 - `Install Ionic Storage` via Command Prompt or Powershell <br>
+
+	npm install @ionic/storage
+
+ step 1 - `Install Angular Storage-` via Command Prompt or Powershell <br>
+
+	npm install @ionic/storage-angular
 	
