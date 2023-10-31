@@ -40,7 +40,7 @@ step 3 - `Build Project into Android Studio` via Command Prompt or Powershell in
 
 	npm install @ionic/storage
 
- step 1 - `Install Angular Storage-` via Command Prompt or Powershell <br>
+ step 2 - `Install Angular Storage-` via Command Prompt or Powershell <br>
 
 	npm install @ionic/storage-angular
 	
