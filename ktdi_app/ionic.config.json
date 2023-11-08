@@ -1,0 +1,7 @@
+{
+  "name": "ktdi_App",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
