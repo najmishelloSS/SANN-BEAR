@@ -98,16 +98,16 @@ step 3 - `Build Project into Android Studio` via Command Prompt or Powershell in
 ![HTML][HTML]
 
 
-	  <ion-button (click)="navigate('home')">Navigate</ion-button>
+	<ion-button (click)="navigate('home')">Navigate</ion-button>
 
 ![TS][TS]
 
-	  constructor(
+	constructor(
 	    private router:Router,
 	    private navCtrl:NavController,
 	    private route:ActivatedRoute,
 	    private dataService:DataService,
-	  ) {
+	) {
 
 	ngOnInit() {
 	    if(this.route.snapshot.data['special']){
@@ -120,7 +120,7 @@ step 3 - `Build Project into Android Studio` via Command Prompt or Powershell in
 	    this.data.page = this.data.page+1
 	    this.dataService.setData(this.data.page, this.data);
 	    this.router.navigateByUrl(route+'/'+this.data.page);
-	  }
+	}
 
 ![APP][APP]
 
@@ -139,7 +139,7 @@ step 3 - `Build Project into Android Studio` via Command Prompt or Powershell in
 ![TS][TS]
 
 	constructor(
-    		private http:HttpClient,
+		private http:HttpClient,
 	) {
 
  	connectApi(){
@@ -162,8 +162,6 @@ step 3 - `Build Project into Android Studio` via Command Prompt or Powershell in
 		}, async error => {
 	 		console.log(error)
 		};
-
-  	
    	}
 
 
