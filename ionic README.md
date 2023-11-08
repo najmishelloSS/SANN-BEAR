@@ -46,11 +46,9 @@ step 3 - `Build Project into Android Studio` via Command Prompt or Powershell in
 	npm install @ionic/storage-angular
 
  # Ionic Components
+
 `Alert`
-<br>
-<br>
-<br>
-<br>
+
 ![HTML][HTML]
 
 
@@ -87,6 +85,7 @@ step 3 - `Build Project into Android Studio` via Command Prompt or Powershell in
 <br>
 <br>
 <br>
+
 `Modal`
 
 ![HTML][HTML]
@@ -105,6 +104,7 @@ step 3 - `Build Project into Android Studio` via Command Prompt or Powershell in
 <br>
 <br>
 <br>
+
 `Routing`
 
 ![HTML][HTML]
@@ -147,7 +147,8 @@ step 3 - `Build Project into Android Studio` via Command Prompt or Powershell in
 <br>
 <br>
 <br>
-<br>
+<br> 
+
 `API Implementation`
 
 ![TS][TS]
