@@ -77,6 +77,73 @@ step 3 - `Build Project into Android Studio` via Command Prompt or Powershell in
 	    await alert.present();
 	  }
 
+`Alert`
+<br>
+<br>
+![HTML][HTML]
+
+
+	  <ion-button (click)="presentAlert()">Click Me</ion-button>
+
+![TS][TS]
+
+	  constructor(
+	    private alertController:AlertController
+	  ) {
+   
+	  async presentAlert() {
+	    const alert = await this.alertController.create({
+	      header: 'Alert',
+	      subHeader: 'Important message',
+	      message: 'This is an alert!',
+	      buttons: [{
+	            text: 'Cancel',
+	            role: 'cancel'
+	          },
+	          {
+	            text: 'OK,
+	            handler: () => {
+	              console.log("ok")
+	            }
+	          }],
+	
+	    });
+	
+	    await alert.present();
+	  }
+
+`Routing`
+<br>
+<br>
+![HTML][HTML]
+
+
+	  <ion-button (click)="navigate('home')">Navigate</ion-button>
+
+![TS][TS]
+
+	  constructor(
+	    private router:Router,
+	    private navCtrl:NavController,
+	    private route:ActivatedRoute,
+	    private dataService:DataService,
+	  ) {
+
+	ngOnInit() {
+	    if(this.route.snapshot.data['special']){
+	      this.data=this.route.snapshot.data['special'];
+	    }
+	}
+   
+	navigate(route: any){
+	    this.navCtrl.setDirection("forward",false);
+	    this.data.page = this.data.page+1
+	    this.dataService.setData(this.data.page, this.data);
+	    this.router.navigateByUrl(route+'/'+this.data.page);
+	  }
+
+
+
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
