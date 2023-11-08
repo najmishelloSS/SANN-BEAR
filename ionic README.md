@@ -50,7 +50,6 @@ step 3 - `Build Project into Android Studio` via Command Prompt or Powershell in
 <br>
 <br>
 ![HTML][HTML]
-![TS][TS]
 
 
 	  <ion-button (click)="presentAlert()">Click Me</ion-button>
