@@ -77,6 +77,22 @@ step 3 - `Build Project into Android Studio` via Command Prompt or Powershell in
 	    await alert.present();
 	  }
 
+`Modal`
+<br>
+<br>
+![HTML][HTML]
+
+
+	  <ion-button (click)="setOpen(true,'modal')">Open Modal</ion-button>
+
+![TS][TS]
+
+	modal1 = false;
+ 
+	setOpen(isOpen: boolean) {
+		this.history = history
+		this.modal = isOpen;
+	}
 
 `Routing`
 <br>
@@ -87,6 +103,8 @@ step 3 - `Build Project into Android Studio` via Command Prompt or Powershell in
 	  <ion-button (click)="navigate('home')">Navigate</ion-button>
 
 ![TS][TS]
+
+	data : any
 
 	  constructor(
 	    private router:Router,
@@ -124,11 +142,10 @@ step 3 - `Build Project into Android Studio` via Command Prompt or Powershell in
 <br>
 ![TS][TS]
 
+	data : any
+
 	constructor(
-	    private router:Router,
-	    private navCtrl:NavController,
-	    private route:ActivatedRoute,
-	    private dataService:DataService,
+    		private http:HttpClient,
 	) {
 
  	connectApi(){
@@ -137,8 +154,8 @@ step 3 - `Build Project into Android Studio` via Command Prompt or Powershell in
 		headers.append('Content-Type', 'application/json');
 			
 		let formData = new FormData();
-		formData.append('device',this.device);
-		formData.append('quantity',this.quantity);
+		formData.append('id',this.id);
+		formData.append('data',this.data);
 
 	     	this.http.post('https://www.google.com', formData).subscribe( (data:any) => { //this is for post api
 		      console.log(data)
