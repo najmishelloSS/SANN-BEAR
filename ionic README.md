@@ -77,40 +77,6 @@ step 3 - `Build Project into Android Studio` via Command Prompt or Powershell in
 	    await alert.present();
 	  }
 
-`Alert`
-<br>
-<br>
-![HTML][HTML]
-
-
-	  <ion-button (click)="presentAlert()">Click Me</ion-button>
-
-![TS][TS]
-
-	  constructor(
-	    private alertController:AlertController
-	  ) {
-   
-	  async presentAlert() {
-	    const alert = await this.alertController.create({
-	      header: 'Alert',
-	      subHeader: 'Important message',
-	      message: 'This is an alert!',
-	      buttons: [{
-	            text: 'Cancel',
-	            role: 'cancel'
-	          },
-	          {
-	            text: 'OK,
-	            handler: () => {
-	              console.log("ok")
-	            }
-	          }],
-	
-	    });
-	
-	    await alert.present();
-	  }
 
 `Routing`
 <br>
@@ -142,12 +108,21 @@ step 3 - `Build Project into Android Studio` via Command Prompt or Powershell in
 	    this.router.navigateByUrl(route+'/'+this.data.page);
 	  }
 
-
+![APP][APP]
+	  {
+	    path: 'home/:id',
+	    resolve:{
+	      special:DataResolverService
+	    }, 
+	    loadChildren: () => import('./home/home.module').then( m => m.HomePageModule)
+	  },
 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 [HTML]:https://img.shields.io/badge/HTML-239120?style=for-the-badge&logo=html5&logoColor=white
 [TS]: https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white
+[APP]: https://img.shields.io/badge/-app%E2%80%93routing%E2%80%93module.ts-lightblue
+
 
 	
