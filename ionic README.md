@@ -1,3 +1,4 @@
+<a name="readme-top"></a>
 # ionic installation
 
 step 1 - `Install Node.js` via https://nodejs.org/en/<br><br>
@@ -43,4 +44,31 @@ step 3 - `Build Project into Android Studio` via Command Prompt or Powershell in
  step 2 - `Install Angular Storage-` via Command Prompt or Powershell <br>
 
 	npm install @ionic/storage-angular
+
+ # Ionic Components
+`Alert`
+* [![Next][Next.js]][Next-url]
+
+	  async presentAlert() {
+	    const alert = await this.alertController.create({
+	      header: 'Alert',
+	      subHeader: 'Important message',
+	      message: 'This is an alert!',
+	      buttons: [{
+	            text: 'Cancel',
+	            role: 'cancel'
+	          },
+	          {
+	            text: 'OK,
+	            handler: () => {
+	              console.log("ok")
+	            }
+	          }],
+	
+	    });
+	
+	    await alert.present();
+	  }
+
+[Next.js]: https://img.shields.io/badge/next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white
 	
