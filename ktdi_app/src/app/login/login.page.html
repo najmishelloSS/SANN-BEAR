@@ -1,0 +1,53 @@
+
+
+<ion-content style="--background: #787878;" [fullscreen]="true">
+  <div class="container ion-text-center">
+    <h1><ion-icon name="home" style="--border-width: 2px;"></ion-icon> &nbsp; Hostel Management.</h1>
+    <h3>All services on your fingertips.</h3>
+    <ion-row>
+      <ion-col>
+        <ion-item (click)="loginModal(true)" detail="false" button color="primary" style="--border-radius: 20px;--border-width: 2px;--height:4rem; color: white;">
+          <ion-label style="text-align: center;">Log In</ion-label>
+        </ion-item>
+      </ion-col>
+      <ion-col>
+        <ion-item button color="medium" detail="false" style="--border-radius: 20px;--border-width: 2px;--height:4rem; color: white;">
+          <ion-label style="text-align: center;">Sign Up</ion-label>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+  </div>
+
+  <ion-modal [isOpen]="modal" canDismiss="canDismiss" [initialBreakpoint]="0.75" [breakpoints]="[0, 0.25, 0.5, 0.75]">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-title>Log In</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="loginModal(false)">Close</ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="ion-padding">
+        <ion-item style="--border-radius: 20px;--border-width: 2px;--height:4rem;">
+          <ion-label><ion-icon color="medium" style="font-size: 32px;" name="person-circle-outline"></ion-icon></ion-label>
+          <ion-input type="text" placeholder="Login" [(ngModel)]="login.email" [clearInput]="true"></ion-input>
+        </ion-item>
+        <br>
+        <ion-item style="--border-radius: 20px;--border-width: 2px;--height:4rem;">
+          <ion-label><ion-icon color="medium" style="font-size: 32px;" name="key-outline"></ion-icon></ion-label>
+          <ion-input type="password" placeholder="Password" [(ngModel)]="login.password" [clearInput]="true"></ion-input>
+        </ion-item>
+        <br>
+        <ion-item (click)="loginModal(false)" detail="false" lines="none" button color="primary" style="--border-radius: 20px;--border-width: 0px;--height:4rem">
+          <ion-label style="text-align: center;color: white;">Login</ion-label>
+        </ion-item>
+        <br>
+        <div style="text-align: center;">
+          <a button style="color:gray" (click)="loginModal(false)">Forgot Password?</a>
+        </div>
+    
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+</ion-content>
