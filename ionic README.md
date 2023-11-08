@@ -47,7 +47,7 @@ step 3 - `Build Project into Android Studio` via Command Prompt or Powershell in
 
  # Ionic Components
 `Alert`
-* [![Next][Next.js]][Next-url]
+[HTML]
 
 	  async presentAlert() {
 	    const alert = await this.alertController.create({
@@ -73,5 +73,5 @@ step 3 - `Build Project into Android Studio` via Command Prompt or Powershell in
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-[Next.js]: https://www.devopsschool.com/blog/wp-content/uploads/2022/03/html.jpg
+[HTML]: [https://www.devopsschool.com/blog/wp-content/uploads/2022/03/html.jpg](https://img.shields.io/badge/HTML-239120?style=for-the-badge&logo=html5&logoColor=white)https://img.shields.io/badge/HTML-239120?style=for-the-badge&logo=html5&logoColor=white
 	
