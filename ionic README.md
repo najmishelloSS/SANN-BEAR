@@ -83,11 +83,12 @@ step 3 - `Build Project into Android Studio` via Command Prompt or Powershell in
 	    	await alert.present();
 	  }
 
+<br>
+<br>
+<br>
+<br>
 `Modal`
-<br>
-<br>
-<br>
-<br>
+
 ![HTML][HTML]
 
 
@@ -100,11 +101,12 @@ step 3 - `Build Project into Android Studio` via Command Prompt or Powershell in
 		this.modal = isOpen;
 	}
 
+<br>
+<br>
+<br>
+<br>
 `Routing`
-<br>
-<br>
-<br>
-<br>
+
 ![HTML][HTML]
 
 
@@ -142,12 +144,11 @@ step 3 - `Build Project into Android Studio` via Command Prompt or Powershell in
 	    loadChildren: () => import('./home/home.module').then( m => m.HomePageModule)
 	  },
 
-
+<br>
+<br>
+<br>
+<br>
 `API Implementation`
-<br>
-<br>
-<br>
-<br>
 
 ![TS][TS]
 
