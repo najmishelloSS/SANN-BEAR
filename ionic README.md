@@ -73,5 +73,5 @@ step 3 - `Build Project into Android Studio` via Command Prompt or Powershell in
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-[HTML]: [https://www.devopsschool.com/blog/wp-content/uploads/2022/03/html.jpg](https://img.shields.io/badge/HTML-239120?style=for-the-badge&logo=html5&logoColor=white)https://img.shields.io/badge/HTML-239120?style=for-the-badge&logo=html5&logoColor=white
+[HTML]:(https://img.shields.io/badge/HTML-239120?style=for-the-badge&logo=html5&logoColor=white)https://img.shields.io/badge/HTML-239120?style=for-the-badge&logo=html5&logoColor=white
 	
