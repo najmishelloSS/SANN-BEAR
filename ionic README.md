@@ -52,29 +52,33 @@ step 3 - `Build Project into Android Studio` via Command Prompt or Powershell in
 ![HTML][HTML]
 
 
-	  <ion-button (click)="presentAlert()">Click Me</ion-button>
+	<ion-button (click)="presentAlert()">Click Me</ion-button>
 
 ![TS][TS]
 
-	  async presentAlert() {
-	    const alert = await this.alertController.create({
-	      header: 'Alert',
-	      subHeader: 'Important message',
-	      message: 'This is an alert!',
-	      buttons: [{
-	            text: 'Cancel',
-	            role: 'cancel'
-	          },
-	          {
-	            text: 'OK,
-	            handler: () => {
-	              console.log("ok")
-	            }
-	          }],
+
+	constructor(
+		private alertController:AlertController,
+	) {}
+ 
+	async presentAlert() {
+		const alert = await this.alertController.create({
+			header: 'Alert',
+			subHeader: 'Important message',
+	      		message: 'This is an alert!',
+		      	buttons: [{
+		            	text: 'Cancel',
+		            	role: 'cancel'
+		        },
+	          	{
+	            		text: 'OK,
+	            		handler: () => {
+	              		console.log("ok")
+	            	}
+	          	}],
 	
-	    });
-	
-	    await alert.present();
+		});
+	    	await alert.present();
 	  }
 
 `Modal`
@@ -107,7 +111,7 @@ step 3 - `Build Project into Android Studio` via Command Prompt or Powershell in
 	    private navCtrl:NavController,
 	    private route:ActivatedRoute,
 	    private dataService:DataService,
-	) {
+	) {}
 
 	ngOnInit() {
 	    if(this.route.snapshot.data['special']){
@@ -139,8 +143,8 @@ step 3 - `Build Project into Android Studio` via Command Prompt or Powershell in
 ![TS][TS]
 
 	constructor(
-		private http:HttpClient,
-	) {
+ 		private http:HttpClient
+	){}
 
  	connectApi(){
 		var headers = new Headers();
