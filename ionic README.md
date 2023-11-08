@@ -109,6 +109,7 @@ step 3 - `Build Project into Android Studio` via Command Prompt or Powershell in
 	  }
 
 ![APP][APP]
+
 	  {
 	    path: 'home/:id',
 	    resolve:{
