@@ -83,12 +83,10 @@ step 3 - `Build Project into Android Studio` via Command Prompt or Powershell in
 ![HTML][HTML]
 
 
-	  <ion-button (click)="setOpen(true,'modal')">Open Modal</ion-button>
+	<ion-button (click)="setOpen(true,'modal')">Open Modal</ion-button>
 
 ![TS][TS]
 
-	modal1 = false;
- 
 	setOpen(isOpen: boolean) {
 		this.history = history
 		this.modal = isOpen;
@@ -103,8 +101,6 @@ step 3 - `Build Project into Android Studio` via Command Prompt or Powershell in
 	  <ion-button (click)="navigate('home')">Navigate</ion-button>
 
 ![TS][TS]
-
-	data : any
 
 	  constructor(
 	    private router:Router,
@@ -141,8 +137,6 @@ step 3 - `Build Project into Android Studio` via Command Prompt or Powershell in
 <br>
 <br>
 ![TS][TS]
-
-	data : any
 
 	constructor(
     		private http:HttpClient,
