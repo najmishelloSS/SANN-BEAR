@@ -48,7 +48,14 @@ step 3 - `Build Project into Android Studio` via Command Prompt or Powershell in
  # Ionic Components
 `Alert`
 <br>
+<br>
 ![HTML][HTML]
+
+	  <ion-button (click)="presentAlert()">Click Me</ion-button>
+
+<br>
+<br>
+![TS][TS]
 
 	  async presentAlert() {
 	    const alert = await this.alertController.create({
@@ -75,4 +82,6 @@ step 3 - `Build Project into Android Studio` via Command Prompt or Powershell in
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 [HTML]:https://img.shields.io/badge/HTML-239120?style=for-the-badge&logo=html5&logoColor=white
+[TS]:https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white
+
 	
