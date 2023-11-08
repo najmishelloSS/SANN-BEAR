@@ -123,7 +123,7 @@ step 3 - `Build Project into Android Studio` via Command Prompt or Powershell in
 
 [HTML]:https://img.shields.io/badge/HTML-239120?style=for-the-badge&logo=html5&logoColor=white
 [TS]: https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white
-[APP]: https://img.shields.io/badge/-app%E2%80%93routing%E2%80%93module.ts-lightblue
+[APP]: https://img.shields.io/badge/-app%E2%80%93routing.module.ts-lightblue
 
 
 	
