@@ -83,8 +83,6 @@ step 3 - `Build Project into Android Studio` via Command Prompt or Powershell in
 
 <br>
 <br>
-<br>
-<br>
 
 `Modal`
 
@@ -100,8 +98,6 @@ step 3 - `Build Project into Android Studio` via Command Prompt or Powershell in
 		this.modal = isOpen;
 	}
 
-<br>
-<br>
 <br>
 <br>
 
@@ -146,8 +142,6 @@ step 3 - `Build Project into Android Studio` via Command Prompt or Powershell in
 
 <br>
 <br>
-<br>
-<br> 
 
 `API Implementation`
 
