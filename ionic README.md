@@ -49,6 +49,8 @@ step 3 - `Build Project into Android Studio` via Command Prompt or Powershell in
 `Alert`
 <br>
 <br>
+<br>
+<br>
 ![HTML][HTML]
 
 
@@ -84,6 +86,8 @@ step 3 - `Build Project into Android Studio` via Command Prompt or Powershell in
 `Modal`
 <br>
 <br>
+<br>
+<br>
 ![HTML][HTML]
 
 
@@ -97,6 +101,8 @@ step 3 - `Build Project into Android Studio` via Command Prompt or Powershell in
 	}
 
 `Routing`
+<br>
+<br>
 <br>
 <br>
 ![HTML][HTML]
@@ -140,6 +146,9 @@ step 3 - `Build Project into Android Studio` via Command Prompt or Powershell in
 `API Implementation`
 <br>
 <br>
+<br>
+<br>
+
 ![TS][TS]
 
 	constructor(
