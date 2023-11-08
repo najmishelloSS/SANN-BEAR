@@ -55,8 +55,6 @@ step 3 - `Build Project into Android Studio` via Command Prompt or Powershell in
 
 	  <ion-button (click)="presentAlert()">Click Me</ion-button>
 
-<br>
-<br>
 ![TS][TS]
 
 	  async presentAlert() {
