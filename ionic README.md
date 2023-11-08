@@ -55,7 +55,7 @@ step 3 - `Build Project into Android Studio` via Command Prompt or Powershell in
 
 <br>
 <br>
-![HTML][HTML]
+![TS][TS]
 
 	  async presentAlert() {
 	    const alert = await this.alertController.create({
