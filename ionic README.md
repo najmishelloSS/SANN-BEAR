@@ -47,7 +47,7 @@ step 3 - `Build Project into Android Studio` via Command Prompt or Powershell in
 
  # Ionic Components
 `Alert`
-* [![Next][HTML]][Next-url]
+[![HTML][HTML]
 
 	  async presentAlert() {
 	    const alert = await this.alertController.create({
