@@ -119,6 +119,45 @@ step 3 - `Build Project into Android Studio` via Command Prompt or Powershell in
 	  },
 
 
+`API Implementation`
+<br>
+<br>
+![TS][TS]
+
+	constructor(
+	    private router:Router,
+	    private navCtrl:NavController,
+	    private route:ActivatedRoute,
+	    private dataService:DataService,
+	) {
+
+ 	connectApi(){
+		var headers = new Headers();
+		headers.append("Accept", 'application/json');
+		headers.append('Content-Type', 'application/json');
+			
+		let formData = new FormData();
+		formData.append('device',this.device);
+		formData.append('quantity',this.quantity);
+
+	     	this.http.post('https://www.google.com', formData).subscribe( (data:any) => { //this is for post api
+		      console.log(data)
+		}, async error => {
+	 		console.log(error)
+		};
+
+      		this.http.get('https://www.google.com').subscribe(async data=>{ //this is for get api
+			console.log(data)
+		}, async error => {
+	 		console.log(error)
+		};
+
+  	
+   	}
+
+
+
+
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 [HTML]:https://img.shields.io/badge/HTML-239120?style=for-the-badge&logo=html5&logoColor=white
