@@ -70,5 +70,8 @@ step 3 - `Build Project into Android Studio` via Command Prompt or Powershell in
 	    await alert.present();
 	  }
 
-[Next.js]: https://img.shields.io/badge/next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+[Next.js]: https://www.devopsschool.com/blog/wp-content/uploads/2022/03/html.jpg
 	
