@@ -312,20 +312,53 @@ export class LoginPage implements OnInit {
       this.verify.PIN_input =  ["var(--ion-color-danger)", "var(--ion-color-danger)"];
       this.component.toast("Please enter a valid PIN")
     }else{
-      console.log(this.verify.type)
-      if(this.verify.type == "forgot"){
-        this.navigateModal("verifyModal","resetModal")
-        setTimeout(async ()=> {
-          this.component.toast("Account verified, please reset your password")
-        }, 1000);
+      const loading = await this.loadingController.create({
+        message: "Verifying..."
+      });
+      loading.present();
 
-      }else if(this.verify.type == "register"){
-        this.navigateModal("verifyModal","loginModal")
-        setTimeout(async ()=> {
-          this.component.toast("Account verified, proceed to login")
-        }, 1000);
+      var headers = new Headers();
+      headers.append("Accept", 'application/json');
+      headers.append('Content-Type', 'application/json');
+        
+      let formData = new FormData();
+      formData.append('email',this.verify.email);
+      formData.append('PIN',this.verify.PIN);
 
-      }
+      this.component.getAPI('http://ktdiapp.mooo.com/api/verify.php', formData, "post").subscribe( (data:any) => {
+        console.log(data)
+        data.forEach( async item => {
+          if(item.Code == '200'){
+            this.login.email = this.verify.email
+            console.log(this.verify.type)
+            if(this.verify.type == "forgot"){
+              this.navigateModal("verifyModal","resetModal")
+              setTimeout(async ()=> {
+                this.component.toast("Account verified, please reset your password")
+              }, 1000);
+            }else if(this.verify.type == "register"){
+              this.navigateModal("verifyModal","loginModal")
+              setTimeout(async ()=> {
+                this.component.toast("Account verified, proceed to login")
+              }, 1000);
+            }
+            loading.dismiss();
+            this.component.toast("Verification complete, proceed to login")
+          }else if(item.Code == '204'){
+            console.log("invalid verify")
+            loading.dismiss();
+            this.component.toast("Invalid verification code")
+          }else{
+            console.log("something went wrong")
+            loading.dismiss();
+            this.component.toast("Something went wrong, please try again later")
+          }
+        });
+      }, async error => {
+          console.log(error)
+          loading.dismiss();
+          this.component.toast("Something went wrong, please try again later")
+      });
     }
   }
 

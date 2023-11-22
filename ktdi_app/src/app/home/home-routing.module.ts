@@ -9,13 +9,6 @@ const routes: Routes = [
     path: '',
     component: HomePage,
   },
-  {
-  path: 'bookhall/:id',
-    resolve:{
-      special:DataResolverService
-    }, 
-    loadChildren: () => import('./room-registration/room-registration.module').then( m => m.room-registrationPageModule),
-  },
 
 ];
 
