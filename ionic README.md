@@ -162,13 +162,13 @@ step 3 - `Build Project into Android Studio` via Command Prompt or Powershell in
 
 	     	this.http.post('https://www.google.com', formData).subscribe( (data:any) => { //this is for post api
 		      console.log(data)
-		}, async error => {
+		}), async error => {
 	 		console.log(error)
 		};
 
       		this.http.get('https://www.google.com').subscribe(async data=>{ //this is for get api
 			console.log(data)
-		}, async error => {
+		}), async error => {
 	 		console.log(error)
 		};
    	}

@@ -4,6 +4,13 @@ import { DataResolverService } from './resolver/data-resolver.service';
 
 const routes: Routes = [
   {
+    path: 'home/:id',
+    resolve:{
+      special:DataResolverService
+    }, 
+    loadChildren: () => import('./home/home.module').then( m => m.HomePageModule)
+  },
+  {
     path: 'home',
     loadChildren: () => import('./home/home.module').then( m => m.HomePageModule)
   },
@@ -38,6 +45,18 @@ const routes: Routes = [
     path: 'splashscreen',
     loadChildren: () => import('./splashscreen/splashscreen.module').then( m => m.SplashscreenPageModule)
   },
+  {
+    path: 'bookhall',
+    loadChildren: () => import('./bookhall/bookhall.module').then( m => m.BookhallPageModule)
+  },
+  {
+    path: 'bookhall/:id',
+    resolve:{
+      special:DataResolverService
+    }, 
+    loadChildren: () => import('./bookhall/bookhall.module').then( m => m.BookhallPageModule)
+  },
+
  
 ];
 

@@ -1,53 +1,210 @@
 
 
-<ion-content style="--background: #787878;" [fullscreen]="true">
+<ion-content style="--background: linear-gradient(#787878, #444444);" [fullscreen]="true">
+
+  <div [ngStyle]="{'color': color.header}" style="margin-top: 40%;" class="container ion-text-center">
+    <h1><ion-icon name="home" style="--border-width: 2px;"></ion-icon> &nbsp; Hostel Management</h1>
+  </div>
+
   <div class="container ion-text-center">
-    <h1><ion-icon name="home" style="--border-width: 2px;"></ion-icon> &nbsp; Hostel Management.</h1>
+    <h1><ion-icon name="home" style="--border-width: 2px;"></ion-icon> &nbsp; Hostel Management</h1>
     <h3>All services on your fingertips.</h3>
     <ion-row>
       <ion-col>
-        <ion-item (click)="loginModal(true)" detail="false" button color="primary" style="--border-radius: 20px;--border-width: 2px;--height:4rem; color: white;">
+        <ion-item (click)="setOpen(true,'loginModal')" detail="false" button color="primary" style="--border-radius: 20px;--border-width: 2px;--height:4rem; color: white; margin-left: 10%;">
           <ion-label style="text-align: center;">Log In</ion-label>
         </ion-item>
       </ion-col>
       <ion-col>
-        <ion-item button color="medium" detail="false" style="--border-radius: 20px;--border-width: 2px;--height:4rem; color: white;">
+        <ion-item (click)="setOpen(true,'signupModal')" button color="medium" detail="false" style="--border-radius: 20px;--border-width: 2px;--height:4rem; color: white; margin-right: 10%">
           <ion-label style="text-align: center;">Sign Up</ion-label>
         </ion-item>
       </ion-col>
     </ion-row>
   </div>
 
-  <ion-modal [isOpen]="modal" canDismiss="canDismiss" [initialBreakpoint]="0.75" [breakpoints]="[0, 0.25, 0.5, 0.75]">
+  <ion-modal [isOpen]="loginModal" (willDismiss)="setOpen(false,'loginModal')" [initialBreakpoint]="0.75" style="--border-radius: 30px">
     <ng-template>
-      <ion-header>
-        <ion-toolbar>
-          <ion-title>Log In</ion-title>
-          <ion-buttons slot="end">
-            <ion-button (click)="loginModal(false)">Close</ion-button>
-          </ion-buttons>
+        <ion-toolbar style="--background: transparent; margin-top: 5%;">
+          <ion-title><b>Log In</b></ion-title>
+          <!-- <ion-buttons slot="end">
+            <ion-button (click)="setOpen(false,'loginModal')">Close</ion-button>
+          </ion-buttons> -->
         </ion-toolbar>
-      </ion-header>
       <ion-content class="ion-padding">
-        <ion-item style="--border-radius: 20px;--border-width: 2px;--height:4rem;">
-          <ion-label><ion-icon color="medium" style="font-size: 32px;" name="person-circle-outline"></ion-icon></ion-label>
-          <ion-input type="text" placeholder="Login" [(ngModel)]="login.email" [clearInput]="true"></ion-input>
+        <ion-item style="--border-radius: 20px;--border-width: 2px;--height:4rem;" [ngStyle]="{'--highlight-color-valid': login.email_input[1],'--border-color': login.email_input[0]}">
+          <ion-label><ion-icon color="medium" style="font-size: 32px;" name="mail-outline"></ion-icon></ion-label>
+          <ion-input type="text" placeholder="E-mail" [(ngModel)]="login.email" helperText="Enter a valid email" errorText="Invalid email" email [clearInput]="true" (ionChange)="ionChange()"></ion-input>
+          <ion-icon *ngIf="!hide.email" slot="end" [ngStyle]="{'color': color.email}" name="alert-circle-outline" ></ion-icon> 
         </ion-item>
         <br>
-        <ion-item style="--border-radius: 20px;--border-width: 2px;--height:4rem;">
+        <ion-item style="--border-radius: 20px;--border-width: 2px;--height:4rem;" [ngStyle]="{'--highlight-color-valid': login.password_input[1],'--border-color': login.password_input[0]}">
           <ion-label><ion-icon color="medium" style="font-size: 32px;" name="key-outline"></ion-icon></ion-label>
-          <ion-input type="password" placeholder="Password" [(ngModel)]="login.password" [clearInput]="true"></ion-input>
+          <ion-input type="password" placeholder="Password" [(ngModel)]="login.password" [clearInput]="true" [type]="showPassword ? 'text' : 'password'" (ionChange)="ionChange()"></ion-input>
+          <ion-icon *ngIf="!hide.password" slot="end" [ngStyle]="{'color': color.password}" name="alert-circle-outline" ></ion-icon>
+          <ion-icon style="color:#8e8e8e;" slot="end" [name]="passwordToggleIcon" (click)="togglePassword()"></ion-icon>
         </ion-item>
         <br>
-        <ion-item (click)="loginModal(false)" detail="false" lines="none" button color="primary" style="--border-radius: 20px;--border-width: 0px;--height:4rem">
+        <ion-item (click)="Login()" detail="false" lines="none" button color="primary" style="--border-radius: 20px;--border-width: 0px;--height:4rem">
           <ion-label style="text-align: center;color: white;">Login</ion-label>
         </ion-item>
         <br>
         <div style="text-align: center;">
-          <a button style="color:gray" (click)="loginModal(false)">Forgot Password?</a>
+          <a button style="color:gray" (click)="navigateModal('loginModal','forgotModal')">Forgot Password?</a>
         </div>
     
       </ion-content>
     </ng-template>
   </ion-modal>
+
+  <ion-modal [isOpen]="signupModal" (willDismiss)="setOpen(false,'signupModal')" [initialBreakpoint]="0.75" style="--border-radius: 30px">
+    <ng-template>
+      <ion-toolbar style="--background: transparent; margin-top: 5%;">
+        <ion-title><b>Sign Up</b></ion-title>
+          <!-- <ion-buttons slot="end">
+            <ion-button (click)="setOpen(false,'signupModal')">Close</ion-button>
+          </ion-buttons> -->
+        </ion-toolbar>
+      <ion-content class="ion-padding">
+        <ion-item style="--border-radius: 20px;--border-width: 2px;--height:4rem;" [ngStyle]="{'--highlight-color-valid': register.fname_input[1],'--border-color': register.fname_input[0]}">
+          <ion-label><ion-icon color="medium" style="font-size: 32px;" name="person-circle-outline"></ion-icon></ion-label>
+          <ion-input type="text" placeholder="Full name" [(ngModel)]="register.fname" [clearInput]="true" (ionChange)="ionChange()"></ion-input>
+          <!-- <ion-icon *ngIf="!hide.fname" slot="end" [ngStyle]="{'color': color.fname}" name="alert-circle-outline" ></ion-icon>  -->
+        </ion-item>
+        <br>
+        <ion-item style="--border-radius: 20px;--border-width: 2px;--height:4rem;" [ngStyle]="{'--highlight-color-valid': register.id_input[1],'--border-color': register.id_input[0]}">
+          <ion-label><ion-icon color="medium" style="font-size: 32px;" name="id-card-outline"></ion-icon></ion-label>
+          <ion-input type="text" placeholder="Identification Card/Passport Number" [(ngModel)]="register.id_no" [clearInput]="true" (ionChange)="ionChange()"></ion-input>
+          <!-- <ion-icon *ngIf="!hide.id" slot="end" [ngStyle]="{'color': color.id_no}" name="alert-circle-outline" ></ion-icon>  -->
+        </ion-item>
+        <br>
+        <ion-item style="--border-radius: 20px;--border-width: 2px;--height:4rem;" [ngStyle]="{'--highlight-color-valid': register.phone_input[1],'--border-color': register.phone_input[0]}">
+          <ion-label><ion-icon color="medium" style="font-size: 32px;" name="call-outline"></ion-icon></ion-label>
+          <ion-input type="number" placeholder="Phone Number" [(ngModel)]="register.phone" [clearInput]="true" (ionChange)="ionChange()"></ion-input>
+          <!-- <ion-icon *ngIf="!hide.id" slot="end" [ngStyle]="{'color': color.phone}" name="alert-circle-outline" ></ion-icon>  -->
+        </ion-item>
+        <br>
+        <ion-item style="--border-radius: 20px;--border-width: 2px;--height:4rem;" [ngStyle]="{'--highlight-color-valid': register.email_input[1],'--border-color': register.email_input[0]}">
+          <ion-label><ion-icon color="medium" style="font-size: 32px;" name="mail-outline"></ion-icon></ion-label>
+          <ion-input type="text" placeholder="E-mail" [(ngModel)]="register.email" helperText="Enter a valid email" errorText="Invalid email" email [clearInput]="true" (ionChange)="ionChange()"></ion-input>
+          <ion-icon *ngIf="!hide.email" slot="end" [ngStyle]="{'color': color.email}" name="alert-circle-outline" ></ion-icon> 
+        </ion-item>
+        <br>
+        <ion-item style="--border-radius: 20px;--border-width: 2px;--height:4rem;" [ngStyle]="{'--highlight-color-valid': register.password_input[1],'--border-color': register.password_input[0]}">
+          <ion-label><ion-icon color="medium" style="font-size: 32px;" name="key-outline"></ion-icon></ion-label>
+          <ion-input type="password" placeholder="Password" [(ngModel)]="register.password" [clearInput]="true" [type]="showPassword ? 'text' : 'password'" (ionChange)="ionChange()"></ion-input>
+          <ion-icon *ngIf="!hide.password" slot="end" [ngStyle]="{'color': color.password}" name="alert-circle-outline" ></ion-icon>
+          <ion-icon style="color:#8e8e8e;" slot="end" [name]="passwordToggleIcon" (click)="togglePassword()"></ion-icon>
+        </ion-item>
+        <br>
+        <ion-item style="--border-radius: 20px;--border-width: 2px;--height:4rem;" [ngStyle]="{'--highlight-color-valid': register.repassword_input[1],'--border-color': register.repassword_input[0]}">
+          <ion-label><ion-icon color="medium" style="font-size: 32px;" name="key-outline"></ion-icon></ion-label>
+          <ion-input type="password" placeholder="Confirm Password" [(ngModel)]="register.repassword" [clearInput]="true" [type]="showPassword ? 'text' : 'password'" (ionChange)="ionChange()"></ion-input>
+          <ion-icon *ngIf="!hide.password" slot="end" [ngStyle]="{'color': color.password}" name="alert-circle-outline" ></ion-icon>
+          <ion-icon style="color:#8e8e8e;" slot="end" [name]="passwordToggleIcon" (click)="togglePassword()"></ion-icon>
+        </ion-item>
+        <br>
+        <ion-item (click)="Register()" detail="false" lines="none" button color="primary" style="--border-radius: 20px;--border-width: 0px;--height:4rem">
+          <ion-label style="text-align: center;color: white;">Sign Up</ion-label>
+        </ion-item>
+        <br>
+        <div style="text-align: center;">
+          <a button style="color:gray" (click)="navigateModal('signupModal','loginModal')">Already registered?</a>
+        </div>
+    
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+
+  <ion-modal [isOpen]="forgotModal" (willDismiss)="setOpen(false,'forgotModal')" [initialBreakpoint]="0.75" style="--border-radius: 30px">
+    <ng-template>
+      <ion-toolbar style="--background: transparent; margin-top: 5%;">
+        <ion-title><b>Reset Password</b></ion-title>
+          <!-- <ion-buttons slot="end">
+            <ion-button (click)="setOpen(false,'signupModal')">Close</ion-button>
+          </ion-buttons> -->
+        </ion-toolbar>
+      <ion-content class="ion-padding">
+        <ion-item style="--border-radius: 20px;--border-width: 2px;--height:4rem;" [ngStyle]="{'--highlight-color-valid': forgot.email_input[1],'--border-color': forgot.email_input[0]}">
+          <ion-label><ion-icon color="medium" style="font-size: 32px;" name="mail-outline"></ion-icon></ion-label>
+          <ion-input type="text" placeholder="E-mail" [(ngModel)]="forgot.email" helperText="Enter a valid email" errorText="Invalid email" email [clearInput]="true" (ionChange)="ionChange()"></ion-input>
+          <ion-icon *ngIf="!hide.email" slot="end" [ngStyle]="{'color': color.email}" name="alert-circle-outline" ></ion-icon> 
+        </ion-item>
+        <br>
+        <ion-item (click)="Forgot()" detail="false" lines="none" button color="primary" style="--border-radius: 20px;--border-width: 0px;--height:4rem">
+          <ion-label style="text-align: center;color: white;">Submit</ion-label>
+        </ion-item>
+        <br>
+        <div style="text-align: center;">
+          <a button style="color:gray" (click)="navigateModal('forgotModal','signupModal')">New user?</a>
+        </div>
+    
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+
+  <ion-modal [isOpen]="verifyModal" (willDismiss)="setOpen(false,'verifyModal')" [initialBreakpoint]="0.75" style="--border-radius: 30px">
+    <ng-template>
+      <ion-toolbar style="--background: transparent; margin-top: 5%;">
+        <ion-title><b>Verify Account</b></ion-title>
+          <!-- <ion-buttons slot="end">
+            <ion-button (click)="setOpen(false,'signupModal')">Close</ion-button>
+          </ion-buttons> -->
+        </ion-toolbar>
+      <ion-content class="ion-padding">
+        <ion-item counter="true" style="--border-radius: 20px;--border-width: 2px;--height:4rem;" [ngStyle]="{'--highlight-color-valid': verify.PIN_input[1],'--border-color': verify.PIN_input[0]}">
+          <ion-label><ion-icon color="medium" style="font-size: 32px;" name="keypad-outline"></ion-icon></ion-label>
+          <ion-input maxlength="6" type="text" placeholder="PIN" [(ngModel)]="verify.PIN" labelPlacement="floating" [clearInput]="true" (ionChange)="ionChange()" [counter]="true" maxlength="6"></ion-input>
+        </ion-item>
+        <br>
+        <ion-card color="warning">
+          <ion-card-content class="ion-text-center">
+            An e-mail has been sent to <span style="font-weight: bold; color:var(--ion-color-primary)">{{verify.email}}</span>. Please check your inbox for verification code.
+          </ion-card-content>
+        </ion-card>
+        <br>
+        <ion-item (click)="Verify()" detail="false" lines="none" button color="primary" style="--border-radius: 20px;--border-width: 0px;--height:4rem">
+          <ion-label style="text-align: center;color: white;">Submit</ion-label>
+        </ion-item>
+        <br>
+        <div style="text-align: center;">
+          <a button style="color:gray" (click)="navigateModal('verifyModal','loginModal')">Already registered?</a>
+        </div>
+    
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+
+  <ion-modal [isOpen]="resetModal" (willDismiss)="setOpen(false,'resetModal')" [initialBreakpoint]="0.75" style="--border-radius: 30px">
+    <ng-template>
+        <ion-toolbar style="--background: transparent; margin-top: 5%;">
+          <ion-title><b>Reset Password</b></ion-title>
+        </ion-toolbar>
+      <ion-content class="ion-padding">
+        <ion-item style="--border-radius: 20px;--border-width: 2px;--height:4rem;" [ngStyle]="{'--highlight-color-valid': forgot.password_input[1],'--border-color': forgot.password_input[0]}">
+          <ion-label><ion-icon color="medium" style="font-size: 32px;" name="key-outline"></ion-icon></ion-label>
+          <ion-input type="password" placeholder="Password" [(ngModel)]="forgot.password" [clearInput]="true" [type]="showPassword ? 'text' : 'password'" (ionChange)="ionChange()"></ion-input>
+          <ion-icon *ngIf="!hide.password" slot="end" [ngStyle]="{'color': color.password}" name="alert-circle-outline" ></ion-icon>
+          <ion-icon style="color:#8e8e8e;" slot="end" [name]="passwordToggleIcon" (click)="togglePassword()"></ion-icon>
+        </ion-item>
+        <br>
+        <ion-item style="--border-radius: 20px;--border-width: 2px;--height:4rem;" [ngStyle]="{'--highlight-color-valid': forgot.repassword_input[1],'--border-color': forgot.repassword_input[0]}">
+          <ion-label><ion-icon color="medium" style="font-size: 32px;" name="key-outline"></ion-icon></ion-label>
+          <ion-input type="password" placeholder="Confirm Password" [(ngModel)]="forgot.repassword" [clearInput]="true" [type]="showPassword ? 'text' : 'password'" (ionChange)="ionChange()"></ion-input>
+          <ion-icon *ngIf="!hide.password" slot="end" [ngStyle]="{'color': color.password}" name="alert-circle-outline" ></ion-icon>
+          <ion-icon style="color:#8e8e8e;" slot="end" [name]="passwordToggleIcon" (click)="togglePassword()"></ion-icon>
+        </ion-item>
+        <br>
+        <ion-item (click)="Reset()" detail="false" lines="none" button color="primary" style="--border-radius: 20px;--border-width: 0px;--height:4rem">
+          <ion-label style="text-align: center;color: white;">Reset</ion-label>
+        </ion-item>
+        <br>
+        <div style="text-align: center;">
+          <a button style="color:gray" (click)="navigateModal('resetModal','signupModal')">New user?</a>
+        </div>
+    
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+
 </ion-content>

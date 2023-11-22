@@ -1,4 +1,13 @@
+//////////////DEPENDENCIES///////////////////////
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { LoadingController, NavController } from '@ionic/angular';
+import { OverlayEventDetail } from '@ionic/core/components';
+import { DataService } from '../service/data.service';
+import { HttpClient } from '@angular/common/http';
+import { ComponentsService } from '../service/components.service';
+//////////////DEPENDENCIES///////////////////////
+
 
 @Component({
   selector: 'app-login',
@@ -7,22 +16,339 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LoginPage implements OnInit {
 
-  modal = false
-  login={
-    email:undefined,
-    password:undefined
+  ///////////////VARIABLES////////////////////////
+  data; //data from previous page
+  loginModal = false //modal status
+  signupModal = false
+  forgotModal = false
+  verifyModal = false
+  resetModal = false
+  login={ //for login inputs
+    email:"",
+    password:"",
+    email_input:["", "var(--ion-color-success)"],
+    password_input:["", "var(--ion-color-success)"]
   }
-  canDismiss = false;
+  register={ //for registration inputs
+    fname:"",
+    email:"",
+    password:"",
+    repassword:"",
+    id_no:"",
+    phone:"",
+    fname_input:["", "var(--ion-color-success)"],
+    email_input:["", "var(--ion-color-success)"],
+    password_input:["", "var(--ion-color-success)"],
+    repassword_input:["", "var(--ion-color-success)"],
+    id_input:["", "var(--ion-color-success)"],
+    phone_input:["", "var(--ion-color-success)"]
+  }
+  forgot={ //for reset password inputs
+    email:"",
+    email_input:["", "var(--ion-color-success)"],
+    password:"",
+    repassword:"",
+    password_input:["", "var(--ion-color-success)"],
+    repassword_input:["", "var(--ion-color-success)"],
+  }
+  verify={ //for email verification inputs
+    email:"",
+    PIN:"",
+    PIN_input:["", "var(--ion-color-success)"],
+    type:""
 
-  constructor() { }
+  }
+  color={ //input alert color
+    email:"transparent", //unused for now
+    password:"transparent", //unused for now
+    header:"transparent", //visibility of Hostel Management
+  }
+  hide={ //hide empty form alert, currently unused
+    email:true,
+    password:true
+  }
+  showPassword=false; //hide or show password
+  passwordToggleIcon='eye'; //hide password icon
 
-  ngOnInit() {
+  ///////////////VARIABLES////////////////////////
+
+  //////////////DEPENDENCIES/////////////////////
+  constructor( 
+    public route:ActivatedRoute,
+    public loadingController:LoadingController,
+    public dataservice:DataService,
+    public router:Router,
+    public navController:NavController,
+    public http:HttpClient,
+    public component:ComponentsService
+  ) { }
+
+  //////////////DEPENDENCIES/////////////////////
+
+
+  //////////////FUNCTIONS///////////////////////
+
+
+  ngOnInit() { //initialization of page, similar to main() in java
+    if(this.route.snapshot.data['special']){ //get data from previous page
+      this.data = this.route.snapshot.data['special'];
+    }
+    if(this.data == undefined){ //redirect to splashscreen page if no data
+      this.data.page = 1; //set page number to 1
+      this.component.navigate('splashscreen', this.data, "forward");
+
+    }
+    console.log(this.data) //show data 
   }
 
-  loginModal(isOpen: boolean) {
-    this.canDismiss = true;
-    this.modal = isOpen;
-    this.canDismiss = false;
+  setOpen(isOpen: boolean, modal) { //open or close modal
+    if(modal == "loginModal"){
+      this.loginModal = isOpen; 
+    }else if(modal == "signupModal"){
+      this.signupModal = isOpen;
+    }else if(modal == "forgotModal"){
+      this.forgotModal = isOpen;
+    }else if(modal == "verifyModal"){
+      this.verifyModal = isOpen;
+    }else if(modal == "resetModal"){
+      this.resetModal = isOpen;
+    }
+    if(isOpen == true){ //show or hide Hostel Management header
+      this.color.header = "white"
+    }else{
+      this.color.header = "transparent"
+    }
   }
+
+  togglePassword():void{ //show or hide password
+    this.showPassword=!this.showPassword;
+    if(this.passwordToggleIcon=='eye'){
+      this.passwordToggleIcon='eye-off';
+    }else{
+      this.passwordToggleIcon='eye';
+    }
+  }
+
+  ionChange(){ //reset required inputs color
+    this.login.email_input =  ["", "var(--ion-color-success)"];
+    this.login.password_input =  ["", "var(--ion-color-success)"];
+    this.register.fname_input =  ["", "var(--ion-color-success)"];
+    this.register.id_input =  ["", "var(--ion-color-success)"];
+    this.register.phone_input =  ["", "var(--ion-color-success)"];
+    this.register.email_input =  ["", "var(--ion-color-success)"];
+    this.register.password_input =  ["", "var(--ion-color-success)"];
+    this.register.repassword_input =  ["", "var(--ion-color-success)"];
+    this.forgot.email_input =  ["", "var(--ion-color-success)"];
+    this.forgot.password_input =  ["", "var(--ion-color-success)"];
+    this.forgot.repassword_input =  ["", "var(--ion-color-success)"];
+    this.verify.PIN_input =  ["", "var(--ion-color-success)"];
+  }
+
+  async navigateModal(location, destination) { //close old modal and open new modal
+    this.setOpen(false, location) //close old modal
+    const loading = await this.loadingController.create({ //generate loading interface
+      message: "Please Wait..."
+    });
+    loading.present();
+    setTimeout(async ()=> { //delay action for 1 second
+      this.setOpen(true, destination) //open new modal
+      loading.dismiss(); //close loading interface
+    }, 1000);
+  }
+
+  async Login(){ //login function
+    let result = this.component.emailValid(this.login.email) //check email validity (must have @ eg email@gmail)
+
+    if(this.login.email == "" || this.login.email == " " || this.login.email == null || this.login.email == undefined || result == false){ //check input filled or validity
+      this.login.email_input =  ["var(--ion-color-danger)", "var(--ion-color-danger)"]; //change input color to red
+      this.component.toast("Please enter a valid e-mail") // call toast
+    }else if(this.login.password == "" || this.login.password == " " || this.login.password == null || this.login.password == undefined){
+      this.login.password_input =  ["var(--ion-color-danger)", "var(--ion-color-danger)"];
+      this.component.toast("Please enter password")
+    }else if(this.login.password.toString().length < 8 ){
+      this.login.password_input =  ["var(--ion-color-danger)", "var(--ion-color-danger)"];
+      this.component.toast("Password should not be less than 8 characters")
+    }else{
+      const loading = await this.loadingController.create({
+        message: "Logging In..."
+      });
+      loading.present();
+
+      var headers = new Headers();
+      headers.append("Accept", 'application/json');
+      headers.append('Content-Type', 'application/json');
+        
+      let formData = new FormData();
+      formData.append('login',this.login.email);
+      formData.append('password',this.login.password);
+
+      this.component.getAPI('http://ktdiapp.mooo.com/api/login_auth.php', formData, "post").subscribe( (data:any) => { //login API
+        console.log(data)
+        data.forEach( async item => {
+          if(item.Code == '200'){
+            if(item.verify_status == "Verified"){
+              console.log("login success")
+              this.data.login = item
+              this.setOpen(false, 'loginModal');
+              setTimeout(async ()=> {
+                this.component.navigate('home', this.data, "forward");
+                loading.dismiss();
+              }, 1000);
+            }else{
+              this.verify.type = "register"
+              this.verify.email = this.login.email
+              this.navigateModal("loginModal","verifyModal")
+              loading.dismiss();
+              this.component.toast("Please verify your account")
+            }
+
+          }else if(item.Code == '204'){
+            console.log("invalid login")
+            loading.dismiss();
+            this.component.toast("Invalid e-mail or password")
+          }else{
+            console.log("something went wrong")
+            loading.dismiss();
+            this.component.toast("Something went wrong, please try again later")
+          }
+        });
+      }, async error => {
+          console.log(error)
+          loading.dismiss();
+          this.component.toast("Something went wrong, please try again later")
+      });
+
+    }
+    
+  }
+
+  async Forgot(){ //forgot password function
+    let result = this.component.emailValid(this.forgot.email)
+
+    if(this.forgot.email == "" || this.forgot.email == " " || this.forgot.email == null || this.forgot.email == undefined || result == false){
+      this.forgot.email_input =  ["var(--ion-color-danger)", "var(--ion-color-danger)"];
+      this.component.toast("Please enter a valid e-mail")
+    }else{
+      this.verify.type = "forgot"
+      this.navigateModal("forgotModal","verifyModal")
+    }
+    
+  }
+
+  async Register(){ //register account function
+    let result = this.component.emailValid(this.register.email)
+
+    if(this.register.fname == "" || this.register.fname == " " || this.register.fname == null || this.register.fname == undefined){
+      this.register.fname_input =  ["var(--ion-color-danger)", "var(--ion-color-danger)"];
+      this.component.toast("Please enter your full name")
+    }else if(this.register.id_no == "" || this.register.id_no == " " || this.register.id_no == null || this.register.id_no == undefined){
+      this.register.id_input =  ["var(--ion-color-danger)", "var(--ion-color-danger)"];
+      this.component.toast("Please enter your identification or passport number")
+    }else if(this.register.phone == "" || this.register.phone == " " || this.register.phone == null || this.register.phone == undefined){
+      this.register.phone_input =  ["var(--ion-color-danger)", "var(--ion-color-danger)"];
+      this.component.toast("Please enter your phone number")
+    }else if(this.register.email == "" || this.register.email == " " || this.register.email == null || this.register.email == undefined || result == false){
+      this.register.email_input =  ["var(--ion-color-danger)", "var(--ion-color-danger)"];
+      this.component.toast("Please enter a valid e-mail")
+    }else if(this.register.password == "" || this.register.password == " " || this.register.password == null || this.register.password == undefined){
+      this.register.password_input =  ["var(--ion-color-danger)", "var(--ion-color-danger)"];
+      this.component.toast("Please enter password")
+    }else if(this.register.password.toString().length < 8 ){
+      this.register.password_input =  ["var(--ion-color-danger)", "var(--ion-color-danger)"];
+      this.component.toast("Password should not be less than 8 characters")
+    }else if(this.register.repassword != this.register.password){
+      this.register.repassword_input =  ["var(--ion-color-danger)", "var(--ion-color-danger)"];
+      this.component.toast("Passwords are not matching")
+    }else{
+      const loading = await this.loadingController.create({
+        message: "Signing Up..."
+      });
+      loading.present();
+  
+      var headers = new Headers();
+      headers.append("Accept", 'application/json');
+      headers.append('Content-Type', 'application/json');
+        
+      let formData = new FormData();
+      formData.append('fname',this.register.fname);
+      formData.append('id_no',this.register.id_no);
+      formData.append('phone',this.register.phone);
+      formData.append('email',this.register.email);
+      formData.append('password',this.register.password);
+      formData.append('repassword',this.register.repassword);
+
+      this.component.getAPI('http://ktdiapp.mooo.com/api/register.php', formData, "post").subscribe( (data:any) => {
+      console.log(data)
+      data.forEach( async item => {
+        if(item.Code == '200'){
+          console.log("register success")
+          setTimeout(async ()=> {
+            this.verify.type = "register"
+            this.navigateModal("signupModal","verifyModal")
+            loading.dismiss();
+            this.component.toast("Account registered, proceed to verify your account")
+          }, 1000);
+        }else if(item.Code == '100'){
+          loading.dismiss();
+          this.component.toast("This account has been registered")
+        }else{
+          console.log("something went wrong")
+          loading.dismiss();
+          this.component.toast("Something went wrong, please try again later")
+        }
+      });
+    }, async error => {
+        console.log(error)
+        loading.dismiss();
+        this.component.toast("Something went wrong, please try again later")
+    });
+
+    }
+    
+  }
+
+  async Verify(){ //verify account function
+    if(this.verify.PIN == "" || this.verify.PIN == " " || this.verify.PIN == null || this.verify.PIN == undefined || Number.isInteger(parseInt(this.verify.PIN)) == false || parseInt(this.verify.PIN).toString().length < 6){
+      this.verify.PIN_input =  ["var(--ion-color-danger)", "var(--ion-color-danger)"];
+      this.component.toast("Please enter a valid PIN")
+    }else{
+      console.log(this.verify.type)
+      if(this.verify.type == "forgot"){
+        this.navigateModal("verifyModal","resetModal")
+        setTimeout(async ()=> {
+          this.component.toast("Account verified, please reset your password")
+        }, 1000);
+
+      }else if(this.verify.type == "register"){
+        this.navigateModal("verifyModal","loginModal")
+        setTimeout(async ()=> {
+          this.component.toast("Account verified, proceed to login")
+        }, 1000);
+
+      }
+    }
+  }
+
+  async Reset(){ //reset password function
+    if(this.forgot.password == "" || this.forgot.password == " " || this.forgot.password == null || this.forgot.password == undefined){
+      this.forgot.password_input =  ["var(--ion-color-danger)", "var(--ion-color-danger)"];
+      this.component.toast("Please enter password")
+    }else if(this.forgot.password.toString().length < 8 ){
+      this.forgot.password_input =  ["var(--ion-color-danger)", "var(--ion-color-danger)"];
+      this.component.toast("Password should not be less than 8 characters")
+    }else if(this.forgot.repassword != this.forgot.password){
+      this.forgot.repassword_input =  ["var(--ion-color-danger)", "var(--ion-color-danger)"];
+      this.component.toast("Passwords are not matching")
+    }else{
+      this.navigateModal("resetModal","loginModal")
+      setTimeout(async ()=> {
+        this.component.toast("Password has been reset, proceed to login")
+      }, 1000);
+    }
+
+  }
+
+
+  //////////////FUNCTIONS///////////////////////
 
 }

@@ -1,0 +1,105 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title size="large">Hall Booking</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-list [inset]="true">
+    <ion-item button (click)="book('Dewan Sri Resak', 150)" lines="none" detail="false">
+      <ion-label>
+        <h6>
+          <b>Dewan Sri Resak</b>
+          <ion-label style="float:right; font-size: 20px;">RM 150</ion-label>
+        </h6>
+        <p><span style="color:#777">Suitable for general events</span></p>
+      </ion-label>
+    </ion-item>
+    <ion-item button (click)="book('Dewan Serbaguna', 150)" lines="none" detail="false">
+      <ion-label>
+        <h6>
+          <b>Dewan Serbaguna</b>
+          <ion-label style="float:right; font-size: 20px;">RM 150</ion-label>
+        </h6>
+        <p><span style="color:#777">Suitable for small events</span></p>
+      </ion-label>
+    </ion-item>
+    <ion-item button (click)="book('Bilik Seminar', 150)" lines="none" detail="false">
+      <ion-label>
+        <h6>
+          <b>Bilik Seminar</b>
+          <ion-label style="float:right; font-size: 20px;">RM 150</ion-label>
+        </h6>
+        <p><span style="color:#777">Suitable for seminars</span></p>
+      </ion-label>
+    </ion-item>
+    <ion-item button (click)="book('Bilik Komputer', 150)" lines="none" detail="false">
+      <ion-label>
+        <h6>
+          <b>Bilik Komputer</b>
+          <ion-label style="float:right; font-size: 20px;">RM 150</ion-label>
+        </h6>
+        <p><span style="color:#777">Suitable for practical events</span></p>
+      </ion-label>
+    </ion-item>
+    <ion-item button (click)="book('Surau', 150)" lines="none" detail="false">
+      <ion-label>
+        <h6>
+          <b>Surau</b>
+          <ion-label style="float:right; font-size: 20px;">RM 150</ion-label>
+        </h6>
+        <p><span style="color:#777">Suitable for small events</span></p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+  <br>
+
+  <ion-row>
+    <ion-col>
+      <ion-tab-button (click)="book('Surau', 150)">
+        <ion-label color="dark" style="font-size: 20px;"><b>{{date | date: 'dd'}}</b></ion-label>
+        <ion-label color="dark"style="font-size: 20px;">{{date | date: 'E'}}</ion-label>
+      </ion-tab-button>
+    </ion-col>
+    <ion-col>
+      <ion-tab-button (click)="book('Surau', 150)">
+        <ion-label color="primary" style="font-size: 20px;"><b>{{date | date: 'dd'}}</b></ion-label>
+        <ion-label color="primary" style="font-size: 20px;">{{date | date: 'E'}}</ion-label>
+      </ion-tab-button>
+    </ion-col>
+    <ion-col>
+      <ion-tab-button (click)="book('Surau', 150)">
+        <ion-label color="dark"style="font-size: 20px;"><b>{{date | date: 'dd'}}</b></ion-label>
+        <ion-label color="dark"style="font-size: 20px;">{{date | date: 'E'}}</ion-label>
+      </ion-tab-button>
+    </ion-col>
+    <ion-col>
+      <ion-tab-button (click)="book('Surau', 150)">
+        <ion-label color="dark"style="font-size: 20px;"><b>{{date | date: 'dd'}}</b></ion-label>
+        <ion-label color="dark"style="font-size: 20px;">{{date | date: 'E'}}</ion-label>
+      </ion-tab-button>
+    </ion-col>
+  </ion-row>
+</ion-content>
+
+<ion-footer>
+  
+  <ion-row>
+    <ion-col>
+      <ion-item (click)="book('Dewan Sri Resak', 150)" lines="none" detail="false">
+        <ion-label>
+          <h6>
+            <b>RM 150</b>
+          </h6>
+          <p><span style="color:#777">inc. of all taxes</span></p>
+        </ion-label>
+      </ion-item>
+    </ion-col>
+    <ion-col>
+      <ion-item detail="false" button color="primary" style="--border-radius: 20px;--border-width: 2px;--height:4rem; color: white;">
+        <ion-label style="text-align: center;">Proceed</ion-label>
+      </ion-item>
+    </ion-col>
+  </ion-row>
+
+</ion-footer>

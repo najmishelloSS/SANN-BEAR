@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { DataService } from '../service/data.service';
+import { NavController } from '@ionic/angular';
+import { ComponentsService } from '../service/components.service';
 
 @Component({
   selector: 'app-splashscreen',
@@ -15,15 +17,15 @@ export class SplashscreenPage implements OnInit {
 
   constructor(
     private dataService:DataService,
-    private router:Router
+    private router:Router,
+    private navController:NavController,
+    private component: ComponentsService
   ) { }
 
 
   ngOnInit() {
     setTimeout(()=> {
-      this.data.page = this.data.page + 1
-      this.dataService.setData(this.data.page, this.data);
-      this.router.navigateByUrl('login/'+this.data.page);
+      this.component.navigate("login", this.data, "forward")
     }, 3000);
   }
 
