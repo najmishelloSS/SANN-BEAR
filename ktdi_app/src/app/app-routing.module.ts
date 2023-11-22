@@ -55,7 +55,11 @@ const routes: Routes = [
       special:DataResolverService
     }, 
     loadChildren: () => import('./bookhall/bookhall.module').then( m => m.BookhallPageModule)
+  },  {
+    path: 'room-registration',
+    loadChildren: () => import('./room-registration/room-registration.module').then( m => m.RoomRegistrationPageModule)
   },
+
 
  
 ];
