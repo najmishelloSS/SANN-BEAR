@@ -20,18 +20,60 @@
         </ion-row> 
         <ion-row>
           <ion-segment [(ngModel)]="selectedSegment">
-            <ion-segment-button value="double">
+            <ion-segment-button value="doubleBlockModal">
               <ion-label>Double</ion-label>
             </ion-segment-button>
-            <ion-segment-button value="single">
+            <ion-segment-button value="singleBlockModal">
               <ion-label>Single</ion-label>
             </ion-segment-button>
           </ion-segment>
         </ion-row>
         <ion-row>
-          <ion-button (click)="continueClicked()">Continue</ion-button>
+          <ion-button (click)="selectBlock()">Continue</ion-button>
         </ion-row>
       </div>
+    </ion-content>
+  </ng-template>
+</ion-modal>
+
+
+<!-- THIS IS FOR SINGLE ROOM SYSTEM-->
+
+<ion-modal [isOpen]="singleBlockModal" (willDismiss)="setOpen(false, 'singleBlockModal')" [initialBreakpoint]="0.9" style="--border-radius: 30px">
+  <ng-template>
+    <ion-title>
+      Available Block
+    </ion-title>
+    <ion-content> 
+        <ion-radio-group [(ngModel)]="selectedRoom">
+            <ion-radio value="singleLevelModal" justify="space-between">MA1</ion-radio>
+            <ion-radio value="123" justify="space-between">MA2</ion-radio>
+            <ion-radio value="421" justify="space-between">MA3</ion-radio>
+        </ion-radio-group>
+      <ion-item>
+        <ion-button (click)="selectLevel()">Continue</ion-button>
+      </ion-item>
+    </ion-content>
+  </ng-template>
+</ion-modal>
+
+
+<ion-modal [isOpen]="singleLevelModal" (willDismiss)="setOpen(false, 'singleLevelModal')" [initialBreakpoint]="0.9" style="--border-radius: 30px">
+  <ng-template>
+    <ion-title>
+      Available Level
+    </ion-title>
+  </ng-template>
+</ion-modal>
+
+
+
+<!-- THIS IS FOR DOUBLE ROOM SYSTEM-->
+
+<ion-modal [isOpen]="doubleBlockModal" (willDismiss)="setOpen(false, 'doubleBlockModal')" [initialBreakpoint]="0.9" style="--border-radius: 30px">
+  <ng-template>
+    <ion-content> 
+      <p>testing double</p>
     </ion-content>
   </ng-template>
 </ion-modal>
