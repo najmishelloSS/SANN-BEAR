@@ -21,6 +21,7 @@ export class RoomRegistrationPage implements OnInit {
   singleBlockModal = false;
   singleLevelModal = false;
   singleRoomModal = false;
+  showRoomModal = false;
 
   selectedSegment: string = 'default';
   selectedLevel: string = 'default';
@@ -41,7 +42,13 @@ export class RoomRegistrationPage implements OnInit {
       this.singleLevelModal = isOpen; 
     }
     else if(modalName == "doubleLevelModal"){
-      this.singleBlockModal = isOpen; 
+      this.doubleLevelModal = isOpen; 
+    }
+    else if(modalName == "singleRoomModal"){
+      this.singleRoomModal = isOpen; 
+    }
+    else if(modalName == "doubleRoomModal"){
+      this.doubleRoomModal = isOpen; 
     }
     
     
@@ -60,7 +67,7 @@ export class RoomRegistrationPage implements OnInit {
 
   selectRoom() {
     // Access the selected value from the ion-segment
-    this.setOpen(true, this.selectedSegment);
+    this.setOpen(true, this.selectedRoom);
   }
 
   ngOnInit() {
