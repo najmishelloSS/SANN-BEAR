@@ -7,7 +7,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class RoomRegistrationPage implements OnInit {
 
-  constructor() { }
+  constructor() { 
+     // Populate availableRooms with room numbers from 01 to 10
+     for (let i = 1; i <= 10; i++) {
+      const roomNumber = i < 10 ? `0${i}` : `${i}`;
+      this.availableRooms.push({ number: roomNumber, isDisabled: false });
+    }
+  }
 
   bookingModal = false; 
 
@@ -26,6 +32,7 @@ export class RoomRegistrationPage implements OnInit {
   selectedSegment: string = 'default';
   selectedLevel: string = 'default';
   selectedRoom: string = 'default';
+  availableRooms: { number: string; isDisabled?: boolean }[] = [];
 
   setOpen(isOpen: boolean, modalName: String) // open or close modal
   {
@@ -68,6 +75,17 @@ export class RoomRegistrationPage implements OnInit {
   selectRoom() {
     // Access the selected value from the ion-segment
     this.setOpen(true, this.selectedRoom);
+  }
+
+  continueClicked() {
+    if (this.selectedRoom) {
+      // Display a message or perform actions with the selected room
+      console.log(`Room ${this.selectedRoom} selected.`);
+      // You can navigate to another page or perform any other actions here
+    } else {
+      // Handle the case when no room is selected
+      console.log('Please select a room before continuing.');
+    }
   }
 
   ngOnInit() {
