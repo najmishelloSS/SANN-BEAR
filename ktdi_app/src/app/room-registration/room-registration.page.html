@@ -1,25 +1,30 @@
+
 <ion-header [translucent]="true">
-  <ion-toolbar>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home" icon ="chevron-back-outline">
+      </ion-back-button>
+    </ion-buttons>
     <ion-title>Room Registration</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content class = "main"> 
-  <ion-item (click)="setOpen(true,'bookingModal')" button color= "primary" detail="false" style="--border-radius: 20px;--border-width: 2px;--height:4rem; color: white;"> 
-    <ion-label style="text-align: center;">Lets Get Started</ion-label>
+<ion-content class="ion-padding">
+  <ion-item (click)="setOpen(true, 'bookingModal')" button color="primary" detail="false" class="custom-item" style="--border-radius: 20px; --border-width: 2px; --height: 4rem; margin-top: 50%; margin-bottom: 50%;">
+    <ion-label class="ion-text-center">Let's Get Started</ion-label>
   </ion-item>
 </ion-content>
 
 
-<ion-modal [isOpen]="bookingModal" (willDismiss)="setOpen(false, 'bookingModal')" [initialBreakpoint]="0.9" style="--border-radius: 30px">
+<ion-modal [isOpen]="bookingModal" (willDismiss)="setOpen(false, 'bookingModal')" [initialBreakpoint]="0.9" style="--border-radius: 15px;">
   <ng-template>
-    <ion-content> 
-      <div>
-        <ion-row class="row1">
-          <p> Select Room Type </p>
-        </ion-row> 
-        <ion-row>
-          <ion-segment [(ngModel)]="selectedSegment">
+    <ion-content class="ion-padding">
+      <div class="ion-text-center" style="display: flex; flex-direction: column; justify-content: space-between; height: 100%;">
+
+        <div>
+          <ion-title class="ion-margin-bottom">Select Room Type</ion-title>
+
+          <ion-segment [(ngModel)]="selectedSegment" color="warning" class="ion-margin-bottom">
             <ion-segment-button value="doubleBlockModal">
               <ion-label>Double</ion-label>
             </ion-segment-button>
@@ -27,14 +32,18 @@
               <ion-label>Single</ion-label>
             </ion-segment-button>
           </ion-segment>
-        </ion-row>
-        <ion-row>
-          <ion-button (click)="selectBlock()">Continue</ion-button>
-        </ion-row>
+        </div>
+
+        <ion-button expand="full" (click)="selectBlock()" shape="round" color="primary" class="ion-margin-top">
+          Continue
+        </ion-button>
+
       </div>
     </ion-content>
   </ng-template>
 </ion-modal>
+
+
 
 
 <!-- THIS IS FOR SINGLE ROOM SYSTEM-->
@@ -70,37 +79,69 @@
         </ion-item>
       </ion-radio-group>
       
-      <ion-button expand="full" (click)="selectLevel()" shape="round" color="success">Continue</ion-button>
+      <ion-button expand="full" (click)="selectLevel()" shape="round" color="primary">Continue</ion-button>
     </ion-content>
   </ng-template>
 </ion-modal>
 
 
-<ion-modal [isOpen]="singleLevelModal" (willDismiss)="setOpen(false, 'singleLevelModal')" [initialBreakpoint]="0.9" style="--border-radius: 30px">
+<ion-modal [isOpen]="singleLevelModal" (willDismiss)="setOpen(false, 'singleLevelModal')" [initialBreakpoint]="0.9" style="--border-radius: 15px;">
   <ng-template>
-    <ion-title>
-      Available Level
-    </ion-title>
-    <ion-content> 
-      <ion-radio-group [(ngModel)]="selectedRoom">
-          <ion-radio value="singleRoomModal" justify="space-between">Level 1 </ion-radio>
-          <ion-radio value="123" justify="space-between">Level 2 </ion-radio>
-          <ion-radio value="421" justify="space-between">Level 3 </ion-radio>
-      </ion-radio-group>
-    <ion-item>
-      <ion-button (click)="selectRoom()">Continue</ion-button>
-    </ion-item>
-  </ion-content>
+    <ion-content class="ion-padding">
+      <div class="ion-text-center">
+        <ion-title class="ion-margin-bottom">Available Levels</ion-title>
+
+        <ion-radio-group [(ngModel)]="selectedRoom">
+          <ion-item lines="none" class="ion-margin-bottom">
+            <ion-label>Level 1</ion-label>
+            <ion-radio slot="start" value="singleRoomModal"></ion-radio>
+          </ion-item>
+
+          <ion-item lines="none" class="ion-margin-bottom">
+            <ion-label>Level 2</ion-label>
+            <ion-radio slot="start" value="123"></ion-radio>
+          </ion-item>
+
+          <ion-item lines="none" class="ion-margin-bottom">
+            <ion-label>Level 3</ion-label>
+            <ion-radio slot="start" value="421"></ion-radio>
+          </ion-item>
+        </ion-radio-group>
+
+        <ion-button expand="full" (click)="selectRoom()" shape="round" color="primary" class="ion-margin-top">
+          Continue
+        </ion-button>
+
+      </div>
+    </ion-content>
   </ng-template>
 </ion-modal>
 
-<ion-modal [isOpen]="singleRoomModal" (willDismiss)="setOpen(false, 'singleLevelModal')" [initialBreakpoint]="0.9" style="--border-radius: 30px">
+<ion-modal [isOpen]="singleRoomModal" (willDismiss)="setOpen(false, 'singleLevelModal')" [initialBreakpoint]="0.9" style="--border-radius: 15px;">
   <ng-template>
-    <ion-title>
-      Available Room
-    </ion-title>
+    <ion-content class="ion-padding">
+      <div class="ion-text-center">
+        <ion-title class="ion-margin-bottom">Available Rooms</ion-title>
+
+        <ion-row class="ion-align-items-center ion-justify-content-center">
+          <ion-col size="auto" *ngFor="let room of availableRooms">
+            <ion-radio value="{{ room }}" [disabled]="room.isDisabled">{{ room.number }}</ion-radio>
+          </ion-col>
+        </ion-row>
+
+          <ion-button click= continueClicked() expand="full" shape="round" color="primary">
+            Continue
+          </ion-button>
+          
+          
+
+      </div>
+
+
+    </ion-content>
   </ng-template>
 </ion-modal>
+
 
 
 
