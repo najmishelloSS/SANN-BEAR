@@ -1,4 +1,12 @@
-
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <!-- Use the ion-back-button component to navigate back to the home page -->
+      <ion-back-button [defaultHref]="'/home'"></ion-back-button>
+    </ion-buttons>
+    <ion-title class="ion-text-center">Room Registration</ion-title>
+  </ion-toolbar>
+</ion-header>
 <ion-content class="ion-padding">
   <ion-item (click)="setOpen(true, 'blockModal')" button color="primary" detail="false" class="custom-item" style="--border-radius: 20px; --border-width: 2px; --height: 4rem; margin-top: 50%; margin-bottom: 50%;">
     <ion-label class="ion-text-center">Let's Get Started</ion-label>
