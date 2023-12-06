@@ -66,8 +66,24 @@
             </ion-segment-button>
           </ion-segment>
         </div>
-        <ion-button expand="full" shape="round" color="primary" class="ion-margin-top">
-          Continue
+        <ion-button expand="full" shape="round" color="primary" class="ion-margin-top" (click) = 'confirmClicked()'>
+          Confirm
+        </ion-button>
+      </div>
+    </ion-content>
+  </ng-template>
+</ion-modal>
+
+<ion-modal [isOpen]="displayRoomModal" (willDismiss)="setOpen(false, 'displayRoomModal')" [initialBreakpoint]="0.9" style="--border-radius: 15px;">
+  <ng-template>
+    <ion-content class="ion-padding">
+      <div class="ion-text-center" style="display: flex; flex-direction: column; justify-content: space-between; height: 100%;">
+        <div>
+          <ion-title class="ion-margin-bottom">Generated Room Number</ion-title>
+          <ion-label>{{ generatedRoomNumber }}</ion-label>
+        </div>
+        <ion-button expand="full" shape="round" color="primary" class="ion-margin-top" (click)="setOpen(false, 'displayRoomModal')">
+          Close
         </ion-button>
       </div>
     </ion-content>

@@ -12,16 +12,17 @@ import { Component, OnInit } from '@angular/core';
 export class RoomRegistrationPage implements OnInit {
 
   constructor() { 
-
   }
+
+  
 
   blockModal = false; 
   roomModal = false; 
-  openRoomModal : string = 'roomModal'; 
-
+  displayRoomModal = false; 
 
   selectedBlock: string = 'default'; 
   selectedRoom: string = 'default'; 
+  generatedRoomNumber: string = '';
 
   setOpen(isOpen: boolean, modalName: String) // open or close modal
   { 
@@ -32,14 +33,35 @@ export class RoomRegistrationPage implements OnInit {
     {
       this.roomModal = isOpen; 
     }
+    else if (modalName == 'displayRoomModal')
+    {
+      this.displayRoomModal = isOpen;
+    }
 
   }
 
   selectBlockType () 
   {
-    this.setOpen(true, this.openRoomModal);
+    this.setOpen(true, 'roomModal');
   }
 
+  // Function to generate a random floor and room number
+generateRandomRoomNumber(): string {
+  const floors = ['G', '1', '2', '3'];
+  const randomFloor = floors[Math.floor(Math.random() * floors.length)];
+  const randomRoom = Math.floor(Math.random() * 60) + 1; // Generates a random number between 1 and 60
+  return `${randomFloor}${randomRoom}`;
+}
+
+  confirmClicked() {
+    // Generate a random room number
+    this.generatedRoomNumber = this.generateRandomRoomNumber();
+  
+    // Open the modal to display the room number
+    this.setOpen(true, 'displayRoomModal');
+  }
+
+ 
 
   ngOnInit() {
   }
