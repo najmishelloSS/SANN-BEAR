@@ -67,6 +67,18 @@ const routes: Routes = [
     }, 
     loadChildren: () => import('./room-registration/room-registration.module').then( m => m.RoomRegistrationPageModule)
   },
+  {
+    path: 'electric',
+    loadChildren: () => import('./electric/electric.module').then( m => m.ElectricPageModule)
+  },
+  {
+    path: 'electric/:id',
+    resolve:{
+      special:DataResolverService
+    }, 
+    loadChildren: () => import('./electric/electric.module').then( m => m.ElectricPageModule)
+  },
+
 
 
  
