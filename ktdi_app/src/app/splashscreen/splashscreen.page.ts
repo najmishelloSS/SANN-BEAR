@@ -13,6 +13,7 @@ export class SplashscreenPage implements OnInit {
 
   data= {
     page:0,
+    language: "english"
   };
 
   constructor(
