@@ -1,30 +1,13 @@
+
 <ion-header [translucent]="true">
   <ion-toolbar color="primary">
     <ion-buttons slot="start">
-      <!-- Use the ion-back-button component to navigate back to the home page -->
-      <ion-back-button [defaultHref]="'/home'"></ion-back-button>
-    </ion-buttons>
-    <ion-title class="ion-text-center">Room Registration</ion-title>
-  </ion-toolbar>
-</ion-header>
-<ion-content class="ion-padding">
-  <ion-item (click)="setOpen(true, 'blockModal')" button color="primary" detail="false" class="custom-item" style="--border-radius: 20px; --border-width: 2px; --height: 4rem; margin-top: 50%; margin-bottom: 50%;">
+
     <ion-label class="ion-text-center">Let's Get Started</ion-label>
   </ion-item>
 </ion-content>
 
-<ion-modal [isOpen]="blockModal" (willDismiss)="setOpen(false, 'blockModal')" [initialBreakpoint]="0.9" style="--border-radius: 15px;">
-  <ng-template>
-    <ion-header>
-      <ion-toolbar color="primary">
-        <ion-title class="ion-text-center">Available Blocks</ion-title>
-        <ion-buttons slot="end">
-          <ion-button (click)="setOpen(false, 'blockModal')">
-            <ion-icon name="close"></ion-icon>
-          </ion-button>
-        </ion-buttons>
-      </ion-toolbar>
-    </ion-header>
+
 
     <ion-content class="ion-padding">
       <ion-radio-group [(ngModel)]="selectedBlock">
@@ -33,56 +16,24 @@
           <ion-radio slot="start" value="MA1"></ion-radio>
         </ion-item>
 
-        <ion-item lines="none">
-          <ion-label>MA4</ion-label>
-          <ion-radio slot="start" value="MA4"></ion-radio>
-        </ion-item>
 
-        <ion-item lines="none">
-          <ion-label>MA5</ion-label>
-          <ion-radio slot="start" value="MA5"></ion-radio>
-        </ion-item>
 
         <ion-item lines="none">
           <ion-label>MA6</ion-label>
           <ion-radio slot="start" value="MA6"></ion-radio>
         </ion-item>
 
-        <ion-item lines="none">
-          <ion-label>MA7</ion-label>
-          <ion-radio slot="start" value="MA7"></ion-radio>
-        </ion-item>
-      </ion-radio-group>
 
-      <ion-button expand="full" (click)="selectBlockType()" shape="round" color="primary">Continue</ion-button>
     </ion-content>
   </ng-template>
 </ion-modal>
 
-<ion-modal [isOpen]="roomModal" (willDismiss)="setOpen(false, 'selectRoomType')" [initialBreakpoint]="0.9" style="--border-radius: 15px;">
-  <ng-template>
-    <ion-content class="ion-padding">
-      <div class="ion-text-center" style="display: flex; flex-direction: column; justify-content: space-between; height: 100%;">
-        <div>
-          <ion-title class="ion-margin-bottom">Select Room Type</ion-title>
-          <ion-segment [(ngModel)]="selectedRoom" color="warning" class="ion-margin-bottom">
-            <ion-segment-button value="doubleBlockModal">
-              <ion-label>Double</ion-label>
-            </ion-segment-button>
-            <ion-segment-button value="singleBlockModal">
-              <ion-label>Single</ion-label>
-            </ion-segment-button>
-          </ion-segment>
-        </div>
-        <ion-button expand="full" shape="round" color="primary" class="ion-margin-top" (click) = 'confirmClicked()'>
-          Confirm
-        </ion-button>
-      </div>
+
     </ion-content>
   </ng-template>
 </ion-modal>
 
-<ion-modal [isOpen]="displayRoomModal" (willDismiss)="setOpen(false, 'displayRoomModal')" [initialBreakpoint]="0.9" style="--border-radius: 15px;">
+
   <ng-template>
     <ion-content class="ion-padding">
       <div class="ion-text-center" style="display: flex; flex-direction: column; justify-content: space-between; height: 100%;">

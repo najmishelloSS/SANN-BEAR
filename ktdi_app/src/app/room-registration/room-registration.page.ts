@@ -6,7 +6,6 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./room-registration.page.scss'],
 })
 
-//new coding
 
 
 export class RoomRegistrationPage implements OnInit {
@@ -20,9 +19,7 @@ export class RoomRegistrationPage implements OnInit {
   roomModal = false; 
   displayRoomModal = false; 
 
-  selectedBlock: string = 'default'; 
-  selectedRoom: string = 'default'; 
-  generatedRoomNumber: string = '';
+
 
   setOpen(isOpen: boolean, modalName: String) // open or close modal
   { 
@@ -61,7 +58,7 @@ generateRandomRoomNumber(): string {
     this.setOpen(true, 'displayRoomModal');
   }
 
- 
+
 
   ngOnInit() {
   }
