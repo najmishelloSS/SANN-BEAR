@@ -5,11 +5,26 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './room-registration.page.html',
   styleUrls: ['./room-registration.page.scss'],
 })
-export class RoomRegistrationPage implements OnInit {
 
+
+/*export class RoomRegistrationPage implements OnInit {
+
+<<<<<<< Updated upstream
   constructor() { }
+=======
+  constructor() { 
 
-  bookingModal = false; 
+    
+     // Populate availableRooms with room numbers from 01 to 10
+     for (let i = 1; i <= 10; i++) {
+      const roomNumber = i < 10 ? `0${i}` : `${i}`;
+      this.availableRooms.push({ number: roomNumber, isDisabled: false });
+    }
+    
+  }
+>>>>>>> Stashed changes
+
+ bookingModal = false; 
 
   // double Room
   doubleBlockModal = false;
@@ -23,9 +38,13 @@ export class RoomRegistrationPage implements OnInit {
   singleRoomModal = false;
   showRoomModal = false;
 
-  selectedSegment: string = 'default';
+
+ selectedSegment: string = 'default';
   selectedLevel: string = 'default';
   selectedRoom: string = 'default';
+
+
+  selectedBlock: string = 'default'; 
 
   setOpen(isOpen: boolean, modalName: String) // open or close modal
   {
@@ -55,7 +74,7 @@ export class RoomRegistrationPage implements OnInit {
 
   }
 
-  selectBlock() {
+ selectBlock() {
     // Access the selected value from the ion-segment
     this.setOpen(true, this.selectedSegment);
   }
@@ -70,8 +89,66 @@ export class RoomRegistrationPage implements OnInit {
     this.setOpen(true, this.selectedRoom);
   }
 
+<<<<<<< Updated upstream
+=======
+  continueClicked() {
+    if (this.selectedRoom) {
+      // Display a message or perform actions with the selected room
+      console.log(`Room ${this.selectedRoom} selected.`);
+      // You can navigate to another page or perform any other actions here
+    } else {
+      // Handle the case when no room is selected
+      console.log('Please select a room before continuing.');
+    }
+  }
+  
+
+
+
+>>>>>>> Stashed changes
   ngOnInit() {
   }
 
 }
+*/
 
+
+//new coding
+
+
+export class RoomRegistrationPage implements OnInit {
+
+  constructor() { 
+
+  }
+
+  blockModal = false; 
+  roomModal = false; 
+  openRoomModal : string = 'roomModal'; 
+
+
+  selectedBlock: string = 'default'; 
+  selectedRoom: string = 'default'; 
+
+  setOpen(isOpen: boolean, modalName: String) // open or close modal
+  { 
+    if(modalName == "blockModal"){
+      this.blockModal = isOpen; 
+    }
+    else if (modalName == "roomModal")
+    {
+      this.roomModal = isOpen; 
+    }
+
+  }
+
+  selectBlockType () 
+  {
+    this.setOpen(true, this.openRoomModal);
+  }
+
+
+  ngOnInit() {
+  }
+
+}
