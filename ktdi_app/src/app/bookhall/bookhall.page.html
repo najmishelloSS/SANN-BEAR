@@ -1,6 +1,9 @@
-<ion-header>
+<ion-header style="overflow: hidden;">
   <ion-toolbar>
-    <ion-title size="large">Hall Booking</ion-title>
+    <ion-buttons style='color:white;margin-top: constant(safe-area-inset-top);margin-top: env(safe-area-inset-top);' slot="start">
+      <ion-button (click)="navigate('home','back')"><ion-icon style='color:var(--ion-color-dark)' class="icon" name="arrow-back-outline"></ion-icon></ion-button>
+    </ion-buttons>
+    <ion-title size="large">{{language['Hall Booking']}}</ion-title>
   </ion-toolbar>
 </ion-header>
 
