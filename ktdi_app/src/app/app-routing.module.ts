@@ -78,6 +78,18 @@ const routes: Routes = [
     }, 
     loadChildren: () => import('./electric/electric.module').then( m => m.ElectricPageModule)
   },
+  {
+    path: 'feedback',
+    loadChildren: () => import('./feedback/feedback.module').then( m => m.FeedbackPageModule)
+  },
+  {
+    path: 'feedback/:id',
+    resolve:{
+      special:DataResolverService
+    }, 
+    loadChildren: () => import('./feedback/feedback.module').then( m => m.FeedbackPageModule)
+  },
+
 
 
 

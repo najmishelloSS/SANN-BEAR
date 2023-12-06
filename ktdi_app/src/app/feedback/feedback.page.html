@@ -1,0 +1,48 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home" icon="chevron-back-outline">
+      </ion-back-button>
+    </ion-buttons>
+    <ion-title>Feedback & Recommendation</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-label>Upload Files:</ion-label><br/>
+      <input type="file" (change)="handleFileInput($event)">
+  <ion-list>
+    <ion-item>
+      <ion-label>College Management</ion-label>
+      <ion-icon [name]="collegeManagementRating >= 1 ? 'star' : 'star-outline'" [class.gold-star]="collegeManagementRating >= 1"(click)="rateCollegeManagement(1)"></ion-icon>
+      <ion-icon [name]="collegeManagementRating >= 2 ? 'star' : 'star-outline'" [class.gold-star]="collegeManagementRating >= 2"(click)="rateCollegeManagement(2)"></ion-icon>
+      <ion-icon [name]="collegeManagementRating >= 3 ? 'star' : 'star-outline'" [class.gold-star]="collegeManagementRating >= 3"(click)="rateCollegeManagement(3)"></ion-icon>
+      <ion-icon [name]="collegeManagementRating >= 4 ? 'star' : 'star-outline'" [class.gold-star]="collegeManagementRating >= 4"(click)="rateCollegeManagement(4)"></ion-icon>
+      <ion-icon [name]="collegeManagementRating >= 5 ? 'star' : 'star-outline'" [class.gold-star]="collegeManagementRating >= 5"(click)="rateCollegeManagement(5)"></ion-icon>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>Accommodation</ion-label>
+      <ion-icon [name]="accommodationRating >= 1 ? 'star' : 'star-outline'" [class.gold-star]="accommodationRating >= 1"(click)="rateAccommodation(1)"></ion-icon>
+      <ion-icon [name]="accommodationRating >= 2 ? 'star' : 'star-outline'" [class.gold-star]="accommodationRating >= 2"(click)="rateAccommodation(2)"></ion-icon>
+      <ion-icon [name]="accommodationRating >= 3 ? 'star' : 'star-outline'" [class.gold-star]="accommodationRating >= 3"(click)="rateAccommodation(3)"></ion-icon>
+      <ion-icon [name]="accommodationRating >= 4 ? 'star' : 'star-outline'" [class.gold-star]="accommodationRating >= 4"(click)="rateAccommodation(4)"></ion-icon>
+      <ion-icon [name]="accommodationRating >= 5 ? 'star' : 'star-outline'" [class.gold-star]="accommodationRating >= 5"(click)="rateAccommodation(5)"></ion-icon>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>Facilities</ion-label>
+      <ion-icon [name]="facilitiesRating >= 1 ? 'star' : 'star-outline'" [class.gold-star]="facilitiesRating >= 1"(click)="rateFacilities(1)"></ion-icon>
+      <ion-icon [name]="facilitiesRating >= 2 ? 'star' : 'star-outline'" [class.gold-star]="facilitiesRating >= 2"(click)="rateFacilities(2)"></ion-icon>
+      <ion-icon [name]="facilitiesRating >= 3 ? 'star' : 'star-outline'" [class.gold-star]="facilitiesRating >= 3"(click)="rateFacilities(3)"></ion-icon>
+      <ion-icon [name]="facilitiesRating >= 4 ? 'star' : 'star-outline'" [class.gold-star]="facilitiesRating >= 4"(click)="rateFacilities(4)"></ion-icon>
+      <ion-icon [name]="facilitiesRating >= 5 ? 'star' : 'star-outline'" [class.gold-star]="facilitiesRating >= 5"(click)="rateFacilities(5)"></ion-icon>
+    </ion-item>
+  </ion-list>
+
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">feedback</ion-title>
+    </ion-toolbar>
+  </ion-header>
+</ion-content>
