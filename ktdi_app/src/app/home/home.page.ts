@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DataService } from '../service/data.service';
 import { ToastController, LoadingController, NavController } from '@ionic/angular';
 import { ComponentsService } from '../service/components.service';
+import Swiper from 'swiper';
 
 @Component({
   selector: 'app-home',
@@ -10,6 +11,19 @@ import { ComponentsService } from '../service/components.service';
   styleUrls: ['home.page.scss'],
 })
 export class HomePage implements OnInit{
+  @ViewChild('swiper')
+  swiperRef: ElementRef | undefined;
+  swiper?: Swiper;
+
+  contrustor(){}
+
+  swiperReady(){
+    this.swiper = this.swiperRef?.nativeElement.swiper;
+  }
+  
+  swiperSlideChanged(e: any){
+    console.log('changed:  ', e);
+  }
 
   data : any ;
 
