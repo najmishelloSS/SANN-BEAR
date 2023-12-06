@@ -1,12 +1,17 @@
+<<<<<<< Updated upstream
 // feedback.page.ts
 
 import { Component } from '@angular/core';
+=======
+import { Component, OnInit } from '@angular/core';
+>>>>>>> Stashed changes
 
 @Component({
   selector: 'app-feedback',
   templateUrl: './feedback.page.html',
   styleUrls: ['./feedback.page.scss'],
 })
+<<<<<<< Updated upstream
 export class FeedbackPage {
   collegeManagementRating: number = 0;
   accommodationRating: number = 0;
@@ -33,4 +38,13 @@ export class FeedbackPage {
       console.log('Selected File:', selectedFile);
     }
   }
+=======
+export class FeedbackPage implements OnInit {
+
+  constructor() { }
+
+  ngOnInit() {
+  }
+
+>>>>>>> Stashed changes
 }

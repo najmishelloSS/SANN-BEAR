@@ -66,6 +66,9 @@ const routes: Routes = [
       special:DataResolverService
     }, 
     loadChildren: () => import('./room-registration/room-registration.module').then( m => m.RoomRegistrationPageModule)
+  },  {
+    path: 'feedback',
+    loadChildren: () => import('./feedback/feedback.module').then( m => m.FeedbackPageModule)
   },
   {
     path: 'electric',
@@ -89,6 +92,7 @@ const routes: Routes = [
     }, 
     loadChildren: () => import('./feedback/feedback.module').then( m => m.FeedbackPageModule)
   },
+
 
 
 
