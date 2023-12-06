@@ -14,8 +14,7 @@ export class BookhallPage implements OnInit {
 
   data : any ;
   date = new Date()
-
-
+  language : any //language library
 
   constructor(
     public route:ActivatedRoute,
@@ -32,6 +31,8 @@ export class BookhallPage implements OnInit {
     if(this.route.snapshot.data['special']){
       this.data = this.route.snapshot.data['special'];
     }
+    this.language = this.component.getLanguage(this.data.language) 
+    console.log(this.language['Dewan Sri Resak'])
     if(this.data == undefined){
       this.data.page = 1;
       // this.navigate("splashscreen", this.data, "back") 
