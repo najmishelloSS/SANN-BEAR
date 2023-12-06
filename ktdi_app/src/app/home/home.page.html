@@ -1,7 +1,7 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>
-      Blanks
+      KTDI_APP
     </ion-title>
   </ion-toolbar>
 </ion-header>
@@ -13,13 +13,29 @@
     </ion-toolbar>
   </ion-header>
 
-  <div id="container" style="margin: 10%">
-    <strong>Hello {{data.login.full_name}}!</strong>
-    <br>
+  <div class="header" style="margin: 5%">
+    <h3>Hi {{data.login.full_name}}!</h3>
+    <div class="noti-bell">
+      <ion-img src="../../assets/icon/bell.png"></ion-img>
+    </div>
+  </div>
+  
+  <!--searchbar-->
+  <app-searchbar></app-searchbar>
+
+  <!--slider-->
+  <swiper-container (slidechange)="swiperSlideChanged($event)" [loop]="true" [pagination]="true">
+    <swiper-slide src="../../ktdi_app/src/png/utm.png">pic 1</swiper-slide>
+    <swiper-slide src="../../ktdi_app/src/png/utm.png">pic 2</swiper-slide>
+    <swiper-slide src="../../ktdi_app/src/png/utm.png">pic 3</swiper-slide>
+ </swiper-container>
+
+    <div id="container">
     <ion-button color="primary" (click)="navigate('bookhall', 'forward')">Go to Hall Booking</ion-button>
     <ion-button color="primary" (click)="navigate('room-registration', 'forward')">Go to Room Registration</ion-button>
     <ion-button color="primary" (click)="navigate('electric', 'forward')">Register Electrical Appliances</ion-button>
     <ion-button color="primary" (click)="navigate('feedback', 'forward')">Feedback & Recommendation</ion-button>
     
   </div>
+
 </ion-content>
