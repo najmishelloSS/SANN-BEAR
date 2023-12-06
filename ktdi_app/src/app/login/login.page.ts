@@ -109,6 +109,7 @@ export class LoginPage implements OnInit {
     }else if(modal == "forgotModal"){
       this.forgotModal = isOpen;
     }else if(modal == "verifyModal"){
+      this.sendCode(isOpen)
       this.verifyModal = isOpen;
     }else if(modal == "resetModal"){
       this.resetModal = isOpen;
@@ -229,8 +230,43 @@ export class LoginPage implements OnInit {
       this.forgot.email_input =  ["var(--ion-color-danger)", "var(--ion-color-danger)"];
       this.component.toast("Please enter a valid e-mail")
     }else{
-      this.verify.type = "forgot"
-      this.navigateModal("forgotModal","verifyModal")
+      const loading = await this.loadingController.create({
+        message: "Please wait..."
+      });
+      loading.present();
+
+      var headers = new Headers();
+      headers.append("Accept", 'application/json');
+      headers.append('Content-Type', 'application/json');
+        
+      let formData = new FormData();
+      formData.append('email',this.forgot.email);
+
+      this.component.getAPI('http://ktdiapp.mooo.com/api/code.php', formData, "post").subscribe( (data:any) => {
+        console.log(data)
+        data.forEach( async item => {
+          if(item.Code == '200'){
+            loading.dismiss();
+            this.verify.email = this.forgot.email
+            console.log(this.verify.type)
+            this.verify.type = "forgot"
+            this.navigateModal("forgotModal","verifyModal")
+          }else if(item.Code == '204'){
+            console.log("invalid email")
+            loading.dismiss();
+            this.component.toast("Invalid e-mail")
+          }else{
+            console.log("something went wrong")
+            loading.dismiss();
+            this.component.toast("Something went wrong, please try again later")
+          }
+        });
+      }, async error => {
+          console.log(error)
+          loading.dismiss();
+          this.component.toast("Something went wrong, please try again later")
+      });
+
     }
     
   }
@@ -284,6 +320,7 @@ export class LoginPage implements OnInit {
           console.log("register success")
           setTimeout(async ()=> {
             this.verify.type = "register"
+            this.verify.email = this.register.email
             this.navigateModal("signupModal","verifyModal")
             loading.dismiss();
             this.component.toast("Account registered, proceed to verify your account")
@@ -312,20 +349,55 @@ export class LoginPage implements OnInit {
       this.verify.PIN_input =  ["var(--ion-color-danger)", "var(--ion-color-danger)"];
       this.component.toast("Please enter a valid PIN")
     }else{
-      console.log(this.verify.type)
-      if(this.verify.type == "forgot"){
-        this.navigateModal("verifyModal","resetModal")
-        setTimeout(async ()=> {
-          this.component.toast("Account verified, please reset your password")
-        }, 1000);
+      const loading = await this.loadingController.create({
+        message: "Verifying..."
+      });
+      loading.present();
 
-      }else if(this.verify.type == "register"){
-        this.navigateModal("verifyModal","loginModal")
-        setTimeout(async ()=> {
-          this.component.toast("Account verified, proceed to login")
-        }, 1000);
+      var headers = new Headers();
+      headers.append("Accept", 'application/json');
+      headers.append('Content-Type', 'application/json');
+        
+      let formData = new FormData();
+      formData.append('email',this.verify.email);
+      formData.append('PIN',this.verify.PIN);
 
-      }
+      this.component.getAPI('http://ktdiapp.mooo.com/api/verify.php', formData, "post").subscribe( (data:any) => {
+        console.log(data)
+        data.forEach( async item => {
+          if(item.Code == '200'){
+            this.login.email = this.verify.email
+            console.log(this.verify.type)
+            if(this.verify.type == "forgot"){
+              this.forgot.email = this.verify.email
+              this.navigateModal("verifyModal","resetModal")
+              setTimeout(async ()=> {
+                loading.dismiss();
+                this.component.toast("Account verified, please reset your password")
+              }, 1000);
+            }else if(this.verify.type == "register"){
+              this.login.email = this.verify.email
+              this.navigateModal("verifyModal","loginModal")
+              setTimeout(async ()=> {
+                loading.dismiss();
+                this.component.toast("Account verified, proceed to login")
+              }, 1000);
+            }
+          }else if(item.Code == '204'){
+            console.log("invalid verify")
+            loading.dismiss();
+            this.component.toast("Invalid verification code")
+          }else{
+            console.log("something went wrong")
+            loading.dismiss();
+            this.component.toast("Something went wrong, please try again later")
+          }
+        });
+      }, async error => {
+          console.log(error)
+          loading.dismiss();
+          this.component.toast("Something went wrong, please try again later")
+      });
     }
   }
 
@@ -340,12 +412,90 @@ export class LoginPage implements OnInit {
       this.forgot.repassword_input =  ["var(--ion-color-danger)", "var(--ion-color-danger)"];
       this.component.toast("Passwords are not matching")
     }else{
+      const loading = await this.loadingController.create({
+        message: "Please wait..."
+      });
+      loading.present();
+  
+      var headers = new Headers();
+      headers.append("Accept", 'application/json');
+      headers.append('Content-Type', 'application/json');
+        
+      let formData = new FormData();
+      formData.append('email',this.forgot.email);
+      formData.append('password',this.forgot.password);
+      
+      console.log(this.verify.email)
+      this.component.getAPI('http://ktdiapp.mooo.com/api/reset_password.php', formData, "post").subscribe( (data:any) => {
+        console.log(data)
+        data.forEach( async item => {
+          if(item.Code == '200'){
+            loading.dismiss();
+            this.component.toast("The password has been reset")
+          }else if(item.Code == '400'){
+            console.log("invalid email")
+            loading.dismiss();
+            this.component.toast("Invalid e-mail")
+          }else{
+            console.log("something went wrong")
+            loading.dismiss();
+            this.component.toast("Something went wrong, please try again later")
+          }
+        });
+      }, async error => {
+          console.log(error)
+          loading.dismiss();
+          this.component.toast("Something went wrong, please try again later")
+      });
+
+
       this.navigateModal("resetModal","loginModal")
       setTimeout(async ()=> {
         this.component.toast("Password has been reset, proceed to login")
       }, 1000);
     }
 
+  }
+
+  async sendCode(isOpen)
+  {
+    if(isOpen == true){
+      const loading = await this.loadingController.create({
+        message: "Logging In..."
+      });
+      loading.present();
+  
+      var headers = new Headers();
+      headers.append("Accept", 'application/json');
+      headers.append('Content-Type', 'application/json');
+        
+      let formData = new FormData();
+      formData.append('email',this.verify.email);
+      
+      console.log(this.verify.email)
+      this.component.getAPI('http://ktdiapp.mooo.com/api/code.php', formData, "post").subscribe( (data:any) => {
+        console.log(data)
+        data.forEach( async item => {
+          if(item.Code == '200'){
+            loading.dismiss();
+            console.log(this.verify.type)
+            this.component.toast("Verification code has been sent")
+          }else if(item.Code == '204'){
+            console.log("invalid email")
+            loading.dismiss();
+            this.component.toast("Invalid e-mail")
+          }else{
+            console.log("something went wrong")
+            loading.dismiss();
+            this.component.toast("Something went wrong, please try again later")
+          }
+        });
+      }, async error => {
+          console.log(error)
+          loading.dismiss();
+          this.component.toast("Something went wrong, please try again later")
+      });
+    }
   }
 
 

@@ -1,0 +1,97 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Room Registration</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class = "main"> 
+  <ion-item (click)="setOpen(true,'bookingModal')" button color= "primary" detail="false" style="--border-radius: 20px;--border-width: 2px;--height:4rem; color: white;"> 
+    <ion-label style="text-align: center;">Lets Get Started</ion-label>
+  </ion-item>
+</ion-content>
+
+
+<ion-modal [isOpen]="bookingModal" (willDismiss)="setOpen(false, 'bookingModal')" [initialBreakpoint]="0.9" style="--border-radius: 30px">
+  <ng-template>
+    <ion-content> 
+      <div>
+        <ion-row class="row1">
+          <p> Select Room Type </p>
+        </ion-row> 
+        <ion-row>
+          <ion-segment [(ngModel)]="selectedSegment">
+            <ion-segment-button value="doubleBlockModal">
+              <ion-label>Double</ion-label>
+            </ion-segment-button>
+            <ion-segment-button value="singleBlockModal">
+              <ion-label>Single</ion-label>
+            </ion-segment-button>
+          </ion-segment>
+        </ion-row>
+        <ion-row>
+          <ion-button (click)="selectBlock()">Continue</ion-button>
+        </ion-row>
+      </div>
+    </ion-content>
+  </ng-template>
+</ion-modal>
+
+
+<!-- THIS IS FOR SINGLE ROOM SYSTEM-->
+
+<ion-modal [isOpen]="singleBlockModal" (willDismiss)="setOpen(false, 'singleBlockModal')" [initialBreakpoint]="0.9" style="--border-radius: 30px">
+  <ng-template>
+    <ion-title>
+      Available Block
+    </ion-title>
+    <ion-content> 
+        <ion-radio-group [(ngModel)]="selectedLevel">
+            <ion-radio value="singleLevelModal" justify="space-between">MA1</ion-radio>
+            <ion-radio value="123" justify="space-between">MA2</ion-radio>
+            <ion-radio value="421" justify="space-between">MA3</ion-radio>
+        </ion-radio-group>
+      <ion-item>
+        <ion-button (click)="selectLevel()">Continue</ion-button>
+      </ion-item>
+    </ion-content>
+  </ng-template>
+</ion-modal>
+
+
+<ion-modal [isOpen]="singleLevelModal" (willDismiss)="setOpen(false, 'singleLevelModal')" [initialBreakpoint]="0.9" style="--border-radius: 30px">
+  <ng-template>
+    <ion-title>
+      Available Level
+    </ion-title>
+    <ion-content> 
+      <ion-radio-group [(ngModel)]="selectedRoom">
+          <ion-radio value="singleRoomModal" justify="space-between">Level 1 </ion-radio>
+          <ion-radio value="123" justify="space-between">Level 2 </ion-radio>
+          <ion-radio value="421" justify="space-between">Level 3 </ion-radio>
+      </ion-radio-group>
+    <ion-item>
+      <ion-button (click)="selectRoom()">Continue</ion-button>
+    </ion-item>
+  </ion-content>
+  </ng-template>
+</ion-modal>
+
+<ion-modal [isOpen]="singleRoomModal" (willDismiss)="setOpen(false, 'singleLevelModal')" [initialBreakpoint]="0.9" style="--border-radius: 30px">
+  <ng-template>
+    <ion-title>
+      Available Room
+    </ion-title>
+  </ng-template>
+</ion-modal>
+
+
+
+<!-- THIS IS FOR DOUBLE ROOM SYSTEM-->
+
+<ion-modal [isOpen]="doubleBlockModal" (willDismiss)="setOpen(false, 'doubleBlockModal')" [initialBreakpoint]="0.9" style="--border-radius: 30px">
+  <ng-template>
+    <ion-content> 
+      <p>testing double</p>
+    </ion-content>
+  </ng-template>
+</ion-modal>
