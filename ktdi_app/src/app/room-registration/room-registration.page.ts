@@ -1,6 +1,7 @@
 //////////////DEPENDENCIES///////////////////////
 import { Component, OnInit } from '@angular/core';
 import { ComponentsService } from '../service/components.service';
+import { NavController } from '@ionic/angular';
 //////////////DEPENDENCIES///////////////////////
 
 @Component({
@@ -14,8 +15,13 @@ export class RoomRegistrationPage implements OnInit {
 
   constructor(
     public component: ComponentsService,
+    private navCtrl: NavController
   ) 
   { 
+  }
+
+  navigateToHome() {
+    this.navCtrl.navigateRoot('/home');
   }
 
   async navigateModal(location, destination) { //close old modal and open new modal
@@ -44,7 +50,16 @@ export class RoomRegistrationPage implements OnInit {
   selectedBlock: string = 'default'; 
   selectedLevel: string = 'default'; 
   selectedRoom: string = 'default'; 
-  
+
+
+  // *** Double Room Variable *****
+
+  availableBlockModalDouble = false; 
+  availableLevelModalDouble = false;
+  availableRoomModalDouble = false;
+  displayRoomModalDouble= false; 
+
+
 
   setOpen(isOpen: boolean, modalName: String) // open or close modal
   { 
@@ -73,31 +88,28 @@ export class RoomRegistrationPage implements OnInit {
     {
       this.displayRoomModalSingle = isOpen; 
     }
+
+
+    // ** Double Room Component **** 
+
+    else if (modalName == "displayRoomModalDouble")
+    {
+      this.displayRoomModalDouble = isOpen; 
+    }
+
   }
 
 
   selectedRoomType () 
   {
-    this.setOpen(false, 'roomTypeModal')
-    this.setOpen(true, 'availableBlockModalSingle');
-  }
-
-  selectedBlockSingleType () 
-  {
-    this.setOpen(false, 'availableBlockModalSingle');
-    this.setOpen(true, 'availableLevelModalSingle');
-  }
-
-  selectedLevelSingleType () 
-  {
-    this.setOpen(false, 'availableLevelModalSingle');
-    this.setOpen(true, 'availableRoomModalSingle');
-  }
-
-  selectedRoomSingleType () 
-  {
-    this.setOpen(false, 'availableRoomModalSingle');
-    this.setOpen(true, 'displayRoomModalSingle');
+   if (this.selectRoomType === 'single')
+   {
+    this.navigateModal('roomTypeModal','availableBlockModalSingle')
+   }
+   else
+   {
+    this.navigateModal('roomTypeModal','availableBlockModalDouble')
+   }
   }
 
 
