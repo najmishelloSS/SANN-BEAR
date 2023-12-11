@@ -9,6 +9,12 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">feedback</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <div *ngIf="!submitted">
   <ion-label>Upload Files:</ion-label><br/>
       <input type="file" (change)="handleFileInput($event)">
   <ion-list>
@@ -38,11 +44,30 @@
       <ion-icon [name]="facilitiesRating >= 4 ? 'star' : 'star-outline'" [class.gold-star]="facilitiesRating >= 4"(click)="rateFacilities(4)"></ion-icon>
       <ion-icon [name]="facilitiesRating >= 5 ? 'star' : 'star-outline'" [class.gold-star]="facilitiesRating >= 5"(click)="rateFacilities(5)"></ion-icon>
     </ion-item>
+    <!-- User Recommendation -->
+   
+      <br/>
+      <ion-textarea [(ngModel)]="userRecommendation" label="Recommendation" labelPlacement="floating" fill="outline" placeholder="Enter your recommendation" [counter]="true" maxlength="100"></ion-textarea>
   </ion-list>
 
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">feedback</ion-title>
-    </ion-toolbar>
-  </ion-header>
+  <ion-col>
+    <ion-item detail="false" button color="primary" style="--border-radius: 20px; --border-width: 2px; --height: 4rem; color: white;"
+              (click)="submitReport()">
+      <ion-label style="text-align: center;">Submit</ion-label>
+    </ion-item>
+  </ion-col>
+  </div>
+
+  <div *ngIf="submitted" style="text-align: center; margin-top: 50px;">
+  <p><strong>Your feedback has been submitted</strong></p>
+  <p>An email has been sent to you for confirmation</p>
+
+  <!-- Back to Home Button -->
+  <ion-col>
+    <ion-item (click)="backToHome()" detail="false" button color="primary"
+              style="--border-radius: 20px; --border-width: 2px; --height: 4rem; color: white; margin-top: 20px;">
+      <ion-label style="text-align: center;">Back to Home</ion-label>
+    </ion-item>
+    </ion-col>
+  </div>
 </ion-content>
