@@ -23,8 +23,8 @@ export class LoginPage implements OnInit {
   verifyModal = false
   resetModal = false
   login={ //for login inputs
-    email:"",
-    password:"",
+    email:"shah@gmail.com",
+    password:"abcd1234",
     email_input:["", "var(--ion-color-success)"], //default colour input
     password_input:["", "var(--ion-color-success)"]
   }

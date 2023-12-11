@@ -9,90 +9,130 @@
 
 <ion-content [fullscreen]="true">
   <ion-list [inset]="true">
-    <ion-item button (click)="book('Dewan Sri Resak', 150)" lines="none" detail="false">
-      <ion-label>
-        <h6>
-          <b>Dewan Sri Resak</b>
-          <ion-label style="float:right; font-size: 20px;">RM 150</ion-label>
-        </h6>
-        <p><span style="color:#777">Suitable for general events</span></p>
-      </ion-label>
-    </ion-item>
-    <ion-item button (click)="book('Dewan Serbaguna', 150)" lines="none" detail="false">
-      <ion-label>
-        <h6>
-          <b>Dewan Serbaguna</b>
-          <ion-label style="float:right; font-size: 20px;">RM 150</ion-label>
-        </h6>
-        <p><span style="color:#777">Suitable for small events</span></p>
-      </ion-label>
-    </ion-item>
-    <ion-item button (click)="book('Bilik Seminar', 150)" lines="none" detail="false">
-      <ion-label>
-        <h6>
-          <b>Bilik Seminar</b>
-          <ion-label style="float:right; font-size: 20px;">RM 150</ion-label>
-        </h6>
-        <p><span style="color:#777">Suitable for seminars</span></p>
-      </ion-label>
-    </ion-item>
-    <ion-item button (click)="book('Bilik Komputer', 150)" lines="none" detail="false">
-      <ion-label>
-        <h6>
-          <b>Bilik Komputer</b>
-          <ion-label style="float:right; font-size: 20px;">RM 150</ion-label>
-        </h6>
-        <p><span style="color:#777">Suitable for practical events</span></p>
-      </ion-label>
-    </ion-item>
-    <ion-item button (click)="book('Surau', 150)" lines="none" detail="false">
-      <ion-label>
-        <h6>
-          <b>Surau</b>
-          <ion-label style="float:right; font-size: 20px;">RM 150</ion-label>
-        </h6>
-        <p><span style="color:#777">Suitable for small events</span></p>
-      </ion-label>
-    </ion-item>
+    <div *ngFor="let item of data.hall; index as i">
+      <ion-item button (click)="book(i)" lines="none" detail="false">
+        <ion-label>
+          <h6>
+            <b>{{item['hall_name']}}</b>
+          </h6>
+          <p>
+            <span *ngIf="data.language == 'english'" style="color:#777">{{item['hall_desc_en']}}</span>
+            <span *ngIf="data.language == 'malay'" style="color:#777">{{item['hall_desc_bm']}}</span>
+          </p>
+        </ion-label>
+        <ion-item style="float:right; font-size: 15px;">
+          RM {{item['full_day_rent']}} / Day
+        </ion-item>
+      </ion-item>
+    </div>
   </ion-list>
   <br>
 
   <ion-row>
     <ion-col>
-      <ion-tab-button (click)="book('Surau', 150)">
+      <ion-tab-button>
         <ion-label color="dark" style="font-size: 20px;"><b>{{date | date: 'dd'}}</b></ion-label>
         <ion-label color="dark"style="font-size: 20px;">{{date | date: 'E'}}</ion-label>
       </ion-tab-button>
     </ion-col>
     <ion-col>
-      <ion-tab-button (click)="book('Surau', 150)">
+      <ion-tab-button>
         <ion-label color="primary" style="font-size: 20px;"><b>{{date | date: 'dd'}}</b></ion-label>
         <ion-label color="primary" style="font-size: 20px;">{{date | date: 'E'}}</ion-label>
       </ion-tab-button>
     </ion-col>
     <ion-col>
-      <ion-tab-button (click)="book('Surau', 150)">
+      <ion-tab-button>
         <ion-label color="dark"style="font-size: 20px;"><b>{{date | date: 'dd'}}</b></ion-label>
         <ion-label color="dark"style="font-size: 20px;">{{date | date: 'E'}}</ion-label>
       </ion-tab-button>
     </ion-col>
     <ion-col>
-      <ion-tab-button (click)="book('Surau', 150)">
+      <ion-tab-button>
         <ion-label color="dark"style="font-size: 20px;"><b>{{date | date: 'dd'}}</b></ion-label>
         <ion-label color="dark"style="font-size: 20px;">{{date | date: 'E'}}</ion-label>
       </ion-tab-button>
     </ion-col>
   </ion-row>
+
+  <ion-modal [isOpen]="bookingModal" (willDismiss)="setOpen(false,'bookingModal')" [initialBreakpoint]="0.75" style="--border-radius: 30px">
+    <ng-template>
+        <ion-toolbar style="--background: transparent; margin-top: 5%;">
+          <ion-title><b>{{language["Hall Booking"]}}</b></ion-title>
+        </ion-toolbar>
+      <ion-content class="ion-padding">
+
+        <ion-item style="--border-radius: 20px;--border-width: 2px;--height:4rem;">
+          <ion-label><ion-icon color="medium" style="font-size: 32px;" name="location-outline"></ion-icon></ion-label>
+          <ion-input type="text" [(ngModel)]="booking['hall_name']" readonly (ionChange)="ionChange()"></ion-input>
+        </ion-item>
+        <br>
+        
+        <ion-item (click)="setOpen(true, 'setDateModal')" style="--border-radius: 20px;--border-width: 2px;--height:4rem">
+          <ion-label><ion-icon color="medium" style="font-size: 32px;" name="calendar-outline"></ion-icon></ion-label>
+          <ion-input type="text" readonly [ngStyle]="{'--placeholder-opacity': formattedString === 'Select Date' ? '0.6' : '1.0'}" placeholder="{{formattedString}}"></ion-input>
+        </ion-item> 
+        <br>
+
+        <ion-modal class="date" [isOpen]="setDateModal">
+          <ng-template>
+            <ion-content>
+              <ion-datetime 
+              #datetime
+              [multiple]="true"
+              [showDefaultButtons]="true" 
+              [value]="booking.rent_date"
+              [min]="minDate"
+              size="cover"
+              presentation="date"
+              (ionChange)="dateChanged(datetime.value);setOpen(false, 'setDateModal')"
+              (ionCancel)="setOpen(false, 'setDateModal')"
+              [isDateEnabled]="isWeekDay">
+              </ion-datetime>
+            </ion-content>
+          </ng-template>
+        </ion-modal>
+
+        <ion-item style="--border-radius: 20px;--border-width: 2px;--height:4rem">
+          <ion-select slot="start" [(ngModel)]="booking['rent_price']" placeholder="{{language['Select Duration']}}" (ionChange)="ionChange()">
+              <ion-icon slot="label" color="medium" style="font-size: 32px;" name="time-outline"></ion-icon>
+              <ion-select-option value="{{booking['full_day_rent']}}">{{language['Full Day']}} (RM {{booking['full_day_rent']}})</ion-select-option>
+              <ion-select-option value="{{booking['half_day_rent']}}">{{language['Half Day']}} (RM {{booking['half_day_rent']}})</ion-select-option>
+          </ion-select>
+        </ion-item> 
+        <br>
+
+        <ion-item style="--border-radius: 20px;--border-width: 2px;--height:4rem">
+          <ion-select slot="start" justify="start" [(ngModel)]="booking['rent_type']" placeholder="{{language['Select Activity Type']}}" (ionChange)="ionChange()">
+              <ion-icon slot="label" color="medium" style="font-size: 32px;" name="briefcase-outline"></ion-icon>
+              <ion-select-option slot="start" value="Formal">{{language['Formal']}}</ion-select-option>
+              <ion-select-option slot="start" value="Informal">{{language['Informal']}}</ion-select-option>
+              <ion-select-option slot="start" value="Club">{{language['Club']}}</ion-select-option>
+              <ion-select-option slot="start" value="Faculty">{{language['Faculty']}}</ion-select-option>
+              <ion-select-option slot="start" value="Other">{{language['Other']}}</ion-select-option>
+          </ion-select>
+        </ion-item> 
+        <br>
+
+        <br>
+        <ion-item (click)="setOpen(false, 'bookingModal');display()" detail="false" lines="none" button color="primary" style="--border-radius: 20px;--border-width: 0px;--height:4rem">
+          <ion-label style="text-align: center;color: white;">{{language["Submit"]}}</ion-label>
+        </ion-item>
+        <br>
+    
+      </ion-content>
+    </ng-template>
+  </ion-modal>
 </ion-content>
 
 <ion-footer>
   
   <ion-row>
     <ion-col>
-      <ion-item (click)="book('Dewan Sri Resak', 150)" lines="none" detail="false">
+      <ion-item lines="none" detail="false">
         <ion-label>
           <h6>
-            <b>RM 150</b>
+            <b>RM {{booking.total}}</b>
           </h6>
           <p><span style="color:#777">inc. of all taxes</span></p>
         </ion-label>

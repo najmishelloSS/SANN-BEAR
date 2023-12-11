@@ -104,6 +104,17 @@ export class ComponentsService {
         this.language["Please check your inbox for verification code"] = "Sila semak peti masuk untuk kod pengesahan"
         this.language["Reset"] = "Set Semula"
         this.language["Hall Booking"] = "Tempah Ruang"
+        this.language["Dewan Sri Resak"] = "Dewan Sri Resak"
+        this.language["Full Day"] = "Satu Hari"
+        this.language["Half Day"] = "Separuh Hari"
+        this.language["Select Duration"] = "Pilih Tempoh"
+        this.language["Select Date"] = "Pilih Tarikh"
+        this.language["Select Activity Type"] = "Pilih Jenis Aktiviti"
+        this.language["Formal"] = "Rasmi"
+        this.language["Informal"] = "Tidak Rasmi"
+        this.language["Club"] = "Kelab"
+        this.language["Faculty"] = "Fakulti"
+        this.language["Other"] = "Lain-lain"
         break;
       default:
         this.language["Home"] = "Home"
@@ -150,6 +161,16 @@ export class ComponentsService {
         this.language["Please check your inbox for verification code"] = "Please check your inbox for verification code"
         this.language["Reset"] = "Reset"
         this.language["Hall Booking"] = "Hall Booking"
+        this.language["Full Day"] = "Full Day"
+        this.language["Half Day"] = "Half Day"
+        this.language["Select Duration"] = "Select Duration"
+        this.language["Select Date"] = "Select Date"
+        this.language["Select Activity Type"] = "Select Activity Type"
+        this.language["Formal"] = "Formal"
+        this.language["Informal"] = "Informal"
+        this.language["Club"] = "Club"
+        this.language["Faculty"] = "Faculty"
+        this.language["Other"] = "Other"
     }
     return this.language
   }
