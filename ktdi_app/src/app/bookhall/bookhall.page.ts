@@ -61,7 +61,6 @@ export class BookhallPage implements OnInit {
     console.log(this.data)
     this.getHall()
     this.formattedString = this.language['Select Date'];
-
   }
 
   isWeekDay(dateString: string){
@@ -111,8 +110,11 @@ export class BookhallPage implements OnInit {
   }
   
   ionChange(){ //reset required inputs color
+    if(!this.booking.rent_date){
+      this.formattedString = this.language['Select Date'];
+    }
     this.booking.total = 0
-    this.booking.total += +this.booking.rent_price
+    this.booking.total += +this.booking.rent_price * this.booking.rent_duration
     this.booking.venue_input =  ["", "var(--ion-color-success)"];
     this.booking.price_input =  ["", "var(--ion-color-success)"];
   }

@@ -68,7 +68,7 @@
         </ion-item>
         <br>
         
-        <ion-item (click)="setOpen(true, 'setDateModal')" style="--border-radius: 20px;--border-width: 2px;--height:4rem">
+        <ion-item (click)="setOpen(true, 'setDateModal'); ionChange()" style="--border-radius: 20px;--border-width: 2px;--height:4rem">
           <ion-label><ion-icon color="medium" style="font-size: 32px;" name="calendar-outline"></ion-icon></ion-label>
           <ion-input type="text" readonly [ngStyle]="{'--placeholder-opacity': formattedString === 'Select Date' ? '0.6' : '1.0'}" placeholder="{{formattedString}}"></ion-input>
         </ion-item> 
@@ -94,7 +94,7 @@
         </ion-modal>
 
         <ion-item style="--border-radius: 20px;--border-width: 2px;--height:4rem">
-          <ion-select slot="start" [(ngModel)]="booking['rent_price']" placeholder="{{language['Select Duration']}}" (ionChange)="ionChange()">
+          <ion-select slot="start" justify="start" [(ngModel)]="booking['rent_price']" placeholder="{{language['Select Duration']}}" (ionChange)="ionChange()">
               <ion-icon slot="label" color="medium" style="font-size: 32px;" name="time-outline"></ion-icon>
               <ion-select-option value="{{booking['full_day_rent']}}">{{language['Full Day']}} (RM {{booking['full_day_rent']}})</ion-select-option>
               <ion-select-option value="{{booking['half_day_rent']}}">{{language['Half Day']}} (RM {{booking['half_day_rent']}})</ion-select-option>
