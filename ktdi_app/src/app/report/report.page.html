@@ -2,7 +2,6 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-buttons slot="start">
-      <!-- Use the ion-back-button component to navigate back to the home page -->
       <ion-back-button [defaultHref]="'/home'"></ion-back-button>
     </ion-buttons>
     <ion-title>Report Damage</ion-title>
@@ -28,14 +27,14 @@
 
     <!-- Damage Types with Checkboxes -->
     <ion-list>
-      <ion-item *ngFor="let damageType of damageTypes">
+      <ion-item *ngFor="let damageType of damageTypes" lines="none">
         <ion-label>{{ damageType.label }}</ion-label>
         <ion-checkbox [(ngModel)]="damageType.checked"></ion-checkbox>
       </ion-item>
     </ion-list>
 
     <!-- Description Section -->
-    <ion-item>
+    <ion-item lines="none">
       <ion-label position="floating">Description</ion-label>
       <ion-textarea [(ngModel)]="damageDescription"></ion-textarea>
     </ion-item>
