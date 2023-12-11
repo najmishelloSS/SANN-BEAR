@@ -1,7 +1,6 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-buttons slot="start">
-      <!-- Use the ion-back-button component to navigate back to the home page -->
       <ion-back-button [defaultHref]="'/home'"></ion-back-button>
     </ion-buttons>
     <ion-title>Electrical Appliances</ion-title>
@@ -11,106 +10,92 @@
 <ion-content>
   <ion-label>Select from the list of appliances</ion-label>
 
+  <!-- Kitchen Appliances -->
   <ion-grid>
-    <!-- Kitchen Appliances -->
-    <ion-row>
-      <ion-col size="6">
-        <ion-item-divider>
-          <ion-label>Kitchen Appliances</ion-label>
-        </ion-item-divider>
-        <ion-item (click)="selectAppliance('Electric Kettle')">
+  <ion-row *ngIf="getAppliancesByCategory('Kitchen').length > 0">
+    <ion-col size="12" size-sm="6">
+      <ion-item-divider>
+        <ion-label>Kitchen Appliances</ion-label>
+      </ion-item-divider>
+      <ng-container *ngFor="let appliance of getAppliancesByCategory('Kitchen')">
+        <ion-item>
           <ion-thumbnail slot="start">
-            <ion-img src="assets/image/kettle.png"></ion-img>
+            <img [src]="appliance.image" alt="{{ appliance.name }} Image">
           </ion-thumbnail>
-          <ion-label>Electric Kettle</ion-label>
+          <ion-label>{{ appliance.name }}</ion-label>
+          <ion-button slot="end" (click)="selectAppliance(appliance)">
+            {{ appliance.selected ? 'Selected' : 'Select' }}
+          </ion-button>
         </ion-item>
-        <ion-item (click)="selectAppliance('Microwave')">
-          <ion-thumbnail slot="start">
-            <ion-img src="assets/image/microwave.png"></ion-img>
-          </ion-thumbnail>
-          <ion-label>Microwave</ion-label>
-        </ion-item>
-        <ion-item (click)="selectAppliance('Toaster')">
-          <ion-thumbnail slot="start">
-            <ion-img src="assets/image/toaster.png"></ion-img>
-          </ion-thumbnail>
-          <ion-label>Toaster</ion-label>
-        </ion-item>
-        <!-- Add other kitchen appliances -->
-      </ion-col>
-    </ion-row>
+      </ng-container>
+    </ion-col>
+  </ion-row>
 
-    <!-- Personal Grooming and Comfort -->
-    <ion-row>
-      <ion-col size="6">
-        <ion-item-divider>
-          <ion-label>Personal Grooming and Comfort</ion-label>
-        </ion-item-divider>
-        <ion-item (click)="selectAppliance('Hair Dryer')">
+  <!-- Personal Grooming Appliances -->
+  <ion-row *ngIf="getAppliancesByCategory('Personal').length > 0">
+    <ion-col size="12" size-sm="6">
+      <ion-item-divider>
+        <ion-label>Personal Grooming Appliances</ion-label>
+      </ion-item-divider>
+      <ng-container *ngFor="let appliance of getAppliancesByCategory('Personal')">
+        <ion-item>
           <ion-thumbnail slot="start">
-            <ion-img src="assets/image/hair dryer.png"></ion-img>
+            <img [src]="appliance.image" alt="{{ appliance.name }} Image">
           </ion-thumbnail>
-          <ion-label>Hair Dryer</ion-label>
+          <ion-label>{{ appliance.name }}</ion-label>
+          <ion-button slot="end" (click)="selectAppliance(appliance)">
+            {{ appliance.selected ? 'Selected' : 'Select' }}
+          </ion-button>
         </ion-item>
-        <ion-item (click)="selectAppliance('Electric Shaver')">
-          <ion-thumbnail slot="start">
-            <ion-img src="assets/image/shaver.png"></ion-img>
-          </ion-thumbnail>
-          <ion-label>Electric Shaver</ion-label>
-        </ion-item>
-        <ion-item (click)="selectAppliance('Iron')">
-          <ion-thumbnail slot="start">
-            <ion-img src="assets/image/iron.png"></ion-img>
-          </ion-thumbnail>
-          <ion-label>Iron</ion-label>
-        </ion-item>
-        <!-- Add other personal grooming appliances -->
-      </ion-col>
-    </ion-row>
+      </ng-container>
+    </ion-col>
+  </ion-row>
 
-    <!-- Study Appliances -->
-    <ion-row>
-      <ion-col size="6">
-        <ion-item-divider>
-          <ion-label>Study Appliances</ion-label>
-        </ion-item-divider>
-        <ion-item (click)="selectAppliance('Laptop')">
+  <!-- Kitchen Appliances -->
+  <ion-row *ngIf="getAppliancesByCategory('Study').length > 0">
+    <ion-col size="12" size-sm="6">
+      <ion-item-divider>
+        <ion-label>Kitchen Appliances</ion-label>
+      </ion-item-divider>
+      <ng-container *ngFor="let appliance of getAppliancesByCategory('Study')">
+        <ion-item>
           <ion-thumbnail slot="start">
-            <ion-img src="assets/image/laptop.jpg"></ion-img>
+            <img [src]="appliance.image" alt="{{ appliance.name }} Image">
           </ion-thumbnail>
-          <ion-label>PC/Laptop/Printer</ion-label>
+          <ion-label>{{ appliance.name }}</ion-label>
+          <ion-button slot="end" (click)="selectAppliance(appliance)">
+            {{ appliance.selected ? 'Selected' : 'Select' }}
+          </ion-button>
         </ion-item>
-        <ion-item (click)="selectAppliance('Charger')">
-          <ion-thumbnail slot="start">
-            <ion-img src="assets/image/charger.png"></ion-img>
-          </ion-thumbnail>
-          <ion-label>Phone Charger</ion-label>
-        </ion-item>
-        <!-- Add other study appliances -->
-      </ion-col>
-    </ion-row>
+      </ng-container>
+    </ion-col>
+  </ion-row>
 
-    <!-- Other Appliances -->
-    <ion-row>
-      <ion-col size="6">
-        <ion-item-divider>
-          <ion-label>Other Appliances</ion-label>
-        </ion-item-divider>
-        <ion-item (click)="selectAppliance('Extension')">
+  <!-- Personal Grooming Appliances -->
+  <ion-row *ngIf="getAppliancesByCategory('Other').length > 0">
+    <ion-col size="12" size-sm="6">
+      <ion-item-divider>
+        <ion-label>Personal Grooming Appliances</ion-label>
+      </ion-item-divider>
+      <ng-container *ngFor="let appliance of getAppliancesByCategory('Other')">
+        <ion-item>
           <ion-thumbnail slot="start">
-            <ion-img src="assets/image/extension.png"></ion-img>
+            <img [src]="appliance.image" alt="{{ appliance.name }} Image">
           </ion-thumbnail>
-          <ion-label>Extension</ion-label>
+          <ion-label>{{ appliance.name }}</ion-label>
+          <ion-button slot="end" (click)="selectAppliance(appliance)">
+            {{ appliance.selected ? 'Selected' : 'Select' }}
+          </ion-button>
         </ion-item>
-        <ion-item (click)="selectAppliance('Table Lamp')">
-          <ion-thumbnail slot="start">
-            <ion-img src="assets/image/desk lamp.png"></ion-img>
-          </ion-thumbnail>
-          <ion-label>Table Lamp</ion-label>
-        </ion-item>
-        <!-- Add other study appliances -->
-      </ion-col>
-    </ion-row>
+      </ng-container>
+    </ion-col>
+  </ion-row>
   </ion-grid>
-  <div style="width: 100%; text-align: center; color: black; font-size: 16px; font-family: Poppins; font-weight: 500; line-height: 22px; word-wrap: break-word">Proceed</div>
+
+  
+  <!-- Total Price and Proceed Button -->
+  <div style="display: flex; justify-content: space-between; align-items: center; padding: 16px;">
+    <div>Total Price: {{ totalPrice }}</div>
+    <ion-button expand="block" color="primary" (click)="proceed()">Proceed</ion-button>
+  </div>
 </ion-content>
