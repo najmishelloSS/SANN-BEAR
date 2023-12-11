@@ -3,7 +3,6 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-buttons slot="start">
-      <!-- Use the ion-back-button component to navigate back to the home page -->
       <ion-back-button [defaultHref]="'/home'"></ion-back-button>
     </ion-buttons>
     <ion-title>Report Status</ion-title>
@@ -31,7 +30,6 @@
   <!-- Active Section -->
   <ion-card *ngIf="activeSectionVisible">
     <ion-card-content class="ion-no-padding">
-      <ion-card-title>Report Information</ion-card-title>
       <ion-item lines="none">
         <ion-label color="primary">
           #00001
@@ -44,24 +42,20 @@
       </ion-item>
       <ion-item lines="none">
         <ion-label>
-          <strong>Date of Report:</strong> 22 May 2023
+          22 May 2023
         </ion-label>
       </ion-item>
       <ion-item lines="none">
         <ion-label class="status-label">
-          <strong>Status:</strong> In Progress
+          In Progress
         </ion-label>
       </ion-item>
     </ion-card-content>
-
-    <!-- Add your image here -->
-    <ion-img src="path/to/your/image.jpg"></ion-img>
   </ion-card>
 
   <!-- Success Section -->
   <ion-card *ngIf="successSectionVisible">
     <ion-card-content class="ion-no-padding">
-      <ion-card-title>Report Information</ion-card-title>
       <ion-item lines="none">
         <ion-label color="primary">
           #00001
@@ -74,17 +68,15 @@
       </ion-item>
       <ion-item lines="none">
         <ion-label>
-          <strong>Date of Report:</strong> 22 May 2023
+          22 May 2023
         </ion-label>
       </ion-item>
       <ion-item lines="none">
         <ion-label class="status-label">
-          <strong>Status:</strong> Completed
+          Completed
         </ion-label>
       </ion-item>
     </ion-card-content>
-
-    <!-- Add your image here -->
-    <ion-img src="path/to/your/image.jpg"></ion-img>
   </ion-card>
+
 </ion-content>

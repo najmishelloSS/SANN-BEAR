@@ -1,6 +1,7 @@
 // feedback.page.ts
 
 import { Component } from '@angular/core';
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-feedback',
@@ -11,8 +12,10 @@ export class FeedbackPage {
   collegeManagementRating: number = 0;
   accommodationRating: number = 0;
   facilitiesRating: number = 0;
+  submitted: boolean = false;
+  userRecommendation: string = '';
 
-  constructor() {}
+  constructor(private navCtrl: NavController) {}
 
   rateCollegeManagement(rating: number): void {
     this.collegeManagementRating = this.collegeManagementRating === rating ? 0 : rating;
@@ -32,5 +35,20 @@ export class FeedbackPage {
       // Handle the selected file, you can upload it to a server or process it as needed
       console.log('Selected File:', selectedFile);
     }
+  }
+
+  ngOnInit() {
+  }
+
+  submitReport() {
+
+    console.log('Submitting Report');
+    console.log('User Recommendation:', this.userRecommendation);
+
+    this.submitted = true;  
+  }
+  backToHome() {
+    // Navigate back to home
+    this.navCtrl.navigateRoot('/home');
   }
 }
