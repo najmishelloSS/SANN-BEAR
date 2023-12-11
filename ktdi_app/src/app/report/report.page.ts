@@ -26,6 +26,11 @@ export class ReportPage implements OnInit {
   ngOnInit() {
   }
 
+  chooseFile() {
+    // Add your logic for choosing a file here
+    console.log('File has been chosen');
+  }
+
   submitReport() {
     // Add logic to handle the submission of the report
     console.log('Submitting Report');

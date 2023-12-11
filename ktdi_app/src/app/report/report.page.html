@@ -17,13 +17,15 @@
 
   <!-- Form Section -->
   <div *ngIf="!submitted">
-    <!-- Upload File Section -->
-    <ion-item>
-      <ion-label>Upload File</ion-label>
-      <label class="file-input-label">
-        <input type="file" class="file-input" />
-      </label>
-    </ion-item>
+<!-- Upload File Section -->
+<ion-item>
+  <ion-label>Upload File</ion-label>
+  <label class="file-input-label">
+    <input type="file" class="file-input" />
+  </label>
+  <!-- Choose File Button -->
+  <ion-button (click)="chooseFile()" fill="outline" size="small">Choose File</ion-button>
+</ion-item>
 
     <!-- Damage Types with Checkboxes -->
     <ion-list>
@@ -34,10 +36,8 @@
     </ion-list>
 
     <!-- Description Section -->
-    <ion-item lines="none">
-      <ion-label position="floating">Description</ion-label>
-      <ion-textarea [(ngModel)]="damageDescription"></ion-textarea>
-    </ion-item>
+    <ion-textarea [(ngModel)]="damageDescription" label="Description" labelPlacement="floating" fill="outline" placeholder="Enter the damage description"></ion-textarea>
+
 
     <!-- Submit Button -->
     <ion-col>
