@@ -40,12 +40,34 @@ ion-content{
     swiper-container {
         width:25%;
         height:50%;
+
+        swiper-slide {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+
+            ion-img {
+                width: 70%;
+                height: 70px;
+            }
+        }    
     }
 
-    swiper-slide {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-    } 
+    h4{
+        margin-left: 0.5rem;
+    }
+    
+    .hall-list {
+        font-weight: 700;
+        color: #515151;
+        font-size: 1.8rem;
+        margin-bottom: 1.6rem;
+        margin-top: 2.5rem;
+        margin-right: 1rem;
+        margin-left: 1rem;
+        display: grid;
+        grid-template-columns:repeat(2, auto);
+        grid-gap:1rem;
+    }
 }
