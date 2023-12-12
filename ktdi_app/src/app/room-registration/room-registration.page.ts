@@ -137,17 +137,60 @@ export class RoomRegistrationPage implements OnInit {
    }
   }
 
-  selectedBlockType(location, destination) 
-  {
-    if (this.selectedBlock == 'default')
-    {
-      this.presentAlert('Please choose your room type!');
-    }
-    else 
-    {
-      this.navigateModal(location,destination);
+
+  selectedValue(location, destination) {
+    switch (location) {
+      case 'roomTypeModal':
+        if (this.selectRoomType === 'single') {
+          this.navigateModal('roomTypeModal', 'availableBlockModalSingle');
+        } else if (this.selectRoomType === 'double') {
+          this.navigateModal('roomTypeModal', 'availableBlockModalDouble');
+        } else {
+          this.presentAlert('Please choose your room type!');
+        }
+        break;
+  
+      case 'availableBlockModalSingle':
+        if (this.selectedBlock === 'default') {
+          this.presentAlert('Please choose your block!');
+        } else {
+          this.navigateModal(location, destination);
+        }
+        break;
+  
+      case 'availableLevelModalSingle':
+        if (this.selectedLevel === 'default') {
+          this.presentAlert('Please choose your level!');
+        } else {
+          this.navigateModal(location, destination);
+        }
+        break;
+  
+      // Double room 
+  
+      case 'availableBlockModalDouble':
+        if (this.selectedBlock === 'default') {
+          this.presentAlert('Please choose your block!');
+        } else {
+          this.navigateModal(location, destination);
+        }
+        break;
+  
+      case 'availableLevelModalDouble':
+        if (this.selectedLevel === 'default') {
+          this.presentAlert('Please choose your level!');
+        } else {
+          this.navigateModal(location, destination);
+        }
+        break;
+      
+  
+      default:
+        // Handle unexpected location value
+        break;
     }
   }
+  
 
 
   availableRooms = ['101', '102', '103', '104', '105']; // Example room numbers
