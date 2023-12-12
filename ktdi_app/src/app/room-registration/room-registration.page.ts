@@ -2,6 +2,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ComponentsService } from '../service/components.service';
 import { NavController } from '@ionic/angular';
+import { AlertController } from '@ionic/angular';
 //////////////DEPENDENCIES///////////////////////
 
 @Component({
@@ -15,9 +16,20 @@ export class RoomRegistrationPage implements OnInit {
 
   constructor(
     public component: ComponentsService,
-    private navCtrl: NavController
+    private navCtrl: NavController,
+    public alertController: AlertController
   ) 
   { 
+  }
+
+  async presentAlert(message: string) {
+    const alert = await this.alertController.create({
+      header: 'Alert',
+      message: message,
+      buttons: ['OK']
+    });
+  
+    await alert.present();
   }
 
   navigateToHome() {
@@ -92,9 +104,17 @@ export class RoomRegistrationPage implements OnInit {
 
     // ** Double Room Component **** 
 
-    else if (modalName == "displayRoomModalDouble")
+    else if (modalName == "availableBlockModalDouble")
     {
-      this.displayRoomModalDouble = isOpen; 
+      this.availableBlockModalDouble = isOpen; 
+    }
+    else if (modalName == "availableLevelModalDOuble")
+    {
+      this.availableLevelModalDouble = isOpen; 
+    }
+    else if (modalName == "availableRoomModalDouble")
+    {
+      this.availableRoomModalDouble = isOpen; 
     }
 
   }
@@ -106,10 +126,27 @@ export class RoomRegistrationPage implements OnInit {
    {
     this.navigateModal('roomTypeModal','availableBlockModalSingle')
    }
-   else
+   else if (this.selectRoomType === 'double')
    {
     this.navigateModal('roomTypeModal','availableBlockModalDouble')
    }
+   else 
+   {
+    // Example usage:
+    this.presentAlert('Please choose your room type!');
+   }
+  }
+
+  selectedBlockType(location, destination) 
+  {
+    if (this.selectedBlock == 'default')
+    {
+      this.presentAlert('Please choose your room type!');
+    }
+    else 
+    {
+      this.navigateModal(location,destination);
+    }
   }
 
 
