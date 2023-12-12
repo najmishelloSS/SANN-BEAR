@@ -31,9 +31,52 @@
   <ion-card *ngIf="activeSectionVisible">
     <ion-card-content class="ion-no-padding">
       <ion-item lines="none">
-        <ion-label color="primary">
-          #00001
+        <ion-label color="primary">#00001</ion-label>
+        <div class="status-background">
+          <ion-label color="light">In Progress</ion-label>
+        </div>
+      </ion-item>
+      <ion-item lines="none">
+        <ion-label>
+          <strong>Broken Fan</strong>
         </ion-label>
+      </ion-item>
+      <ion-item lines="none">
+        <ion-label>
+          22 May 2023
+        </ion-label>
+      </ion-item>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card *ngIf="activeSectionVisible">
+    <ion-card-content class="ion-no-padding">
+      <ion-item lines="none">
+        <ion-label color="primary">#00002</ion-label>
+        <div class="status-background">
+          <ion-label color="light">Draft</ion-label>
+        </div>
+      </ion-item>
+      <ion-item lines="none">
+        <ion-label>
+          <strong>Water Shortage</strong>
+        </ion-label>
+      </ion-item>
+      <ion-item lines="none">
+        <ion-label>
+          22 Oct 2023
+        </ion-label>
+      </ion-item>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card *ngIf="activeSectionVisible">
+    <ion-card-content class="ion-no-padding">
+      <ion-item lines="none">
+        <ion-label color="primary">#00003</ion-label>
+        <div class="status-background">
+          <ion-label color="light">Submitted</ion-label>
+        </div>
       </ion-item>
       <ion-item lines="none">
         <ion-label>
@@ -43,11 +86,6 @@
       <ion-item lines="none">
         <ion-label>
           22 May 2023
-        </ion-label>
-      </ion-item>
-      <ion-item lines="none">
-        <ion-label class="status-label">
-          In Progress
         </ion-label>
       </ion-item>
     </ion-card-content>
@@ -57,9 +95,10 @@
   <ion-card *ngIf="successSectionVisible">
     <ion-card-content class="ion-no-padding">
       <ion-item lines="none">
-        <ion-label color="primary">
-          #00001
-        </ion-label>
+        <ion-label color="primary">#00001</ion-label>
+        <div class="status-background">
+          <ion-label color="light">Completed</ion-label>
+        </div>
       </ion-item>
       <ion-item lines="none">
         <ion-label>
@@ -69,11 +108,6 @@
       <ion-item lines="none">
         <ion-label>
           22 May 2023
-        </ion-label>
-      </ion-item>
-      <ion-item lines="none">
-        <ion-label class="status-label">
-          Completed
         </ion-label>
       </ion-item>
     </ion-card-content>
