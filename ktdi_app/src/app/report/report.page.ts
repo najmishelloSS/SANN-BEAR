@@ -45,7 +45,7 @@ export class ReportPage {
     });
     loading.present();
 
-    this.http.post<any>('http://ktdiapp.mooo.com/api/submit_report.php', reportData)
+    this.http.post<any>('http://ktdiapp.mooo.com/api/submit-report.php', reportData)
       .subscribe(
         (response) => {
           console.log('Report submitted successfully:', response);
