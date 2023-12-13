@@ -1,3 +1,4 @@
+// report.page.ts
 import { Component } from '@angular/core';
 import { NavController, LoadingController, ToastController } from '@ionic/angular';
 import { HttpClient } from '@angular/common/http';
@@ -20,6 +21,7 @@ export class ReportPage {
 
   damageDescription: string = '';
   submitted: boolean = false;
+  uploadedFilePath: string = '';
 
   constructor(
     private navCtrl: NavController,
@@ -28,24 +30,48 @@ export class ReportPage {
     private http: HttpClient
   ) { }
 
+  onFileChange(event: any) {
+    const fileInput = event.target;
+    if (fileInput.files && fileInput.files.length > 0) {
+      const file = fileInput.files[0];
+      this.uploadFile(file);
+    }
+  }
+
+  private uploadFile(file: File) {
+    const formData = new FormData();
+    formData.append('file', file);
+
+    this.http.post<any>('http://ktdiapp.mooo.com/api/submit-report.php', formData)
+      .subscribe(
+        (response) => {
+          console.log('File uploaded successfully:', response);
+          this.uploadedFilePath = response.file_path; // Update to the correct field name
+        },
+        (error) => {
+          console.error('Error uploading file:', error);
+        }
+      );
+  }
+
   async submitReport() {
     console.log('Submitting Report');
 
-    const reportData = {
-      file_path: 'path_to_uploaded_file', // Replace with the actual path
-      damage_type: this.getSelectedDamageTypes(),
-      damage_description: this.damageDescription,
-      user_email: 'user@example.com', // Replace with the actual user email
-    };
+    // Build FormData for the entire form
+    const formData = new FormData();
+    formData.append('file_path', this.uploadedFilePath);
+    formData.append('damage_type', this.getSelectedDamageTypes().join(', '));
+    formData.append('damage_description', this.damageDescription);
+    formData.append('user_email', 'user@example.com'); // Replace with the actual user email
 
-    console.log('Report Data:', reportData);
+    console.log('Report Data:', formData);
 
     const loading = await this.loadingController.create({
       message: 'Please Wait...',
     });
     loading.present();
 
-    this.http.post<any>('http://ktdiapp.mooo.com/api/submit-report.php', reportData)
+    this.http.post<any>('http://ktdiapp.mooo.com/api/submit-report.php', formData)
       .subscribe(
         (response) => {
           console.log('Report submitted successfully:', response);
