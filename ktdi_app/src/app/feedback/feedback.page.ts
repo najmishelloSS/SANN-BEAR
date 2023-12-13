@@ -2,6 +2,7 @@
 
 import { Component } from '@angular/core';
 import { NavController } from '@ionic/angular';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-feedback',
@@ -15,7 +16,7 @@ export class FeedbackPage {
   submitted: boolean = false;
   userRecommendation: string = '';
 
-  constructor(private navCtrl: NavController) {}
+  constructor(private navCtrl: NavController, private http: HttpClient) {}
 
   rateCollegeManagement(rating: number): void {
     this.collegeManagementRating = this.collegeManagementRating === rating ? 0 : rating;
@@ -28,6 +29,7 @@ export class FeedbackPage {
   rateFacilities(rating: number): void {
     this.facilitiesRating = this.facilitiesRating === rating ? 0 : rating;
   }
+
   handleFileInput(event: any): void {
     const fileList: FileList | null = event.target.files;
     if (fileList && fileList.length > 0) {
@@ -37,18 +39,33 @@ export class FeedbackPage {
     }
   }
 
-  ngOnInit() {
-  }
-
   submitReport() {
-
     console.log('Submitting Report');
     console.log('User Recommendation:', this.userRecommendation);
 
-    this.submitted = true;  
+    const formData = {
+      college_management_rating: this.collegeManagementRating,
+      accommodation_rating: this.accommodationRating,
+      facilities_rating: this.facilitiesRating,
+      user_recommendation: this.userRecommendation,
+    };
+
+    // Replace the URL with your actual PHP backend endpoint
+    const feedbackEndpoint = 'http://ktdiapp.mooo.com/api/feedback.php';
+
+    this.http.post(feedbackEndpoint, formData).subscribe(
+      (data: any) => {
+        console.log('Feedback submitted successfully:', data);
+        this.submitted = true;
+      },
+      (error) => {
+        console.error('Error submitting feedback:', error);
+        // Handle errors
+      }
+    );
   }
+
   backToHome() {
-    // Navigate back to home
     this.navCtrl.navigateRoot('/home');
   }
 }
