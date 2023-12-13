@@ -115,6 +115,13 @@ export class ComponentsService {
         this.language["Club"] = "Kelab"
         this.language["Faculty"] = "Fakulti"
         this.language["Other"] = "Lain-lain"
+        this.language["Save"] = "Simpan"
+        this.language["Cancel"] = "Batal"
+        this.language["Previous"] = "Kembali"
+        this.language["Next"] = "Seterusnya"
+        this.language["of"] = "daripada"
+        this.language["page"] = "muka surat"
+        this.language["Hall Information"] = "Maklumat Ruang"
         break;
       default:
         this.language["Home"] = "Home"
@@ -171,6 +178,13 @@ export class ComponentsService {
         this.language["Club"] = "Club"
         this.language["Faculty"] = "Faculty"
         this.language["Other"] = "Other"
+        this.language["Save"] = "Save"
+        this.language["Cancel"] = "Cancel"
+        this.language["Previous"] = "Previous"
+        this.language["Next"] = "Next"
+        this.language["of"] = "of"
+        this.language["page"] = "page"
+        this.language["Hall Information"] = "Hall Information"
     }
     return this.language
   }

@@ -1,7 +1,6 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { ToastController, LoadingController, NavController, IonDatetime } from '@ionic/angular';
+import { ActivatedRoute } from '@angular/router';
+import { LoadingController, IonDatetime } from '@ionic/angular';
 import { ComponentsService } from '../service/components.service';
 import { DataService } from '../service/data.service';
 import {format, parseISO} from 'date-fns';
@@ -18,6 +17,8 @@ export class BookhallPage implements OnInit {
   language : any //language library
   bookingModal = false;
   setDateModal = false;
+  page = 1;
+  pageArray = [1,2,3,4]
 
   showPicker = false;
   formattedString = '';
@@ -26,24 +27,21 @@ export class BookhallPage implements OnInit {
   @ViewChild(IonDatetime) datetime :IonDatetime;
 
   booking={ //for booking inputs
-    rent_date: "",
+    rent_date: undefined,
     rent_price : 0,
-    rent_type : "",
-    venue : "",
+    rent_type : undefined,
     total: 0,
     rent_duration: 1,
+    selected : undefined,
+    index: undefined,
     price_input:["", "var(--ion-color-success)"], //default colour input
     venue_input:["", "var(--ion-color-success)"]
   }
 
   constructor(
     public route:ActivatedRoute,
-    public toastController:ToastController,
     public loadingController:LoadingController,
     public dataservice:DataService,
-    public router:Router,
-    public navController:NavController,
-    public http:HttpClient,
     public component:ComponentsService
   ) { 
 
@@ -69,6 +67,23 @@ export class BookhallPage implements OnInit {
       return false;
     }else{
       return true
+    }
+  }
+  
+  paging(direction){
+    switch(direction){
+      case "previous":
+        if(this.page != 1){
+          this.page -= 1
+        }
+        break;
+      case "next":
+        if(this.page != this.pageArray.length){
+          this.page += 1 
+        }
+        break;
+      default:
+        this.page = direction
     }
   }
 
@@ -99,19 +114,33 @@ export class BookhallPage implements OnInit {
   }
 
   book(index){
+    if(index == this.booking.index && this.booking.rent_date != undefined && this.booking.rent_price != 0 && this.booking.rent_type != undefined){
+      this.ionChange('save')
+    }else{
+      this.ionChange('reset')
+    }
     this.booking = this.data.hall[index]
+    this.booking.index = index
     console.log(this.booking)
     this.setOpen(true, "bookingModal")
   }
 
   display(){
-    this.ionChange()
+    this.setOpen(false, 'bookingModal')
+    this.ionChange("save")
+    this.booking.selected = this.booking.index
     console.log(this.booking)
   }
   
-  ionChange(){ //reset required inputs color
-    if(!this.booking.rent_date){
+  ionChange(state){ //reset required inputs color
+    if(state == "reset"){
       this.formattedString = this.language['Select Date'];
+      this.booking.rent_date = undefined
+      this.booking.rent_duration = 1
+      this.booking.rent_price = 0
+      this.booking.rent_type = undefined
+      this.booking.selected = undefined
+      console.log("reset")
     }
     this.booking.total = 0
     this.booking.total += +this.booking.rent_price * this.booking.rent_duration
@@ -128,19 +157,6 @@ export class BookhallPage implements OnInit {
         this.setDateModal = isOpen; 
         break;
     }
-  }
-
-  close(isOpen: boolean)
-  {
-    this.datetime.cancel(true);
-    this.setDateModal = isOpen;
-
-  }
-  
-  select(isOpen: boolean)
-  {
-    this.datetime.confirm(true);
-    this.setDateModal = isOpen;
   }
 
   dateChanged(value){

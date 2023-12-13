@@ -10,7 +10,7 @@
 <ion-content [fullscreen]="true">
   <ion-list [inset]="true">
     <div *ngFor="let item of data.hall; index as i">
-      <ion-item button (click)="book(i)" lines="none" detail="false">
+      <ion-item button (click)="book(i)" lines="none" detail="false" [ngStyle]="{'--background':booking.selected === i ? 'var(--ion-color-primary)' : '' }">
         <ion-label>
           <h6>
             <b>{{item['hall_name']}}</b>
@@ -20,7 +20,7 @@
             <span *ngIf="data.language == 'malay'" style="color:#777">{{item['hall_desc_bm']}}</span>
           </p>
         </ion-label>
-        <ion-item style="float:right; font-size: 15px;">
+        <ion-item lines="none" detail="false" style="float:right; font-size: 15px;" [ngStyle]="{'--background':booking.selected === i ? 'var(--ion-color-primary)' : '' }">
           RM {{item['full_day_rent']}} / Day
         </ion-item>
       </ion-item>
@@ -28,97 +28,99 @@
   </ion-list>
   <br>
 
-  <ion-row>
-    <ion-col>
-      <ion-tab-button>
-        <ion-label color="dark" style="font-size: 20px;"><b>{{date | date: 'dd'}}</b></ion-label>
-        <ion-label color="dark"style="font-size: 20px;">{{date | date: 'E'}}</ion-label>
-      </ion-tab-button>
-    </ion-col>
-    <ion-col>
-      <ion-tab-button>
-        <ion-label color="primary" style="font-size: 20px;"><b>{{date | date: 'dd'}}</b></ion-label>
-        <ion-label color="primary" style="font-size: 20px;">{{date | date: 'E'}}</ion-label>
-      </ion-tab-button>
-    </ion-col>
-    <ion-col>
-      <ion-tab-button>
-        <ion-label color="dark"style="font-size: 20px;"><b>{{date | date: 'dd'}}</b></ion-label>
-        <ion-label color="dark"style="font-size: 20px;">{{date | date: 'E'}}</ion-label>
-      </ion-tab-button>
-    </ion-col>
-    <ion-col>
-      <ion-tab-button>
-        <ion-label color="dark"style="font-size: 20px;"><b>{{date | date: 'dd'}}</b></ion-label>
-        <ion-label color="dark"style="font-size: 20px;">{{date | date: 'E'}}</ion-label>
-      </ion-tab-button>
-    </ion-col>
-  </ion-row>
-
-  <ion-modal [isOpen]="bookingModal" (willDismiss)="setOpen(false,'bookingModal')" [initialBreakpoint]="0.75" style="--border-radius: 30px">
+  <ion-modal [isOpen]="bookingModal" (willDismiss)="setOpen(false,'bookingModal');ionChange('save')" [initialBreakpoint]="0.75" style="--border-radius: 30px">
     <ng-template>
         <ion-toolbar style="--background: transparent; margin-top: 5%;">
           <ion-title><b>{{language["Hall Booking"]}}</b></ion-title>
         </ion-toolbar>
       <ion-content class="ion-padding">
+        <div *ngIf="page == 3">
+          <h1><b>{{language["Hall Information"]}}</b></h1>
 
-        <ion-item style="--border-radius: 20px;--border-width: 2px;--height:4rem;">
-          <ion-label><ion-icon color="medium" style="font-size: 32px;" name="location-outline"></ion-icon></ion-label>
-          <ion-input type="text" [(ngModel)]="booking['hall_name']" readonly (ionChange)="ionChange()"></ion-input>
-        </ion-item>
-        <br>
+          <ion-item style="--border-radius: 20px;--border-width: 2px;--height:4rem;">
+            <ion-label><ion-icon color="medium" style="font-size: 32px;" name="location-outline"></ion-icon></ion-label>
+            <ion-input type="text" [(ngModel)]="booking['hall_name']" readonly (ionChange)="ionChange('save')"></ion-input>
+          </ion-item>
+          <br>
+          
+          <ion-item (click)="setOpen(true, 'setDateModal');" style="--border-radius: 20px;--border-width: 2px;--height:4rem">
+            <ion-label><ion-icon color="medium" style="font-size: 32px;" name="calendar-outline"></ion-icon></ion-label>
+            <ion-input type="text" readonly [ngStyle]="{'--placeholder-opacity': formattedString === 'Select Date' ? '0.6' : '1.0'}" placeholder="{{formattedString}}"></ion-input>
+          </ion-item> 
+          <br>
+
+          <ion-modal class="date" [isOpen]="setDateModal">
+            <ng-template>
+              <ion-content>
+                <ion-datetime 
+                #datetime
+                [multiple]="true"
+                [showDefaultButtons]="true" 
+                [value]="booking.rent_date"
+                [min]="minDate"
+                size="cover"
+                presentation="date"
+                (ionChange)="dateChanged(datetime.value);setOpen(false, 'setDateModal')"
+                (ionCancel)="setOpen(false, 'setDateModal')"
+                [isDateEnabled]="isWeekDay">
+                </ion-datetime>
+              </ion-content>
+            </ng-template>
+          </ion-modal>
+
+          <ion-item style="--border-radius: 20px;--border-width: 2px;--height:4rem">
+            <ion-select slot="start" justify="start" [(ngModel)]="booking['rent_price']" placeholder="{{language['Select Duration']}}" (ionChange)="ionChange('save')">
+                <ion-icon slot="label" color="medium" style="font-size: 32px;" name="time-outline"></ion-icon>
+                <ion-select-option value="{{booking['full_day_rent']}}">{{language['Full Day']}} (RM {{booking['full_day_rent']}})</ion-select-option>
+                <ion-select-option value="{{booking['half_day_rent']}}">{{language['Half Day']}} (RM {{booking['half_day_rent']}})</ion-select-option>
+            </ion-select>
+          </ion-item> 
+          <br>
+
+          <ion-item style="--border-radius: 20px;--border-width: 2px;--height:4rem">
+            <ion-select slot="start" justify="start" [(ngModel)]="booking['rent_type']" placeholder="{{language['Select Activity Type']}}" (ionChange)="ionChange('save')">
+                <ion-icon slot="label" color="medium" style="font-size: 32px;" name="briefcase-outline"></ion-icon>
+                <ion-select-option slot="start" value="Formal">{{language['Formal']}}</ion-select-option>
+                <ion-select-option slot="start" value="Informal">{{language['Informal']}}</ion-select-option>
+                <ion-select-option slot="start" value="Club">{{language['Club']}}</ion-select-option>
+                <ion-select-option slot="start" value="Faculty">{{language['Faculty']}}</ion-select-option>
+                <ion-select-option slot="start" value="Other">{{language['Other']}}</ion-select-option>
+            </ion-select>
+          </ion-item> 
+          <br>
+        </div>
         
-        <ion-item (click)="setOpen(true, 'setDateModal'); ionChange()" style="--border-radius: 20px;--border-width: 2px;--height:4rem">
-          <ion-label><ion-icon color="medium" style="font-size: 32px;" name="calendar-outline"></ion-icon></ion-label>
-          <ion-input type="text" readonly [ngStyle]="{'--placeholder-opacity': formattedString === 'Select Date' ? '0.6' : '1.0'}" placeholder="{{formattedString}}"></ion-input>
-        </ion-item> 
+        <ion-row>
+          <ion-col></ion-col>
+          <ion-col size="auto" class="ion-text-center">
+            <div class="pagination ion-padding">
+              <a (click)="paging('previous')">❮</a>
+              <span *ngFor="let loop of pageArray; index as i; count as c" >
+                <a *ngIf="loop <= page+2 && loop >= page && page == 1" [ngClass]="{ 'active': page === loop }" (click)="paging(loop)">{{loop}}</a>
+                <a *ngIf="loop <= page+1 && loop >= page-1 && page != 1 && page != pageArray.length" [ngClass]="{ 'active': page === loop }" (click)="paging(loop)">{{loop}}</a>
+                <a *ngIf="loop <= page && loop >= page-2 && page == pageArray.length && pageArray.length != 1" [ngClass]="{ 'active': page === loop }" (click)="paging(loop)">{{loop}}</a>
+              </span>
+              <a (click)="paging('next')">❯</a>
+              <br>
+              <br>
+              <p>{{page}} <span *ngIf="language">{{language['of']}}</span> 4 <span *ngIf="language">{{language['page']}}</span></p>
+            </div>
+          </ion-col>
+          <ion-col></ion-col>
+        </ion-row>
         <br>
-
-        <ion-modal class="date" [isOpen]="setDateModal">
-          <ng-template>
-            <ion-content>
-              <ion-datetime 
-              #datetime
-              [multiple]="true"
-              [showDefaultButtons]="true" 
-              [value]="booking.rent_date"
-              [min]="minDate"
-              size="cover"
-              presentation="date"
-              (ionChange)="dateChanged(datetime.value);setOpen(false, 'setDateModal')"
-              (ionCancel)="setOpen(false, 'setDateModal')"
-              [isDateEnabled]="isWeekDay">
-              </ion-datetime>
-            </ion-content>
-          </ng-template>
-        </ion-modal>
-
-        <ion-item style="--border-radius: 20px;--border-width: 2px;--height:4rem">
-          <ion-select slot="start" justify="start" [(ngModel)]="booking['rent_price']" placeholder="{{language['Select Duration']}}" (ionChange)="ionChange()">
-              <ion-icon slot="label" color="medium" style="font-size: 32px;" name="time-outline"></ion-icon>
-              <ion-select-option value="{{booking['full_day_rent']}}">{{language['Full Day']}} (RM {{booking['full_day_rent']}})</ion-select-option>
-              <ion-select-option value="{{booking['half_day_rent']}}">{{language['Half Day']}} (RM {{booking['half_day_rent']}})</ion-select-option>
-          </ion-select>
-        </ion-item> 
-        <br>
-
-        <ion-item style="--border-radius: 20px;--border-width: 2px;--height:4rem">
-          <ion-select slot="start" justify="start" [(ngModel)]="booking['rent_type']" placeholder="{{language['Select Activity Type']}}" (ionChange)="ionChange()">
-              <ion-icon slot="label" color="medium" style="font-size: 32px;" name="briefcase-outline"></ion-icon>
-              <ion-select-option slot="start" value="Formal">{{language['Formal']}}</ion-select-option>
-              <ion-select-option slot="start" value="Informal">{{language['Informal']}}</ion-select-option>
-              <ion-select-option slot="start" value="Club">{{language['Club']}}</ion-select-option>
-              <ion-select-option slot="start" value="Faculty">{{language['Faculty']}}</ion-select-option>
-              <ion-select-option slot="start" value="Other">{{language['Other']}}</ion-select-option>
-          </ion-select>
-        </ion-item> 
-        <br>
-
-        <br>
-        <ion-item (click)="setOpen(false, 'bookingModal');display()" detail="false" lines="none" button color="primary" style="--border-radius: 20px;--border-width: 0px;--height:4rem">
-          <ion-label style="text-align: center;color: white;">{{language["Submit"]}}</ion-label>
-        </ion-item>
-        <br>
+        <ion-row>
+          <ion-col>
+            <ion-item (click)="setOpen(false,'bookingModal');ionChange('reset')" detail="false" lines="none" button color="danger" style="--border-radius: 20px;--border-width: 0px;--height:4rem">
+              <ion-label style="text-align: center;color: white;">{{language["Cancel"]}}</ion-label>
+            </ion-item>
+          </ion-col>
+          <ion-col>
+            <ion-item (click)="display()" detail="false" lines="none" button color="primary" style="--border-radius: 20px;--border-width: 0px;--height:4rem">
+              <ion-label style="text-align: center;color: white;">{{language["Save"]}}</ion-label>
+            </ion-item>
+          </ion-col>
+        </ion-row>
     
       </ion-content>
     </ng-template>
@@ -132,7 +134,7 @@
       <ion-item lines="none" detail="false">
         <ion-label>
           <h6>
-            <b>RM {{booking.total}}</b>
+            <b>RM {{booking.total | number: '1.2'}}</b>
           </h6>
           <p><span style="color:#777">inc. of all taxes</span></p>
         </ion-label>
