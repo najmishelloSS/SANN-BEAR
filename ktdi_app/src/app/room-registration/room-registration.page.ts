@@ -1,6 +1,8 @@
 //////////////DEPENDENCIES///////////////////////
 import { Component, OnInit } from '@angular/core';
 import { ComponentsService } from '../service/components.service';
+import { NavController } from '@ionic/angular';
+import { AlertController } from '@ionic/angular';
 //////////////DEPENDENCIES///////////////////////
 
 @Component({
@@ -14,8 +16,24 @@ export class RoomRegistrationPage implements OnInit {
 
   constructor(
     public component: ComponentsService,
+    private navCtrl: NavController,
+    public alertController: AlertController
   ) 
   { 
+  }
+
+  async presentAlert(message: string) {
+    const alert = await this.alertController.create({
+      header: 'Alert',
+      message: message,
+      buttons: ['OK']
+    });
+  
+    await alert.present();
+  }
+
+  navigateToHome() {
+    this.navCtrl.navigateRoot('/home');
   }
 
   async navigateModal(location, destination) { //close old modal and open new modal
@@ -44,7 +62,16 @@ export class RoomRegistrationPage implements OnInit {
   selectedBlock: string = 'default'; 
   selectedLevel: string = 'default'; 
   selectedRoom: string = 'default'; 
-  
+
+
+  // *** Double Room Variable *****
+
+  availableBlockModalDouble = false; 
+  availableLevelModalDouble = false;
+  availableRoomModalDouble = false;
+  displayRoomModalDouble= false; 
+
+
 
   setOpen(isOpen: boolean, modalName: String) // open or close modal
   { 
@@ -73,32 +100,97 @@ export class RoomRegistrationPage implements OnInit {
     {
       this.displayRoomModalSingle = isOpen; 
     }
+
+
+    // ** Double Room Component **** 
+
+    else if (modalName == "availableBlockModalDouble")
+    {
+      this.availableBlockModalDouble = isOpen; 
+    }
+    else if (modalName == "availableLevelModalDOuble")
+    {
+      this.availableLevelModalDouble = isOpen; 
+    }
+    else if (modalName == "availableRoomModalDouble")
+    {
+      this.availableRoomModalDouble = isOpen; 
+    }
+
   }
 
 
   selectedRoomType () 
   {
-    this.setOpen(false, 'roomTypeModal')
-    this.setOpen(true, 'availableBlockModalSingle');
+   if (this.selectRoomType === 'single')
+   {
+    this.navigateModal('roomTypeModal','availableBlockModalSingle')
+   }
+   else if (this.selectRoomType === 'double')
+   {
+    this.navigateModal('roomTypeModal','availableBlockModalDouble')
+   }
+   else 
+   {
+    // Example usage:
+    this.presentAlert('Please choose your room type!');
+   }
   }
 
-  selectedBlockSingleType () 
-  {
-    this.setOpen(false, 'availableBlockModalSingle');
-    this.setOpen(true, 'availableLevelModalSingle');
-  }
 
-  selectedLevelSingleType () 
-  {
-    this.setOpen(false, 'availableLevelModalSingle');
-    this.setOpen(true, 'availableRoomModalSingle');
+  selectedValue(location, destination) {
+    switch (location) {
+      case 'roomTypeModal':
+        if (this.selectRoomType === 'single') {
+          this.navigateModal('roomTypeModal', 'availableBlockModalSingle');
+        } else if (this.selectRoomType === 'double') {
+          this.navigateModal('roomTypeModal', 'availableBlockModalDouble');
+        } else {
+          this.presentAlert('Please choose your room type!');
+        }
+        break;
+  
+      case 'availableBlockModalSingle':
+        if (this.selectedBlock === 'default') {
+          this.presentAlert('Please choose your block!');
+        } else {
+          this.navigateModal(location, destination);
+        }
+        break;
+  
+      case 'availableLevelModalSingle':
+        if (this.selectedLevel === 'default') {
+          this.presentAlert('Please choose your level!');
+        } else {
+          this.navigateModal(location, destination);
+        }
+        break;
+  
+      // Double room 
+  
+      case 'availableBlockModalDouble':
+        if (this.selectedBlock === 'default') {
+          this.presentAlert('Please choose your block!');
+        } else {
+          this.navigateModal(location, destination);
+        }
+        break;
+  
+      case 'availableLevelModalDouble':
+        if (this.selectedLevel === 'default') {
+          this.presentAlert('Please choose your level!');
+        } else {
+          this.navigateModal(location, destination);
+        }
+        break;
+      
+  
+      default:
+        // Handle unexpected location value
+        break;
+    }
   }
-
-  selectedRoomSingleType () 
-  {
-    this.setOpen(false, 'availableRoomModalSingle');
-    this.setOpen(true, 'displayRoomModalSingle');
-  }
+  
 
 
   availableRooms = ['101', '102', '103', '104', '105']; // Example room numbers
