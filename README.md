@@ -84,4 +84,4 @@ SECV3104-02 PEMBANGUNAN APLIKASI (APPLICATIONS DEVELOPMENT)
 
 [HTML]:https://img.shields.io/badge/HTML-239120?style=for-the-badge&logo=html5&logoColor=white
 [TS]: https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white
-[PHP]: [https://img.shields.io/badge/-app%E2%80%93routing.module.ts-lightblue](https://img.shields.io/badge/PHP-777BB4?style=for-the-badge&logo=php&logoColor=white)https://img.shields.io/badge/PHP-777BB4?style=for-the-badge&logo=php&logoColor=white
+[PHP]: https://img.shields.io/badge/-app%E2%80%93routing.module.ts-lightblue](https://img.shields.io/badge/PHP-777BB4?style=for-the-badge&logo=php&logoColor=white)https://img.shields.io/badge/PHP-777BB4?style=for-the-badge&logo=php&logoColor=white
