@@ -109,6 +109,8 @@ export class ComponentsService {
         this.language["Half Day"] = "Separuh Hari"
         this.language["Select Duration"] = "Pilih Tempoh"
         this.language["Select Date"] = "Pilih Tarikh"
+        this.language["Select Starting Time"] = "Pilih Masa Mula"
+        this.language["Select Ending Time"] = "Pilih Masa Tamat"
         this.language["Select Activity Type"] = "Pilih Jenis Aktiviti"
         this.language["Formal"] = "Rasmi"
         this.language["Informal"] = "Tidak Rasmi"
@@ -122,6 +124,13 @@ export class ComponentsService {
         this.language["of"] = "daripada"
         this.language["page"] = "muka surat"
         this.language["Hall Information"] = "Maklumat Ruang"
+        this.language["Programme Information"] = "Maklumat Program"
+        this.language["Programme Name"] = "Nama Program"
+        this.language["Number of Participants"] = "Jumlah Peserta"
+        this.language["Approval Letter"] = "Surat Kelulusan"
+        this.language["Programme Tentative"] = "Tentatif Program"
+        this.language["Date/Time Information"] = "Maklumat Tarikh/Masa"
+        this.language["PDF, JPG, JPEG and PNG only"] = "Hanya PDF, JPG, JPEG dan PNG"
         break;
       default:
         this.language["Home"] = "Home"
@@ -172,6 +181,8 @@ export class ComponentsService {
         this.language["Half Day"] = "Half Day"
         this.language["Select Duration"] = "Select Duration"
         this.language["Select Date"] = "Select Date"
+        this.language["Select Starting Time"] = "Select Starting Time"
+        this.language["Select Ending Time"] = "Select Ending Time"
         this.language["Select Activity Type"] = "Select Activity Type"
         this.language["Formal"] = "Formal"
         this.language["Informal"] = "Informal"
@@ -185,6 +196,13 @@ export class ComponentsService {
         this.language["of"] = "of"
         this.language["page"] = "page"
         this.language["Hall Information"] = "Hall Information"
+        this.language["Programme Information"] = "Programme Information"
+        this.language["Programme Name"] = "Programme Name"
+        this.language["Number of Participants"] = "Number of Participants"
+        this.language["Approval Letter"] = "Approval Letter"
+        this.language["Programme Tentative"] = "Programme Tentative"
+        this.language["Date/Time Information"] = "Date/Time Information"
+        this.language["PDF, JPG, JPEG and PNG only"] = "PDF, JPG, JPEG and PNG only"
     }
     return this.language
   }

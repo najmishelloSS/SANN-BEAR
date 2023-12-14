@@ -31,17 +31,72 @@
   <ion-modal [isOpen]="bookingModal" (willDismiss)="setOpen(false,'bookingModal');ionChange('save')" [initialBreakpoint]="0.75" style="--border-radius: 30px">
     <ng-template>
         <ion-toolbar style="--background: transparent; margin-top: 5%;">
-          <ion-title><b>{{language["Hall Booking"]}}</b></ion-title>
+          <ion-title><b>{{language["Hall Booking"]}} ({{booking['hall_name']}})</b></ion-title>
         </ion-toolbar>
       <ion-content class="ion-padding">
-        <div *ngIf="page == 3">
-          <h1><b>{{language["Hall Information"]}}</b></h1>
 
+        <div *ngIf="page == 1">
+          <h1><b>{{language["Programme Information"]}}</b></h1>
           <ion-item style="--border-radius: 20px;--border-width: 2px;--height:4rem;">
-            <ion-label><ion-icon color="medium" style="font-size: 32px;" name="location-outline"></ion-icon></ion-label>
-            <ion-input type="text" [(ngModel)]="booking['hall_name']" readonly (ionChange)="ionChange('save')"></ion-input>
+            <ion-label><ion-icon color="medium" style="font-size: 32px;" name="information-circle-outline"></ion-icon></ion-label>
+            <ion-input type="text" [(ngModel)]="booking.name" placeholder="{{language['Programme Name']}}" (ionChange)="ionChange('save')"></ion-input>
           </ion-item>
           <br>
+
+          <ion-item style="--border-radius: 20px;--border-width: 2px;--height:4rem;">
+            <ion-label><ion-icon color="medium" style="font-size: 32px;" name="people-outline"></ion-icon></ion-label>
+            <ion-input type="number" [(ngModel)]="booking.participant" placeholder="{{language['Number of Participants']}}" (ionChange)="ionChange('save')"></ion-input>
+          </ion-item>
+          <br>
+
+          <ion-item style="--border-radius: 20px;--border-width: 2px;--height:4rem;">
+            <ion-label><ion-icon color="medium" style="font-size: 32px;" name="document-text-outline"></ion-icon></ion-label>
+            <ion-input readonly (click)="setOpen(true, 'approvalModal')" [value]="booking.letter ? booking.letter['name'] : '' " placeholder="{{language['Approval Letter']}}"></ion-input>
+          </ion-item>
+          <br>
+
+          <ion-modal class="file" [isOpen]="approvalModal" (willDismiss)="setOpen(false,'approvalModal')" style="--border-radius: 30px">
+            <ng-template>
+              <div class="wrapper ion-padding">
+                <h1>{{language['Approval Letter']}}</h1>
+                <ion-input type="file" (change)="onFileChange($event, 'approval')"></ion-input>
+                <ion-text color="danger">*{{language['PDF, JPG, JPEG and PNG only']}}</ion-text>
+              </div>
+            </ng-template>
+          </ion-modal>
+
+          <ion-item style="--border-radius: 20px;--border-width: 2px;--height:4rem;">
+            <ion-label><ion-icon color="medium" style="font-size: 32px;" name="document-text-outline"></ion-icon></ion-label>
+            <ion-input readonly (click)="setOpen(true, 'tentativeModal')" [value]="booking.tentative ? booking.tentative['name'] : '' " placeholder="{{language['Programme Tentative']}}"></ion-input>
+          </ion-item>
+          <br>
+
+          <ion-modal class="file" [isOpen]="tentativeModal" (willDismiss)="setOpen(false,'tentativeModal')" style="--border-radius: 30px">
+            <ng-template>
+              <div class="wrapper ion-padding">
+                <h1>{{language['Programme Tentative']}}</h1>
+                <ion-input type="file" (change)="onFileChange($event, 'tentative')"></ion-input>
+                <ion-text color="danger">*{{language['PDF, JPG, JPEG and PNG only']}}</ion-text>
+              </div>
+            </ng-template>
+          </ion-modal>
+
+          <ion-item style="--border-radius: 20px;--border-width: 2px;--height:4rem">
+            <ion-select slot="start" justify="start" [(ngModel)]="booking['rent_type']" placeholder="{{language['Select Activity Type']}}" (ionChange)="ionChange('save')">
+                <ion-icon slot="label" color="medium" style="font-size: 32px;" name="briefcase-outline"></ion-icon>
+                <ion-select-option slot="start" value="Formal">{{language['Formal']}}</ion-select-option>
+                <ion-select-option slot="start" value="Informal">{{language['Informal']}}</ion-select-option>
+                <ion-select-option slot="start" value="Club">{{language['Club']}}</ion-select-option>
+                <ion-select-option slot="start" value="Faculty">{{language['Faculty']}}</ion-select-option>
+                <ion-select-option slot="start" value="Other">{{language['Other']}}</ion-select-option>
+            </ion-select>
+          </ion-item> 
+          <br>
+
+        </div>
+
+        <div *ngIf="page == 2">
+          <h1><b>{{language["Date/Time Information"]}}</b></h1>
           
           <ion-item (click)="setOpen(true, 'setDateModal');" style="--border-radius: 20px;--border-width: 2px;--height:4rem">
             <ion-label><ion-icon color="medium" style="font-size: 32px;" name="calendar-outline"></ion-icon></ion-label>
@@ -60,7 +115,7 @@
                 [min]="minDate"
                 size="cover"
                 presentation="date"
-                (ionChange)="dateChanged(datetime.value);setOpen(false, 'setDateModal')"
+                (ionChange)="dateChanged(datetime.value, 'date');setOpen(false, 'setDateModal')"
                 (ionCancel)="setOpen(false, 'setDateModal')"
                 [isDateEnabled]="isWeekDay">
                 </ion-datetime>
@@ -68,29 +123,73 @@
             </ng-template>
           </ion-modal>
 
+          <ion-item (click)="setOpen(true, 'setStartModal');" style="--border-radius: 20px;--border-width: 2px;--height:4rem">
+            <ion-label><ion-icon color="medium" style="font-size: 32px;" name="time-outline"></ion-icon></ion-label>
+            <ion-input type="text" readonly [ngStyle]="{'--placeholder-opacity': startString === 'Select Starting Time' ? '0.6' : '1.0'}" placeholder="{{startString}}"></ion-input>
+          </ion-item> 
+          <br>
+
+          <ion-modal class="date" [isOpen]="setStartModal">
+            <ng-template>
+              <ion-content>
+                <ion-datetime 
+                #starttime
+                [showDefaultButtons]="true" 
+                [value]="booking.rent_start"
+                size="cover"
+                presentation="time"
+                (ionChange)="dateChanged(datetime.value, 'starttime');setOpen(false, 'setStartModal')"
+                (ionCancel)="setOpen(false, 'setStartModal')">
+                </ion-datetime>
+              </ion-content>
+            </ng-template>
+          </ion-modal>
+
+          <ion-item (click)="setOpen(true, 'setEndModal');" style="--border-radius: 20px;--border-width: 2px;--height:4rem">
+            <ion-label><ion-icon color="medium" style="font-size: 32px;" name="time-outline"></ion-icon></ion-label>
+            <ion-input type="text" readonly [ngStyle]="{'--placeholder-opacity': endString === 'Select Ending Time' ? '0.6' : '1.0'}" placeholder="{{endString}}"></ion-input>
+          </ion-item> 
+          <br>
+
+          <ion-modal class="date" [isOpen]="setEndModal">
+            <ng-template>
+              <ion-content>
+                <ion-datetime 
+                #endtime
+                [showDefaultButtons]="true" 
+                [value]="booking.rent_end"
+                size="cover"
+                presentation="time"
+                (ionChange)="dateChanged(datetime.value, 'endtime');setOpen(false, 'setEndModal')"
+                (ionCancel)="setOpen(false, 'setEndModal')">
+                </ion-datetime>
+              </ion-content>
+            </ng-template>
+          </ion-modal>
+
           <ion-item style="--border-radius: 20px;--border-width: 2px;--height:4rem">
             <ion-select slot="start" justify="start" [(ngModel)]="booking['rent_price']" placeholder="{{language['Select Duration']}}" (ionChange)="ionChange('save')">
-                <ion-icon slot="label" color="medium" style="font-size: 32px;" name="time-outline"></ion-icon>
+                <ion-icon slot="label" color="medium" style="font-size: 32px;" name="hourglass-outline"></ion-icon>
                 <ion-select-option value="{{booking['full_day_rent']}}">{{language['Full Day']}} (RM {{booking['full_day_rent']}})</ion-select-option>
                 <ion-select-option value="{{booking['half_day_rent']}}">{{language['Half Day']}} (RM {{booking['half_day_rent']}})</ion-select-option>
             </ion-select>
           </ion-item> 
           <br>
 
-          <ion-item style="--border-radius: 20px;--border-width: 2px;--height:4rem">
-            <ion-select slot="start" justify="start" [(ngModel)]="booking['rent_type']" placeholder="{{language['Select Activity Type']}}" (ionChange)="ionChange('save')">
-                <ion-icon slot="label" color="medium" style="font-size: 32px;" name="briefcase-outline"></ion-icon>
-                <ion-select-option slot="start" value="Formal">{{language['Formal']}}</ion-select-option>
-                <ion-select-option slot="start" value="Informal">{{language['Informal']}}</ion-select-option>
-                <ion-select-option slot="start" value="Club">{{language['Club']}}</ion-select-option>
-                <ion-select-option slot="start" value="Faculty">{{language['Faculty']}}</ion-select-option>
-                <ion-select-option slot="start" value="Other">{{language['Other']}}</ion-select-option>
-            </ion-select>
-          </ion-item> 
+        </div>
+
+        <div *ngIf="page == 3">
+          <h1><b>{{language["Hall Information"]}}</b></h1>
+
+          <ion-item style="--border-radius: 20px;--border-width: 2px;--height:4rem;">
+            <ion-label><ion-icon color="medium" style="font-size: 32px;" name="location-outline"></ion-icon></ion-label>
+            <ion-input type="text" [(ngModel)]="booking['hall_name']" readonly (ionChange)="ionChange('save')"></ion-input>
+          </ion-item>
           <br>
+
         </div>
         
-        <ion-row>
+        <!-- <ion-row>
           <ion-col></ion-col>
           <ion-col size="auto" class="ion-text-center">
             <div class="pagination ion-padding">
@@ -108,20 +207,45 @@
           </ion-col>
           <ion-col></ion-col>
         </ion-row>
+        <br> -->
+
         <br>
         <ion-row>
           <ion-col>
-            <ion-item (click)="setOpen(false,'bookingModal');ionChange('reset')" detail="false" lines="none" button color="danger" style="--border-radius: 20px;--border-width: 0px;--height:4rem">
-              <ion-label style="text-align: center;color: white;">{{language["Cancel"]}}</ion-label>
+            <ion-item [disabled]="page == 1" (click)="paging('previous')" detail="false" lines="none" button color="success" style="--border-radius: 20px;--border-width: 0px;--height:4rem">
+              <ion-icon slot="start" style="color: white;" name="arrow-back-outline"></ion-icon>
+              <ion-label style="text-align: center;color: white;">{{language["Previous"]}}</ion-label>
             </ion-item>
           </ion-col>
-          <ion-col>
+          <ion-col [ngStyle]="{'display':page !== 4 ? 'block' : 'none' }">
+            <ion-item (click)="paging('next')" detail="false" lines="none" button color="success" style="--border-radius: 20px;--border-width: 0px;--height:4rem">
+              <ion-icon slot="end" style="color: white;" name="arrow-forward-outline"></ion-icon>
+              <ion-label style="text-align: center;color: white;">{{language["Next"]}}</ion-label>
+            </ion-item>
+          </ion-col>
+          <ion-col [ngStyle]="{'display':page === 4 ? 'block' : 'none' }">
             <ion-item (click)="display()" detail="false" lines="none" button color="primary" style="--border-radius: 20px;--border-width: 0px;--height:4rem">
               <ion-label style="text-align: center;color: white;">{{language["Save"]}}</ion-label>
             </ion-item>
           </ion-col>
         </ion-row>
-    
+        <br>
+
+        <div *ngIf="page == 4">
+          <!-- <ion-row>
+            <ion-col>
+              <ion-item (click)="setOpen(false,'bookingModal');ionChange('reset')" detail="false" lines="none" button color="danger" style="--border-radius: 20px;--border-width: 0px;--height:4rem">
+                <ion-label style="text-align: center;color: white;">{{language["Cancel"]}}</ion-label>
+              </ion-item>
+            </ion-col>
+            <ion-col>
+              <ion-item (click)="display()" detail="false" lines="none" button color="primary" style="--border-radius: 20px;--border-width: 0px;--height:4rem">
+                <ion-label style="text-align: center;color: white;">{{language["Save"]}}</ion-label>
+              </ion-item>
+            </ion-col>
+          </ion-row> -->
+        </div>
+
       </ion-content>
     </ng-template>
   </ion-modal>
@@ -141,7 +265,7 @@
       </ion-item>
     </ion-col>
     <ion-col>
-      <ion-item detail="false" button color="primary" style="--border-radius: 20px;--border-width: 2px;--height:4rem; color: white;">
+      <ion-item (click)="bookHall()" detail="false" button color="primary" style="--border-radius: 20px;--border-width: 2px;--height:4rem; color: white;">
         <ion-label style="text-align: center;">Proceed</ion-label>
       </ion-item>
     </ion-col>
