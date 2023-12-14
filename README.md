@@ -7,15 +7,15 @@ SECV3104-02 PEMBANGUNAN APLIKASI (APPLICATIONS DEVELOPMENT)
 
 ![PHP][PHP]
 
-    $approval_file = $_FILES['approval_letter'];
+    $file = $_FILES['file'];
     
-    $file_name = $approval_file['name'];
+    $file_name = $file['name'];
 
-    $file_tmp = $approval_file['tmp_name'];
+    $file_tmp = $file['tmp_name'];
 
-    $file_size = $approval_file['size'];
+    $file_size = $file['size'];
 
-    $file_error = $sales_file['error'];
+    $file_error = $file['error'];
 
     $file_ext = explode('.', $file_name);
 
