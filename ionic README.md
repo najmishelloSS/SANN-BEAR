@@ -173,6 +173,27 @@ step 3 - `Build Project into Android Studio` via Command Prompt or Powershell in
 		};
    	}
 
+<br>
+<br>
+
+`FIle Upload Implementation`
+
+![HTML][HTML]
+
+
+	<ion-input type="file" (change)="onFileChange($event)"></ion-input>
+
+
+![TS][TS]
+
+	file:File
+	constructor(){}
+
+	  onFileChange(fileChangeEvent)
+	  {
+	        this.file = fileChangeEvent.target.files[0]
+	        console.log(this.file)
+	  }
 
 
 
