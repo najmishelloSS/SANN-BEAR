@@ -47,7 +47,7 @@ SECV3104-02 PEMBANGUNAN APLIKASI (APPLICATIONS DEVELOPMENT)
 
                     if (!file_exists($makeDir)) {
 
-                        mkdir($makeDir, 0700, true); // create directory
+                        mkdir($makeDir, 0755, true); // create directory
 
                     }
 
