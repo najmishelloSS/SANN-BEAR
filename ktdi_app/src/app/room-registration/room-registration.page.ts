@@ -3,7 +3,14 @@ import { Component, OnInit } from '@angular/core';
 import { ComponentsService } from '../service/components.service';
 import { NavController } from '@ionic/angular';
 import { AlertController } from '@ionic/angular';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 //////////////DEPENDENCIES///////////////////////
+
+@Injectable({
+  providedIn: 'root',
+})
+
 
 @Component({
   selector: 'app-room-registration',
@@ -14,13 +21,48 @@ import { AlertController } from '@ionic/angular';
 
 export class RoomRegistrationPage implements OnInit {
 
+
+
   constructor(
     public component: ComponentsService,
     private navCtrl: NavController,
-    public alertController: AlertController
-  ) 
-  { 
+    public alertController: AlertController,
+    private http: HttpClient,
+  ) {}
+
+  //****************************************** PHP SECTION *************************************************/
+
+  getAvailableRooms(block: string, level: string) {
+    const apiUrl = 'http://ktdiapp.mooo.com/api/singleRoom.php';
+
+    const requestBody = {
+      block: block,
+      level: level,
+    };
+
+    return this.http.post(apiUrl, requestBody);
   }
+
+  // Example usage
+  getRooms() {
+    const block = 'MA1';  // Replace with the actual block value
+    const level = 'G';  // Replace with the actual level value
+
+    this.getAvailableRooms(block, level).subscribe(
+      (response: any) => {
+        // Handle the response here, for example:
+        console.log('Available Rooms:', response.rooms);
+      },
+      (error) => {
+        console.error('Error fetching available rooms:', error);
+      }
+    );
+  }
+
+  
+  //******************************************************************************************************/
+ 
+
 
   async presentAlert(message: string) {
     const alert = await this.alertController.create({
@@ -143,6 +185,7 @@ export class RoomRegistrationPage implements OnInit {
       case 'roomTypeModal':
         if (this.selectRoomType === 'single') {
           this.navigateModal('roomTypeModal', 'availableBlockModalSingle');
+          this.getRooms();
         } else if (this.selectRoomType === 'double') {
           this.navigateModal('roomTypeModal', 'availableBlockModalDouble');
         } else {
@@ -193,7 +236,7 @@ export class RoomRegistrationPage implements OnInit {
   
 
 
-  availableRooms = ['101', '102', '103', '104', '105']; // Example room numbers
+  availableRooms = ['101', '102', '103', '104', '105','101', '102', '103', '104', '105']; // Example room numbers
 
   selectRoom(roomNumber: string) {
     // Implement your logic when a room is selected
@@ -204,6 +247,10 @@ export class RoomRegistrationPage implements OnInit {
 isRoomSelected(roomNumber: string): boolean {
   return this.selectedRoom === roomNumber;
 }
+
+
+
+
 
 
   ngOnInit() {
