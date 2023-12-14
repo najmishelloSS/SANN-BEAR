@@ -32,7 +32,7 @@ export class RoomRegistrationPage implements OnInit {
 
   //****************************************** PHP SECTION *************************************************/
 
-  getAvailableRooms(block: string, level: string) {
+ /* getAvailableRooms(block: string, level: string) {
     const apiUrl = 'http://ktdiapp.mooo.com/api/singleRoom.php';
 
     const requestBody = {
@@ -58,6 +58,36 @@ export class RoomRegistrationPage implements OnInit {
       }
     );
   }
+  */
+
+  async getAvailableRoomsCount(Block: string, Level: string): Promise<number> {
+    const response = await fetch('http://ktdiapp.mooo.com/api/singleRoom.php', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: `Block=${Block}&Level=${Level}`,
+    });
+
+    const data = await response.json();
+
+    if ('empty_rooms_count' in data) {
+      return data['empty_rooms_count'];
+    } else {
+      // Handle error case
+      console.error('Error fetching available rooms count:', data['error']);
+      return -1; // or any other appropriate value
+    }
+  }
+
+  async onButtonClick() {
+    const block = 'MA1';
+    const level = 'G';
+
+    const count = await this.getAvailableRoomsCount(block, level);
+    console.log('Number of available rooms with status "empty":', count);
+  }
+
 
   
   //******************************************************************************************************/
@@ -185,7 +215,6 @@ export class RoomRegistrationPage implements OnInit {
       case 'roomTypeModal':
         if (this.selectRoomType === 'single') {
           this.navigateModal('roomTypeModal', 'availableBlockModalSingle');
-          this.getRooms();
         } else if (this.selectRoomType === 'double') {
           this.navigateModal('roomTypeModal', 'availableBlockModalDouble');
         } else {
