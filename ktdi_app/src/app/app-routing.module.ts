@@ -7,7 +7,7 @@ const routes: Routes = [
     path: 'home/:id',
     resolve:{
       special:DataResolverService
-    }, 
+    },
     loadChildren: () => import('./home/home.module').then( m => m.HomePageModule)
   },
   {
@@ -27,9 +27,9 @@ const routes: Routes = [
     path: 'profile/:id',
     resolve:{
       special:DataResolverService
-    }, 
+    },
     loadChildren: () => import('./profile/profile.module').then( m => m.ProfilePageModule)
-  },   
+  },
   {
     path: 'login',
     loadChildren: () => import('./login/login.module').then( m => m.LoginPageModule)
@@ -38,7 +38,7 @@ const routes: Routes = [
     path: 'login/:id',
     resolve:{
       special:DataResolverService
-    }, 
+    },
     loadChildren: () => import('./login/login.module').then( m => m.LoginPageModule)
   },
   {
@@ -53,7 +53,7 @@ const routes: Routes = [
     path: 'bookhall/:id',
     resolve:{
       special:DataResolverService
-    }, 
+    },
     loadChildren: () => import('./bookhall/bookhall.module').then( m => m.BookhallPageModule)
   },
   {
@@ -64,7 +64,7 @@ const routes: Routes = [
     path: 'room-registration/:id',
     resolve:{
       special:DataResolverService
-    }, 
+    },
     loadChildren: () => import('./room-registration/room-registration.module').then( m => m.RoomRegistrationPageModule)
   },
   {
@@ -75,7 +75,7 @@ const routes: Routes = [
     path: 'electric/:id',
     resolve:{
       special:DataResolverService
-    }, 
+    },
     loadChildren: () => import('./electric/electric.module').then( m => m.ElectricPageModule)
   },
   {
@@ -86,14 +86,37 @@ const routes: Routes = [
     path: 'feedback/:id',
     resolve:{
       special:DataResolverService
-    }, 
+    },
     loadChildren: () => import('./feedback/feedback.module').then( m => m.FeedbackPageModule)
+  },
+  {
+    path: 'report',
+    loadChildren: () => import('./report/report.module').then( m => m.ReportPageModule)
+  },
+  {
+    path: 'report/:id',
+    resolve:{
+      special:DataResolverService
+    },
+    loadChildren: () => import('./report/report.module').then( m => m.ReportPageModule)
+  },
+  {
+    path: 'report-status',
+    loadChildren: () => import('./report-status/report-status.module').then( m => m.ReportStatusPageModule)
+  },
+  {
+    path: 'report-status/:id',
+    resolve:{
+      special:DataResolverService
+    },
+    loadChildren: () => import('./report-status/report-status.module').then( m => m.ReportStatusPageModule)
   },
 
 
 
 
- 
+
+
 ];
 
 @NgModule({

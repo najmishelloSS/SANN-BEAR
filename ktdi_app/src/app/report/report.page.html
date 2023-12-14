@@ -1,0 +1,63 @@
+<!-- report.page.html -->
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button [defaultHref]="'/home'"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Report Damage</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Report Damage</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <!-- Add this inside the <ion-content> tag -->
+
+  <div *ngIf="!submitted">
+    <!-- Upload File Section -->
+    <ion-item>
+      &nbsp;<ion-label>Upload File : </ion-label>&nbsp;
+      <label class="file-input-label">
+        <input type="file" class="file-input" />
+      </label>
+    </ion-item>
+
+    <!-- Damage Types with Checkboxes -->
+    <ion-list>
+      <ion-item *ngFor="let damageType of damageTypes" lines="none">
+        <ion-label>{{ damageType.label }}</ion-label>
+        <ion-checkbox [(ngModel)]="damageType.checked"></ion-checkbox>
+      </ion-item>
+    </ion-list>
+
+    <!-- Description Section -->
+    <ion-label>Description : </ion-label><br>
+    &nbsp;<ion-textarea [(ngModel)]="damageDescription" labelPlacement="floating" fill="outline" placeholder="Enter the damage description"></ion-textarea>&nbsp;
+
+    <!-- Submit Button -->
+    <ion-col>
+      <ion-item detail="false" button color="primary" style="--border-radius: 20px; --border-width: 2px; --height: 4rem; color: white;"
+                (click)="submitReport()">
+        <ion-label style="text-align: center;">Submit</ion-label>
+      </ion-item>
+    </ion-col>
+  </div>
+
+  <!-- Confirmation Message Section -->
+  <div *ngIf="submitted" style="text-align: center; margin-top: 50px;">
+    <p><strong>Your report has been submitted</strong></p>
+    <p>An email has been sent to you for confirmation</p>
+
+    <!-- Back to Home Button -->
+    <ion-col>
+      <ion-item (click)="backToHome()" detail="false" button color="primary"
+                style="--border-radius: 20px; --border-width: 2px; --height: 4rem; color: white; margin-top: 20px;">
+        <ion-label style="text-align: center;">Back to Home</ion-label>
+      </ion-item>
+    </ion-col>
+  </div>
+</ion-content>

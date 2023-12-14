@@ -1,7 +1,7 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>
-      KTDI_APP
+      <strong>KTDI UTM</strong>
     </ion-title>
   </ion-toolbar>
 </ion-header>
@@ -19,23 +19,41 @@
       <ion-img src="../../assets/icon/bell.png"></ion-img>
     </div>
   </div>
-  
+
   <!--searchbar-->
   <app-searchbar></app-searchbar>
 
   <!--slider-->
   <swiper-container (slidechange)="swiperSlideChanged($event)" [loop]="true" [pagination]="true">
-    <swiper-slide src="../../ktdi_app/src/png/utm.png">pic 1</swiper-slide>
-    <swiper-slide src="../../ktdi_app/src/png/utm.png">pic 2</swiper-slide>
-    <swiper-slide src="../../ktdi_app/src/png/utm.png">pic 3</swiper-slide>
+    <swiper-slide>
+      <ion-img  class="dewan" src="../../assets/image/dewan.jpg" alt="dewan"></ion-img>
+    </swiper-slide>
+    <swiper-slide>
+      <ion-img class="ktdi" src="../../assets/image/ktdi.jpg" alt="ktdi"></ion-img>
+    </swiper-slide>
+    <swiper-slide>
+      <ion-img class="utm" src="../../assets/image/utm.png" alt="utm"></ion-img>
+    </swiper-slide>
  </swiper-container>
 
-    <div id="container">
-    <ion-button color="primary" (click)="navigate('bookhall', 'forward')">Go to Hall Booking</ion-button>
-    <ion-button color="primary" (click)="navigate('room-registration', 'forward')">Go to Room Registration</ion-button>
+ <!--services-->
+ <h4>Services</h4>
+ <div class="categories">
+    <ion-button color="primary" (click)="navigate('bookhall', 'forward')">Hall Booking</ion-button>
+    <ion-button color="primary" (click)="navigate('report', 'forward')">Report</ion-button>
+    <ion-button color="primary" (click)="navigate('report-status', 'forward')">Report Status</ion-button>
+    <ion-button color="primary" (click)="navigate('room-registration', 'forward')">Room Registration</ion-button>
     <ion-button color="primary" (click)="navigate('electric', 'forward')">Register Electrical Appliances</ion-button>
     <ion-button color="primary" (click)="navigate('feedback', 'forward')">Feedback & Recommendation</ion-button>
-    
+
+  </div>
+
+  <!--hall available-->
+  <h4>Hall Available</h4>
+  <div class="hall-list">
+    <ion-img src="../../assets/image/dewan.jpg" alt="utm"></ion-img>
+    <ion-img src="../../assets/image/dewan.jpg" alt="utm"></ion-img>
+    <ion-img src="../../assets/image/dewan.jpg" alt="utm"></ion-img>
   </div>
 
 </ion-content>
