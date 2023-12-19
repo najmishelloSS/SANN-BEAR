@@ -5,6 +5,7 @@ import { NavController } from '@ionic/angular';
 import { AlertController } from '@ionic/angular';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { from } from 'rxjs';
 //////////////DEPENDENCIES///////////////////////
 
 @Injectable({
@@ -32,71 +33,45 @@ export class RoomRegistrationPage implements OnInit {
 
   //****************************************** PHP SECTION *************************************************/
 
-
-async getAvailableRoomsCountByBlockAndLevel(Block: string, Level: string): Promise<number> {
-  try {
-    const response = await fetch('http://ktdiapp.mooo.com/api/singleRoom.php', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-      },
-      body: `Block=${Block}&Level=${Level}`,
-    });
-
-    if (!response.ok) {
-      // Handle non-successful responses
-      console.error(`Error: ${response.status} - ${response.statusText}`);
+  async getAvailableRooms(Block: string, Level: string): Promise<number> {
+    try {
+      const response = await fetch('http://ktdiapp.mooo.com/api/singleRoom.php', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: `Block=${Block}&Level=${Level}`,
+      });
+  
+      if (!response.ok) {
+        // Handle non-successful responses
+        console.error(`Error: ${response.status} - ${response.statusText}`);
+        return -1; // or throw an error if you prefer
+      }
+  
+      const data = await response.json();
+  
+      if ('empty_rooms_count' in data) {
+        return data['empty_rooms_count'];
+      } else if (data.error) {
+        // Handle API-level errors
+        console.error(`API Error: ${data.error}`);
+        return -1; // or throw an error if you prefer
+      } else {
+        // Handle unexpected response format
+        console.error('Unexpected response format:', data);
+        return -1; // or throw an error if you prefer
+      }
+    } catch (error) {
+      // Handle other errors (e.g., network issues)
+      console.error('Unexpected error:', error);
       return -1; // or throw an error if you prefer
     }
-
-    const data = await response.json();
-
-    if ('empty_rooms_count' in data) {
-      return data['empty_rooms_count'];
-    } else if (data.error) {
-      // Handle API-level errors
-      console.error(`API Error: ${data.error}`);
-      return -1; // or throw an error if you prefer
-    } else {
-      // Handle unexpected response format
-      console.error('Unexpected response format:', data);
-      return -1; // or throw an error if you prefer
-    }
-  } catch (error) {
-    // Handle other errors (e.g., network issues)
-    console.error('Unexpected error:', error);
-    return -1; // or throw an error if you prefer
   }
-}
 
-
-async onButtonClick(block, level) {
-
-  const count = await this.getAvailableRoomsCountByBlockAndLevel(block, level);
-  console.log('Number of available rooms with status "empty":', count);
-
-  if (count === -1) {
-    console.error('Error fetching available rooms count. ');
+  getAvailableRoomsObservable(Block: string, Level: string) {
+    return from(this.getAvailableRooms(Block, Level));
   }
-}
-
-async getRoomTotal(block, level) {
-  try {
-    const count = await this.getAvailableRoomsCountByBlockAndLevel(block, level);
-
-    if (count === -1) {
-      return 'Error fetching available rooms count.';
-    }
-
-    return 'Number of available rooms with status "empty": ${count}';
-  } catch (error) {
-    console.error('Unexpected error:', error);
-    return 'Error fetching available rooms count.';
-  }
-}
-
-
-
 
 
   
