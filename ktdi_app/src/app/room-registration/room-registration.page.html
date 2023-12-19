@@ -52,7 +52,8 @@
         <ion-item lines="none">
           <ion-label>
             <span class="label-text">MA1</span>
-            <span class="additional-text"> {{ GetRoomTotal('MA1', 'G') }} Rooms Available</span>
+            <span class="additional-text"> {{ filter('MA1', 'G') }} Rooms Available</span>
+            <!-- <span class="additional-text"> {{ getAvailableRooms('MA1', 'G') }} Rooms Available</span> -->
           </ion-label>
           <ion-radio slot="end" value="MA1"></ion-radio>
         </ion-item></ion-card>
@@ -61,7 +62,7 @@
         <ion-item lines="none">
           <ion-label>
             <span class="label-text">MA4</span>
-            <span class="additional-text">100 Rooms Available</span>
+            <span class="additional-text"> {{ filter('MA4', 'G') }} Rooms Available</span>
           </ion-label>
           <ion-radio slot="end" value="MA4"></ion-radio>
         </ion-item></ion-card>

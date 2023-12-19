@@ -22,7 +22,7 @@ import { from } from 'rxjs';
 
 export class RoomRegistrationPage implements OnInit {
 
-
+  emptyRooms : any;
 
   constructor(
     public component: ComponentsService,
@@ -33,7 +33,33 @@ export class RoomRegistrationPage implements OnInit {
 
   //****************************************** PHP SECTION *************************************************/
 
-  async getAvailableRoomsCount(Block: string, Level: string): Promise<number> {
+  ngOnInit() { //initialization
+    this.getEmptyRoom()
+  }
+
+  async getEmptyRoom(){ //get all single room
+    let formData = new FormData();
+
+    this.component.getAPI('http://ktdiapp.mooo.com/api/single_room.php', formData, "get").subscribe( (response:any) => {
+     console.log(response)
+     this.emptyRooms = response.Room
+    }, error => {
+        console.log(error)
+        this.component.toast("Something went wrong, please try again later")
+    });
+  }
+
+  filter(Block, Level){
+    let result
+    for(let i = 0; i < this.emptyRooms.length ; i++){
+      result = this.emptyRooms.filter(e => e["Block"] == Block) // filter out block != MA1
+      result = result.filter(e => e["Level"] == Level) // filter out level != 1
+    }
+    console.log(result)
+    return result.length // return count
+  }
+
+  async getAvailableRooms(Block: string, Level: string) {
     try {
       const response = await fetch('http://ktdiapp.mooo.com/api/singleRoom.php', {
         method: 'POST',
@@ -69,33 +95,11 @@ export class RoomRegistrationPage implements OnInit {
     }
   }
 
-
-  async onButtonClick() {
-    const block = 'MA1';
-    const level = 'G';
-  
-    const count = await this.getAvailableRoomsCount(block, level);
-    console.log('Number of available rooms with status "empty":', count);
-  
-    if (count === -1) {
-      console.error('Error fetching available rooms count. ');
-    }
+  getAvailableRoomsObservable(Block: string, Level: string) {
+    return from(this.getAvailableRooms(Block, Level));
   }
 
-  async GetRoomTotal(block, level) {
-    try {
-      const count = await this.getAvailableRoomsCount(block, level);
-  
-      if (count === -1) {
-        return 'Error fetching available rooms count.';
-      }
-  
-      return `Number of available rooms with status "empty": ${count} Rooms Available`;
-    } catch (error) {
-      console.error('Unexpected error:', error);
-      return 'Error fetching available rooms count.';
-    }
-  }
+
   
   //******************************************************************************************************/
  
@@ -289,7 +293,6 @@ isRoomSelected(roomNumber: string): boolean {
 
 
 
-  ngOnInit() {
-  }
+
 
 }

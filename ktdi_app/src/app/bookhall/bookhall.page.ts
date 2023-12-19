@@ -271,20 +271,21 @@ export class BookhallPage implements OnInit {
     formData.append('programme_name', this.booking.name!);
     formData.append('programme_fee', this.booking.total.toString());
     formData.append('approval_letter', this.file);
+    // formData.append('programme_name', JSON.stringify(this.data)); // send array
     console.log(this.booking)
 
     this.component.getAPI('http://ktdiapp.mooo.com/api/book_hall.php', formData, "post").subscribe( (data:any) => { //login API
-    data.forEach( async item => {
-      if(item.Code == '200'){
-        console.log(data)
-      }else{
+      data.forEach( async item => {
+        if(item.Code == '200'){
+          console.log(data)
+        }else{
+          this.component.toast(this.language["Something went wrong, please try again later"])
+        }
+      });
+    }, async error => {
+        console.log(error)
         this.component.toast(this.language["Something went wrong, please try again later"])
-      }
     });
-  }, async error => {
-      console.log(error)
-      this.component.toast(this.language["Something went wrong, please try again later"])
-  });
   }
 
 }
