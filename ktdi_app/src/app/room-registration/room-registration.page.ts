@@ -33,7 +33,7 @@ export class RoomRegistrationPage implements OnInit {
 
   //****************************************** PHP SECTION *************************************************/
 
-  async getAvailableRooms(Block: string, Level: string): Promise<number> {
+  async getAvailableRoomsCount(Block: string, Level: string): Promise<number> {
     try {
       const response = await fetch('http://ktdiapp.mooo.com/api/singleRoom.php', {
         method: 'POST',
@@ -69,11 +69,33 @@ export class RoomRegistrationPage implements OnInit {
     }
   }
 
-  getAvailableRoomsObservable(Block: string, Level: string) {
-    return from(this.getAvailableRooms(Block, Level));
+
+  async onButtonClick() {
+    const block = 'MA1';
+    const level = 'G';
+  
+    const count = await this.getAvailableRoomsCount(block, level);
+    console.log('Number of available rooms with status "empty":', count);
+  
+    if (count === -1) {
+      console.error('Error fetching available rooms count. ');
+    }
   }
 
-
+  async GetRoomTotal(block, level) {
+    try {
+      const count = await this.getAvailableRoomsCount(block, level);
+  
+      if (count === -1) {
+        return 'Error fetching available rooms count.';
+      }
+  
+      return `Number of available rooms with status "empty": ${count} Rooms Available`;
+    } catch (error) {
+      console.error('Unexpected error:', error);
+      return 'Error fetching available rooms count.';
+    }
+  }
   
   //******************************************************************************************************/
  
