@@ -26,7 +26,7 @@
       </ion-segment>
     </div>
 
-    <ion-button expand="full" (click)="onButtonClick()">Get Available Rooms Count</ion-button>
+    <ion-button expand="full" (click)="onButtonClick('MA1','G')">Get Available Rooms Count</ion-button>
     <ion-button expand="full" shape="round" color="primary" class="ion-margin" (click)="selectedValue('roomTypeModal','availableBlockModalSingle')" style="height: 7%;"> <!--(click)="navigateModal(roomTypeModal, availableBlockModalSingle)""  -->
       Continue
     </ion-button>
@@ -52,7 +52,7 @@
         <ion-item lines="none">
           <ion-label>
             <span class="label-text">MA1</span>
-            <span class="additional-text">100 Rooms Available</span>
+            <span class="additional-text"> 100 Rooms Available</span>
           </ion-label>
           <ion-radio slot="end" value="MA1"></ion-radio>
         </ion-item></ion-card>
@@ -118,7 +118,7 @@
          <ion-item lines="none">
           <ion-label>
             <span class="label-text">LG</span>
-            <span class="additional-text">100 Rooms Available</span>
+            <span class="additional-text">100 rooms available</span>
           </ion-label>
           <ion-radio slot="end" value="LG"></ion-radio>
         </ion-item></ion-card>
@@ -228,60 +228,68 @@
 
 
 
-<!--******************************** This is for double Room *************************************-->
+<!--********************************************************  THIS IS FOR DOUBLE ROOM **************************************************************-->
 
   <!-- Select Block -->
 
   <div *ngIf="availableBlockModalDouble" class="ion-padding" style="display: flex; flex-direction: column; height: 100%;">
     <ion-header>
+      <ion-toolbar>
         <ion-buttons slot="start">
           <!-- Use the ion-back-button component to navigate back to the roomTypeModal -->
           <ion-back-button [defaultHref]="'/room-registration'" (click)="navigateModal('availableBlockModalSingle','roomTypeModal')" text = ""></ion-back-button>
         </ion-buttons>
-        <ion-title class="ion-text-center" style = "font-size: 20px;">Available Blocks</ion-title>
+        <ion-title class="ion-text-center" style = "font-size: 20px;">Available Blocks</ion-title></ion-toolbar>
     </ion-header>
 
     <div class="ion-padding" class="ion-padding" style="flex: 1; display: flex; flex-direction: column; justify-content: space-between;">
       <ion-radio-group [(ngModel)]="selectedBlock">
+
+        <ion-card>
         <ion-item lines="none">
           <ion-label>
             <span class="label-text">MA1</span>
             <span class="additional-text">100 Rooms Available</span>
           </ion-label>
           <ion-radio slot="end" value="MA1"></ion-radio>
-        </ion-item>
+        </ion-item></ion-card>
 
+        <ion-card>
         <ion-item lines="none">
           <ion-label>
             <span class="label-text">MA4</span>
             <span class="additional-text">100 Rooms Available</span>
           </ion-label>
           <ion-radio slot="end" value="MA4"></ion-radio>
-        </ion-item>
+        </ion-item></ion-card>
 
+
+        <ion-card>
         <ion-item lines="none">
           <ion-label>
             <span class="label-text">MA5</span>
             <span class="additional-text">100 Rooms Available</span>
           </ion-label>
           <ion-radio slot="end" value="MA5"></ion-radio>
-        </ion-item>
+        </ion-item></ion-card>
 
+        <ion-card>
         <ion-item lines="none">
           <ion-label>
             <span class="label-text">MA6</span>
             <span class="additional-text">100 Rooms Available</span>
           </ion-label>
           <ion-radio slot="end" value="MA6"></ion-radio>
-        </ion-item>
+        </ion-item></ion-card>
 
+        <ion-card>
         <ion-item lines="none">
           <ion-label>
             <span class="label-text">MA7</span>
             <span class="additional-text">100 Rooms Available</span>
           </ion-label>
           <ion-radio slot="end" value="MA7"></ion-radio>
-        </ion-item>
+        </ion-item></ion-card>
       </ion-radio-group>
 
       <ion-button expand="full" shape="round" color="primary" (click)="selectedValue('availableBlockModalDouble','availableLevelModalDOuble')" style="height: 7%;">Continue</ion-button>
@@ -292,55 +300,62 @@
 
      <div *ngIf="availableLevelModalDouble" class="ion-padding" style="display: flex; flex-direction: column; height: 100%;">
       <ion-header>
+        ,<ion-toolbar>
           <ion-buttons slot="start">
             <!-- Use the ion-back-button component to navigate back to the roomTypeModal -->
             <ion-back-button [defaultHref]="'/room-registration'" (click)="navigateModal('availableLevelModalSingle','availableBlockModalSingle')" text = ""></ion-back-button>
           </ion-buttons>
-          <ion-title class="ion-text-center">Available Level</ion-title>
+          <ion-title class="ion-text-center">Available Level</ion-title></ion-toolbar>
       </ion-header>
   
       <div class="ion-padding" class="ion-padding" style="flex: 1; display: flex; flex-direction: column; justify-content: space-between;">
   
         <ion-radio-group [(ngModel)]="selectedLevel">
+
+          <ion-card>
            <ion-item lines="none">
             <ion-label>
               <span class="label-text">LG</span>
               <span class="additional-text">100 Rooms Available</span>
             </ion-label>
             <ion-radio slot="end" value="LG"></ion-radio>
-          </ion-item>
-  
+          </ion-item></ion-card>
+
+          <ion-card>
           <ion-item lines="none">
             <ion-label>
               <span class="label-text">L1</span>
               <span class="additional-text">100 Rooms Available</span>
             </ion-label>
             <ion-radio slot="end" value="L1"></ion-radio>
-          </ion-item>
-  
+          </ion-item></ion-card>
+
+          <ion-card>
           <ion-item lines="none">
             <ion-label>
               <span class="label-text">L2</span>
               <span class="additional-text">100 Rooms Available</span>
             </ion-label>
             <ion-radio slot="end" value="L2"></ion-radio>
-          </ion-item>
-  
+          </ion-item></ion-card>
+
+          <ion-card>
           <ion-item lines="none">
             <ion-label>
               <span class="label-text">L3</span>
               <span class="additional-text">100 Rooms Available</span>
             </ion-label>
             <ion-radio slot="end" value="L3"></ion-radio>
-          </ion-item>
-  
+          </ion-item></ion-card>
+
+          <ion-card>
           <ion-item lines="none">
             <ion-label>
               <span class="label-text">L4</span>
               <span class="additional-text">100 Rooms Available</span>
             </ion-label>
             <ion-radio slot="end" value="L4"></ion-radio>
-          </ion-item>
+          </ion-item></ion-card>
         </ion-radio-group>
   
         <ion-button expand="full" shape="round" color="primary"(click)="selectedValue('availableLevelModalSingle','availableRoomModalSingle')" style="height: 7%;">Continue</ion-button>

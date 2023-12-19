@@ -32,35 +32,9 @@ export class RoomRegistrationPage implements OnInit {
 
   //****************************************** PHP SECTION *************************************************/
 
- /* getAvailableRooms(block: string, level: string) {
-    const apiUrl = 'http://ktdiapp.mooo.com/api/singleRoom.php';
 
-    const requestBody = {
-      block: block,
-      level: level,
-    };
-
-    return this.http.post(apiUrl, requestBody);
-  }
-
-  // Example usage
-  getRooms() {
-    const block = 'MA1';  // Replace with the actual block value
-    const level = 'G';  // Replace with the actual level value
-
-    this.getAvailableRooms(block, level).subscribe(
-      (response: any) => {
-        // Handle the response here, for example:
-        console.log('Available Rooms:', response.rooms);
-      },
-      (error) => {
-        console.error('Error fetching available rooms:', error);
-      }
-    );
-  }
-  */
-
-  async getAvailableRoomsCount(Block: string, Level: string): Promise<number> {
+async getAvailableRoomsCountByBlockAndLevel(Block: string, Level: string): Promise<number> {
+  try {
     const response = await fetch('http://ktdiapp.mooo.com/api/singleRoom.php', {
       method: 'POST',
       headers: {
@@ -69,24 +43,60 @@ export class RoomRegistrationPage implements OnInit {
       body: `Block=${Block}&Level=${Level}`,
     });
 
+    if (!response.ok) {
+      // Handle non-successful responses
+      console.error(`Error: ${response.status} - ${response.statusText}`);
+      return -1; // or throw an error if you prefer
+    }
+
     const data = await response.json();
 
     if ('empty_rooms_count' in data) {
       return data['empty_rooms_count'];
+    } else if (data.error) {
+      // Handle API-level errors
+      console.error(`API Error: ${data.error}`);
+      return -1; // or throw an error if you prefer
     } else {
-      // Handle error case
-      console.error('Error fetching available rooms count:', data['error']);
-      return -1; // or any other appropriate value
+      // Handle unexpected response format
+      console.error('Unexpected response format:', data);
+      return -1; // or throw an error if you prefer
     }
+  } catch (error) {
+    // Handle other errors (e.g., network issues)
+    console.error('Unexpected error:', error);
+    return -1; // or throw an error if you prefer
   }
+}
 
-  async onButtonClick() {
-    const block = 'MA1';
-    const level = 'G';
 
-    const count = await this.getAvailableRoomsCount(block, level);
-    console.log('Number of available rooms with status "empty":', count);
+async onButtonClick(block, level) {
+
+  const count = await this.getAvailableRoomsCountByBlockAndLevel(block, level);
+  console.log('Number of available rooms with status "empty":', count);
+
+  if (count === -1) {
+    console.error('Error fetching available rooms count. ');
   }
+}
+
+async getRoomTotal(block, level) {
+  try {
+    const count = await this.getAvailableRoomsCountByBlockAndLevel(block, level);
+
+    if (count === -1) {
+      return 'Error fetching available rooms count.';
+    }
+
+    return 'Number of available rooms with status "empty": ${count}';
+  } catch (error) {
+    console.error('Unexpected error:', error);
+    return 'Error fetching available rooms count.';
+  }
+}
+
+
+
 
 
   
