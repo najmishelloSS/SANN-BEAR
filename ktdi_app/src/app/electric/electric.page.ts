@@ -1,11 +1,11 @@
-import { Component } from '@angular/core';
-import { NavController } from '@ionic/angular';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { Component, OnInit } from '@angular/core';
 
 interface Appliance {
   name: string;
   price: number;
   category: string;
-  image: string; // Image URL property added
+  image: string;
   selected: boolean;
 }
 
@@ -14,52 +14,73 @@ interface Appliance {
   templateUrl: './electric.page.html',
   styleUrls: ['./electric.page.scss'],
 })
-export class ElectricPage {
-  appliances: Appliance[] = [
-    // Kitchen Appliances with image URLs
-    { name: 'Electric Kettle', price: 20, category: 'Kitchen', image: 'assets/image/kettle.png', selected: false },
-    { name: 'Microwave', price: 20, category: 'Kitchen', image: 'assets/image/microwave.png', selected: false },
-    { name: 'Toaster', price: 20, category: 'Kitchen', image: 'assets/image/toaster.png', selected: false },
+export class ElectricPage implements OnInit {
+  apiUrl = 'http://ktdiapp.mooo.com/api/electric.php';
 
-    // Personal Grooming Appliances with image URLs
-    { name: 'Hair Dryer', price: 20, category: 'Personal', image: 'assets/image/hair dryer.png', selected: false },
-    { name: 'Table Fan', price: 20, category: 'Personal', image: 'assets/image/tablefan.png', selected: false },
-    { name: 'Iron', price: 20, category: 'Personal', image: 'assets/image/iron.png', selected: false },
-
-    // Study Appliances with image URLs
-    { name: 'Pc/Laptop/Printer', price: 0, category: 'Study', image: 'assets/image/laptop.png', selected: false },
-    { name: 'Phone Charger', price: 0, category: 'Study', image: 'assets/image/charger.png', selected: false },
-
-    // Other Appliances with image URLs
-    { name: 'Extension', price: 20, category: 'Other', image: 'assets/image/extension.png', selected: false },
-    { name: 'Table Lamp', price: 20, category: 'Other', image: 'assets/image/desk lamp.png', selected: false }
-  ];
-
+  appliances: Appliance[] = [];
   totalPrice = 0;
+  showPaymentSection = false;
+  selectedPaymentMethod: string = '';
+  submitted = false;
+
+  constructor(private http: HttpClient) {}
+
+  ngOnInit(): void {
+    this.getAppliances();
+  }
+
+  getAppliances(): void {
+    this.http.get<any>(this.apiUrl).subscribe(
+      (data: any) => {
+        if (data && data.Appliances && Array.isArray(data.Appliances)) {
+          this.appliances = this.removeDuplicates(data.Appliances, 'name');
+          this.updateTotalPrice();
+        } else {
+          console.error('Empty or invalid data received from the API.');
+        }
+      },
+      (error: HttpErrorResponse) => {
+        console.error('API Error:', error);
+        console.error('Error fetching appliances:', error.message);
+      }
+    );
+  }
+
+  sortedCategories: string[] = ['Kitchen', 'Study', 'Personal', 'Others'];
 
   getAppliancesByCategory(category: string): Appliance[] {
-    return this.appliances.filter(appliance => appliance.category === category);
+    return this.appliances.filter((appliance) => appliance.category === category);
   }
-  
-  constructor(private navCtrl: NavController) {}
 
-  selectAppliance(appliance: Appliance) {
-    console.log('Selected Appliance:', appliance.name);
-    console.log('Price:', appliance.price);
+  removeDuplicates(array: Appliance[], key: string): Appliance[] {
+    return array.filter(
+      (obj, index, self) => index === self.findIndex((el) => el[key] === obj[key])
+    );
+  }
 
-    // Toggle selection status
+  toggleSelection(appliance: Appliance): void {
     appliance.selected = !appliance.selected;
-
-    // Adjust total price based on selection
-    if (appliance.selected) {
-      this.totalPrice += appliance.price;
-    } else {
-      this.totalPrice -= appliance.price;
-    }
+    this.updateTotalPrice();
   }
 
-  proceed() {
-    console.log('Proceed clicked!');
-    // Implement further actions as needed
+  updateTotalPrice(): void {
+    this.totalPrice = this.appliances
+      .filter((appliance) => appliance.selected)
+      .reduce((acc, curr) => acc + curr.price, 0);
+  }
+
+  proceedToPayment(): void {
+    this.showPaymentSection = true;
+  }
+
+  selectPaymentMethod(method: string): void {
+    this.selectedPaymentMethod = method;
+  }
+
+  paymentMethods = ['Credit Card', 'Debit Card', 'PayPal'];
+
+  submitRegistration(): void {
+    // Logic for submitting registration goes here
+    this.submitted = true;
   }
 }
