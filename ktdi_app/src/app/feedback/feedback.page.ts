@@ -8,9 +8,9 @@ import { HttpClient } from '@angular/common/http';
   styleUrls: ['./feedback.page.scss'],
 })
 export class FeedbackPage {
-  collegeManagementRating: number = 0;
-  accommodationRating: number = 0;
-  facilitiesRating: number = 0;
+  collegeManagementRating: any = 0;
+  accommodationRating: any = 0;
+  facilitiesRating: any = 0;
   submitted: boolean = false;
   userRecommendation: string = '';
 
@@ -48,25 +48,22 @@ export class FeedbackPage {
   // }
 
   submitReport() {
+
     console.log('Submitting Report');
     console.log('User Recommendation:', this.userRecommendation);
 
     let formData = new FormData();
-      formData.append('college_management_rating', this.collegeManagementRating.toString());
-      formData.append('accommodation_rating', this.accommodationRating.toString());
-      formData.append('facilities_rating', this.facilitiesRating.toString());
-      formData.append('user_recommendation', this.userRecommendation);
+    formData.append('college_management_rating', this.collegeManagementRating);
+    formData.append('accommodation_rating', this.accommodationRating);
+    formData.append('facilities_rating', this.facilitiesRating);
+    formData.append('user_recommendation', this.userRecommendation);
 
-      // const fileInput: HTMLInputElement | null = document.querySelector('#fileInput');
-
-      // if (fileInput && fileInput.files && fileInput.files.length > 0) {
-      //   // Append the file to FormData
-      //   const selectedFile: File = fileInput.files[0];
-      //   formData.append('uploaded_file', selectedFile, selectedFile.name);
-    
-      //   // Log the selected file
-      //   console.log('Selected File:', selectedFile);
-      // }
+    // const formData = {
+    //   college_management_rating: this.collegeManagementRating,
+    //   accommodation_rating: this.accommodationRating,
+    //   facilities_rating: this.facilitiesRating,
+    //   user_recommendation: this.userRecommendation,
+    // };
 
     // Replace the URL with your actual PHP backend endpoint
     const feedbackEndpoint = 'http://ktdiapp.mooo.com/api/feedback.php';

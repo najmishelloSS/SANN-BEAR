@@ -3,7 +3,15 @@ import { Component, OnInit } from '@angular/core';
 import { ComponentsService } from '../service/components.service';
 import { NavController } from '@ionic/angular';
 import { AlertController } from '@ionic/angular';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { from } from 'rxjs';
 //////////////DEPENDENCIES///////////////////////
+
+@Injectable({
+  providedIn: 'root',
+})
+
 
 @Component({
   selector: 'app-room-registration',
@@ -14,13 +22,69 @@ import { AlertController } from '@ionic/angular';
 
 export class RoomRegistrationPage implements OnInit {
 
+  emptyRooms : any;
+
   constructor(
     public component: ComponentsService,
     private navCtrl: NavController,
-    public alertController: AlertController
-  ) 
-  { 
+    public alertController: AlertController,
+    private http: HttpClient,
+  ) {}
+
+  //****************************************** PHP SECTION *************************************************/
+
+  ngOnInit() { //initialization
+    this.getEmptyRoom()
   }
+
+  async getEmptyRoom(){ //get all single room
+    let formData = new FormData();
+
+    this.component.getAPI('http://ktdiapp.mooo.com/api/single_room.php', formData, "get").subscribe( (response:any) => {
+     console.log(response)
+     this.emptyRooms = response.Room
+    }, error => {
+        console.log(error)
+        this.component.toast("Something went wrong, please try again later")
+    });
+  }
+
+  filterLevel(Level){
+    let Block = this.selectedBlock
+    let result
+    for(let i = 0; i < this.emptyRooms.length ; i++){
+      result = this.emptyRooms.filter(e => e["Block"] == Block) // filter out block != MA1
+      result = result.filter(e => e["Level"] == Level) // filter out level != 1
+    }
+    console.log(result)
+    return result.length // return count
+  }
+
+  filterBlock(Block){
+    let result
+    for(let i = 0; i < this.emptyRooms.length ; i++){
+      result = this.emptyRooms.filter(e => e["Block"] == Block) // filter out block != MA1
+    }
+    console.log(result)
+    return result.length // return array
+  }
+
+  filterRoom(){
+    let Block = this.selectedBlock; 
+    let Level = this.selectedLevel; 
+    let result
+    for(let i = 0; i < this.emptyRooms.length ; i++){
+      result = this.emptyRooms.filter(e => e["Block"] == Block) 
+      result = result.filter(e => e["Level"] == Level) // filter out level != 1// filter out block != MA1
+    }
+    let roomNumbers = result.map(e => e["RoomNumber"]) // extract the RoomNumber property
+    console.log (roomNumbers)
+  }
+
+  
+  //******************************************************************************************************/
+ 
+
 
   async presentAlert(message: string) {
     const alert = await this.alertController.create({
@@ -142,6 +206,7 @@ export class RoomRegistrationPage implements OnInit {
     switch (location) {
       case 'roomTypeModal':
         if (this.selectRoomType === 'single') {
+          this.filterRoom();
           this.navigateModal('roomTypeModal', 'availableBlockModalSingle');
         } else if (this.selectRoomType === 'double') {
           this.navigateModal('roomTypeModal', 'availableBlockModalDouble');
@@ -193,7 +258,7 @@ export class RoomRegistrationPage implements OnInit {
   
 
 
-  availableRooms = ['101', '102', '103', '104', '105']; // Example room numbers
+  availableRooms = ['101', '102', '103', '104', '106','107', '108', '109', '1', '105']; // Example room numbers
 
   selectRoom(roomNumber: string) {
     // Implement your logic when a room is selected
@@ -206,7 +271,10 @@ isRoomSelected(roomNumber: string): boolean {
 }
 
 
-  ngOnInit() {
-  }
+
+
+
+
+
 
 }
