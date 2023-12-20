@@ -52,7 +52,7 @@
         <ion-item lines="none">
           <ion-label>
             <span class="label-text">MA1</span>
-            <span class="additional-text"> {{ filterBlock('MA1') }} Rooms Available</span>
+            <span class="additional-text"> {{ filterBlock('MA1') }} Rooms Available </span>
             <!-- <span class="additional-text"> {{ getAvailableRooms('MA1', 'G') }} Rooms Available</span> -->
           </ion-label>
           <ion-radio slot="end" value="MA1"></ion-radio>
@@ -181,7 +181,7 @@
          <!-- Example: Displaying circles with room numbers -->
          <ion-card>
           <div style="display: flex; flex-wrap: wrap; justify-content: space-between;">
-            <ion-button *ngFor="let roomNumber of availableRooms" 
+            <ion-button *ngFor="let roomNumber of filterRoom(selectedBlock,selectedLevel)" 
                         (click)="selectRoom(roomNumber)"
                         [class.selected]="isRoomSelected(roomNumber)"
                         class="room-circle" color="secondary">

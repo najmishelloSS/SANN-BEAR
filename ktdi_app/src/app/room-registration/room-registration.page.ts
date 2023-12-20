@@ -69,16 +69,12 @@ export class RoomRegistrationPage implements OnInit {
     return result.length // return array
   }
 
-  filterRoom(){
-    let Block = this.selectedBlock; 
-    let Level = this.selectedLevel; 
-    let result
-    for(let i = 0; i < this.emptyRooms.length ; i++){
-      result = this.emptyRooms.filter(e => e["Block"] == Block) 
-      result = result.filter(e => e["Level"] == Level) // filter out level != 1// filter out block != MA1
-    }
+  filterRoom(Block,Level){
+    let result = this.emptyRooms.filter(e => e["Block"] == Block) // filter out block != MA1
+    result = result.filter(e => e["Level"] == Level) // filter out level != 1
     let roomNumbers = result.map(e => e["RoomNumber"]) // extract the RoomNumber property
     console.log (roomNumbers)
+    return roomNumbers // return array of RoomNumber
   }
 
   
@@ -206,7 +202,6 @@ export class RoomRegistrationPage implements OnInit {
     switch (location) {
       case 'roomTypeModal':
         if (this.selectRoomType === 'single') {
-          this.filterRoom();
           this.navigateModal('roomTypeModal', 'availableBlockModalSingle');
         } else if (this.selectRoomType === 'double') {
           this.navigateModal('roomTypeModal', 'availableBlockModalDouble');
@@ -258,8 +253,8 @@ export class RoomRegistrationPage implements OnInit {
   
 
 
-  availableRooms = ['101', '102', '103', '104', '106','107', '108', '109', '1', '105']; // Example room numbers
 
+  availableRooms = ['101','102']
   selectRoom(roomNumber: string) {
     // Implement your logic when a room is selected
     console.log(`Room ${roomNumber} selected`);
