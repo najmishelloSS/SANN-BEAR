@@ -34,6 +34,7 @@ export class BookhallPage implements OnInit {
   @ViewChild(IonDatetime) datetime :IonDatetime;
 
   booking={ //for booking inputs
+    hall_name: undefined,
     rent_date: undefined,
     rent_price : 0,
     rent_type : undefined,
@@ -265,11 +266,18 @@ export class BookhallPage implements OnInit {
     var headers = new Headers();
     headers.append("Accept", 'application/json');
     headers.append('Content-Type', 'application/json');
-    
+
     let formData = new FormData();
     formData.append('user_id', this.data.login.user_id);
     formData.append('programme_name', this.booking.name!);
-    formData.append('programme_fee', this.booking.total.toString());
+    formData.append('programme_venue', this.booking.hall_name!);
+    formData.append('programme_date', this.booking.rent_date!);
+    formData.append('rent_fee', this.booking.total.toString());
+    formData.append('no_of_participants', this.booking.participant!);
+    formData.append('programme_type', this.booking.rent_type!);
+    formData.append('start_time', format(new Date(this.booking.rent_start!), 'HH:mm a'));
+    formData.append('end_time', format(new Date(this.booking.rent_end!), 'HH:mm a'));
+    formData.append('rent_duration', this.booking.rent_duration.toString());
     formData.append('approval_letter', this.file);
     // formData.append('programme_name', JSON.stringify(this.data)); // send array
     console.log(this.booking)
