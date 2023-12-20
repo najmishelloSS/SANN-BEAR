@@ -49,7 +49,8 @@ export class RoomRegistrationPage implements OnInit {
     });
   }
 
-  filter(Block, Level){
+  filterLevel(Level){
+    let Block = this.selectedBlock
     let result
     for(let i = 0; i < this.emptyRooms.length ; i++){
       result = this.emptyRooms.filter(e => e["Block"] == Block) // filter out block != MA1
@@ -59,46 +60,26 @@ export class RoomRegistrationPage implements OnInit {
     return result.length // return count
   }
 
-  async getAvailableRooms(Block: string, Level: string) {
-    try {
-      const response = await fetch('http://ktdiapp.mooo.com/api/singleRoom.php', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-        },
-        body: `Block=${Block}&Level=${Level}`,
-      });
-  
-      if (!response.ok) {
-        // Handle non-successful responses
-        console.error(`Error: ${response.status} - ${response.statusText}`);
-        return -1; // or throw an error if you prefer
-      }
-  
-      const data = await response.json();
-  
-      if ('empty_rooms_count' in data) {
-        return data['empty_rooms_count'];
-      } else if (data.error) {
-        // Handle API-level errors
-        console.error(`API Error: ${data.error}`);
-        return -1; // or throw an error if you prefer
-      } else {
-        // Handle unexpected response format
-        console.error('Unexpected response format:', data);
-        return -1; // or throw an error if you prefer
-      }
-    } catch (error) {
-      // Handle other errors (e.g., network issues)
-      console.error('Unexpected error:', error);
-      return -1; // or throw an error if you prefer
+  filterBlock(Block){
+    let result
+    for(let i = 0; i < this.emptyRooms.length ; i++){
+      result = this.emptyRooms.filter(e => e["Block"] == Block) // filter out block != MA1
     }
+    console.log(result)
+    return result.length // return array
   }
 
-  getAvailableRoomsObservable(Block: string, Level: string) {
-    return from(this.getAvailableRooms(Block, Level));
+  filterRoom(){
+    let Block = this.selectedBlock; 
+    let Level = this.selectedLevel; 
+    let result
+    for(let i = 0; i < this.emptyRooms.length ; i++){
+      result = this.emptyRooms.filter(e => e["Block"] == Block) 
+      result = result.filter(e => e["Level"] == Level) // filter out level != 1// filter out block != MA1
+    }
+    let roomNumbers = result.map(e => e["RoomNumber"]) // extract the RoomNumber property
+    console.log (roomNumbers)
   }
-
 
   
   //******************************************************************************************************/
@@ -225,6 +206,7 @@ export class RoomRegistrationPage implements OnInit {
     switch (location) {
       case 'roomTypeModal':
         if (this.selectRoomType === 'single') {
+          this.filterRoom();
           this.navigateModal('roomTypeModal', 'availableBlockModalSingle');
         } else if (this.selectRoomType === 'double') {
           this.navigateModal('roomTypeModal', 'availableBlockModalDouble');
@@ -276,7 +258,7 @@ export class RoomRegistrationPage implements OnInit {
   
 
 
-  availableRooms = ['101', '102', '103', '104', '105','101', '102', '103', '104', '105']; // Example room numbers
+  availableRooms = ['101', '102', '103', '104', '106','107', '108', '109', '1', '105']; // Example room numbers
 
   selectRoom(roomNumber: string) {
     // Implement your logic when a room is selected
