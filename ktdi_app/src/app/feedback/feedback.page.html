@@ -16,7 +16,8 @@
   </ion-header>
   <div *ngIf="!submitted">
   <ion-label>Upload Files:</ion-label>
-      <input type="file" (change)="handleFileInput($event)">
+  <!-- <input type="file" (change)="handleFileInput($event)"> -->
+      <ion-input type="file" (change)="onFileChange($event)"></ion-input>
   <ion-list>
     <ion-item>
       <ion-label>College Management</ion-label>
