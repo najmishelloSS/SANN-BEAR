@@ -1,28 +1,33 @@
 <!-- electric.page.html -->
+
 <ion-header [translucent]="true">
-  <!-- ... Header code ... -->
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button [defaultHref]="'/home'"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Register Electrical Appliances</ion-title>
+  </ion-toolbar>
 </ion-header>
-<ion-label>Select from list of appliances</ion-label>
-<!-- Content -->
+
 <ion-content>
   <ion-grid>
     <ion-row *ngFor="let category of sortedCategories">
       <ion-col>
         <h2>{{ category }}</h2>
-        <div *ngFor="let appliance of getAppliancesByCategory(category)">
-          <div (click)="toggleSelection(appliance)" [ngClass]="{ 'selected-item': appliance.selected }">
-            <div>
+        <ion-list>
+          <ion-item *ngFor="let appliance of getAppliancesByCategory(category)">
+            <ion-label>
               <img [src]="appliance.image" alt="Appliance Image" style="width: 50px; height: 40px;">
-              <p><strong> {{ appliance.name }} </strong></p>
+              <p><strong>{{ appliance.name }}</strong></p>
               <p><strong>Price:</strong> RM{{ appliance.price }}</p>
-              <hr>
-            </div>
-          </div>
-        </div>
+            </ion-label>
+            <ion-checkbox slot="start" [checked]="appliance.selected" (ionChange)="toggleSelection(appliance)"></ion-checkbox>
+          </ion-item>
+        </ion-list>
       </ion-col>
     </ion-row>
   </ion-grid>
-  <!-- Total Price -->
+
   <ion-footer>
     <ion-row>
       <ion-col>
@@ -42,6 +47,7 @@
       </ion-col>
     </ion-row>
   </ion-footer>
+
   <!-- Payment Method Selection -->
   <ion-segment *ngIf="showPaymentSection">
     <!-- ... Payment method selection buttons ... -->
@@ -55,10 +61,9 @@
       </ion-col>
     </ion-row>
   </ion-footer>
-</ion-content>
 
-<div *ngIf="submitted" style="text-align: center; margin-top: 50px;">
-  <!-- Confirmation message after submission -->
-  <p><strong>Your registration has been approved</strong></p>
-  <p>An email has been sent to you for confirmation</p>
-</div>
+  <div *ngIf="submitted" style="text-align: center; margin-top: 50px;">
+    <p><strong>Your registration has been approved</strong></p>
+    <!-- Add any other confirmation message here -->
+  </div>
+</ion-content>

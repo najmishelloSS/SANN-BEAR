@@ -2,6 +2,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 
 interface Appliance {
+  id: number;
   name: string;
   price: number;
   category: string;
@@ -19,6 +20,7 @@ export class ElectricPage implements OnInit {
 
   appliances: Appliance[] = [];
   totalPrice = 0;
+  selectedAppliances: Appliance[] = []; // Newly added to store selected appliances
   showPaymentSection = false;
   selectedPaymentMethod: string = '';
   submitted = false;
@@ -34,7 +36,6 @@ export class ElectricPage implements OnInit {
       (data: any) => {
         if (data && data.Appliances && Array.isArray(data.Appliances)) {
           this.appliances = this.removeDuplicates(data.Appliances, 'name');
-          this.updateTotalPrice();
         } else {
           console.error('Empty or invalid data received from the API.');
         }
@@ -46,7 +47,7 @@ export class ElectricPage implements OnInit {
     );
   }
 
-  sortedCategories: string[] = ['Kitchen', 'Study', 'Personal', 'Others'];
+  sortedCategories: string[] = ['Kitchen', 'Study', 'Personal', 'Other'];
 
   getAppliancesByCategory(category: string): Appliance[] {
     return this.appliances.filter((appliance) => appliance.category === category);
@@ -64,13 +65,15 @@ export class ElectricPage implements OnInit {
   }
 
   updateTotalPrice(): void {
-    this.totalPrice = this.appliances
-      .filter((appliance) => appliance.selected)
-      .reduce((acc, curr) => acc + curr.price, 0);
+    this.totalPrice = this.selectedAppliances.reduce((acc, curr) => acc + curr.price, 0);
   }
 
   proceedToPayment(): void {
-    this.showPaymentSection = true;
+    if (this.selectedAppliances.length > 0) {
+      this.showPaymentSection = true;
+    } else {
+      console.error('Please select at least one appliance to proceed to payment.');
+    }
   }
 
   selectPaymentMethod(method: string): void {
@@ -81,6 +84,7 @@ export class ElectricPage implements OnInit {
 
   submitRegistration(): void {
     // Logic for submitting registration goes here
+    // You can access this.selectedAppliances to get the selected items
     this.submitted = true;
   }
 }

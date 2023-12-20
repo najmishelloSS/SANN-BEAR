@@ -1,5 +1,3 @@
-// feedback.page.ts
-
 import { Component } from '@angular/core';
 import { NavController } from '@ionic/angular';
 import { HttpClient } from '@angular/common/http';
@@ -18,10 +16,20 @@ export class FeedbackPage {
 
   constructor(private navCtrl: NavController, private http: HttpClient) {}
 
+  file:File
+  
+  constructors(){}
+
+  onFileChange(fileChangeEvent)
+  {
+    this.file = fileChangeEvent.target.files[0]
+    console.log(this.file)
+  }
+
   rateCollegeManagement(rating: number): void {
     this.collegeManagementRating = this.collegeManagementRating === rating ? 0 : rating;
   }
-
+  
   rateAccommodation(rating: number): void {
     this.accommodationRating = this.accommodationRating === rating ? 0 : rating;
   }
@@ -30,14 +38,14 @@ export class FeedbackPage {
     this.facilitiesRating = this.facilitiesRating === rating ? 0 : rating;
   }
 
-  handleFileInput(event: any): void {
-    const fileList: FileList | null = event.target.files;
-    if (fileList && fileList.length > 0) {
-      const selectedFile: File = fileList[0];
-      // Handle the selected file, you can upload it to a server or process it as needed
-      console.log('Selected File:', selectedFile);
-    }
-  }
+  // handleFileInput(event: any): void {
+  //   const fileList: FileList | null = event.target.files;
+  //   if (fileList && fileList.length > 0) {
+  //     const selectedFile: File = fileList[0];
+  //     // Handle the selected file, you can upload it to a server or process it as needed
+  //     console.log('Selected File:', selectedFile);
+  //   }
+  // }
 
   submitReport() {
 
@@ -70,6 +78,7 @@ export class FeedbackPage {
         // Handle errors
       }
     );
+    
   }
 
   backToHome() {
