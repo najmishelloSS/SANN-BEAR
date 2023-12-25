@@ -11,18 +11,19 @@ import Swiper from 'swiper';
   styleUrls: ['home.page.scss'],
 })
 export class HomePage implements OnInit{
-  @ViewChild('swiper')
-  swiperRef: ElementRef | undefined;
-  swiper?: Swiper;
+
 
   contrustor(){}
 
-  swiperReady(){
-    this.swiper = this.swiperRef?.nativeElement.swiper;
-  }
+  swiperSlides = [
+    { id: 1, image: '../../assets/image/dewan.jpg', alt: 'Dewan Image', title: 'Dewan', description: 'Description for Dewan.' },
+    { id: 2, image: '../../assets/image/ktdi.jpg', alt: 'KTDI Image', title: 'KTDI', description: 'Description for KTDI.' },
+    { id: 3, image: '../../assets/image/utm.png', alt: 'UTM Image', title: 'UTM', description: 'Description for UTM.' }
+  ];
   
-  swiperSlideChanged(e: any){
-    console.log('changed:  ', e);
+ swiperSlideChanged(event: any) {
+    // Your logic for handling slide change
+    console.log('Swiper slide changed:', event);
   }
 
   data : any ;
