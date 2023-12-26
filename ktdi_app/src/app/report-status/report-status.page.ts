@@ -1,6 +1,6 @@
 // report-status.page.ts
-
 import { Component, OnInit } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-report-status',
@@ -9,14 +9,18 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ReportStatusPage implements OnInit {
 
-  selectedStatus: string = 'active';  // Initialize with a default value
-  activeSectionVisible: boolean = true;  // Set initial visibility
-  successSectionVisible: boolean = false;  // Set initial visibility
+  selectedStatus: string = 'active';
+  activeSectionVisible: boolean = true;
+  successSectionVisible: boolean = false;
 
-  constructor() { }
+  // Assuming the structure of your data is like this
+  reportData: any[] = [];
+
+  constructor(private http: HttpClient) { }
 
   ngOnInit() {
-    // You can add any initialization logic here
+    // Fetch initial data when the component initializes
+    this.fetchReportData();
   }
 
   // Function to handle changes in the selected status
@@ -26,4 +30,22 @@ export class ReportStatusPage implements OnInit {
     this.successSectionVisible = this.selectedStatus === 'success';
   }
 
+  // Function to fetch report data from the server
+  fetchReportData() {
+    const url = 'http://ktdiapp.mooo.com/api/submit-report.php';
+
+    // You might need to adjust the request parameters based on your server-side implementation
+    const params = {};
+
+    this.http.post<any[]>(url, params)
+      .subscribe(
+        (data) => {
+          console.log('Received data:', data); // Log the data received
+          this.reportData = data;
+        },
+        (error) => {
+          console.error('Error fetching report data:', error);
+        }
+      );
+  }
 }
