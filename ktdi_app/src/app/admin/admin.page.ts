@@ -12,4 +12,8 @@ export class AdminPage implements OnInit {
   ngOnInit() {
   }
 
+  navigate(route, direction){
+    console.log("Go " + direction + " to " +route )
+  }
+
 }
