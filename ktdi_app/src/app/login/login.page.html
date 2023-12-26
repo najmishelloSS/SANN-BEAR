@@ -52,6 +52,7 @@
           <ion-input type="text" placeholder="{{language['E-mail']}}" [(ngModel)]="login.email" helperText="Enter a valid email" errorText="Invalid email" email [clearInput]="true" (ionChange)="ionChange()"></ion-input>
           <ion-icon *ngIf="!hide.email" slot="end" [ngStyle]="{'color': color.email}" name="alert-circle-outline" ></ion-icon> 
         </ion-item>
+
         <br>
         <ion-item style="--border-radius: 20px;--border-width: 2px;--height:4rem;" [ngStyle]="{'--highlight-color-valid': login.password_input[1],'--border-color': login.password_input[0]}">
           <ion-label><ion-icon color="medium" style="font-size: 32px;" name="key-outline"></ion-icon></ion-label>

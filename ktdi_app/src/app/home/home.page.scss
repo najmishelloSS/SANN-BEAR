@@ -44,16 +44,21 @@ ion-content{
 
    /* Apply styles to the swiper-container */
 swiper-container {
-    margin-left: 1rem;
-    margin-right: 1rem;
+    margin-left: 2rem;
+    margin-right: 2rem;
   }
   
   /* Apply styles to the swiper-slide within swiper-container */
   swiper-container swiper-slide {
+    text-size-adjust: 8px;
+    text-align: justify;
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
     /* You can add styles directly to the ion-img element */
     ion-img {
       width: 335px;
       height: 144px;
+      flex-shrink: 0;
       object-fit: cover;
       border-radius: 16px; /* Add 'px' for border-radius */
     }
