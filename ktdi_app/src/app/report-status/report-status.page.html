@@ -30,19 +30,19 @@
   <ion-card *ngFor="let report of reportData">
     <ion-card-content class="ion-no-padding">
       <ion-item lines="none">
-        <ion-label color="primary">{{ report.reportNumber }}</ion-label>
+        <ion-label color="primary">{{report.id}}</ion-label>
         <div class="status-background">
-          <ion-label color="light">{{ report.status }}</ion-label>
+          <ion-label color="light">{{ report.damage_description }}</ion-label>
         </div>
       </ion-item>
       <ion-item lines="none">
         <ion-label>
-          <strong>{{ report.damageType }}</strong>
+          <strong>{{ report.damage_type }}</strong>
         </ion-label>
       </ion-item>
       <ion-item lines="none">
         <ion-label>
-          {{ report.date }}
+          {{ report.submitted_at }}
         </ion-label>
       </ion-item>
     </ion-card-content>

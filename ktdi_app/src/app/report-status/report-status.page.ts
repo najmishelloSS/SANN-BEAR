@@ -39,13 +39,18 @@ export class ReportStatusPage implements OnInit {
 
     this.http.post<any[]>(url, params)
       .subscribe(
-        (data) => {
+        (data:any) => {
           console.log('Received data:', data); // Log the data received
-          this.reportData = data;
+          // data.Reports.forEach( async item => { // to manipulate each data individually
+          //   console.log(item)
+          // });
+          this.reportData = data.Reports;
+          console.log(this.reportData)
         },
-        (error) => {
+        async error => {
           console.error('Error fetching report data:', error);
         }
       );
+
   }
 }
