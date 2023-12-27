@@ -110,7 +110,11 @@ const routes: Routes = [
       special:DataResolverService
     },
     loadChildren: () => import('./report-status/report-status.module').then( m => m.ReportStatusPageModule)
+  },  {
+    path: 'admin',
+    loadChildren: () => import('./admin/admin.module').then( m => m.AdminPageModule)
   },
+
 
 
 

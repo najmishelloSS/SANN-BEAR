@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { DecimalPipe } from '@angular/common';
 
 import { IonicModule } from '@ionic/angular';
 
@@ -15,6 +16,7 @@ import { ElectricPage } from './electric.page';
     IonicModule,
     ElectricPageRoutingModule
   ],
-  declarations: [ElectricPage]
+  declarations: [ElectricPage],
+  providers: [DecimalPipe],
 })
 export class ElectricPageModule {}

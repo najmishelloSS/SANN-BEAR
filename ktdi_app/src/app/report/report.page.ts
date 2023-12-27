@@ -62,7 +62,7 @@ export class ReportPage {
     formData.append('file_path', this.uploadedFilePath);
     formData.append('damage_type', this.getSelectedDamageTypes().join(', '));
     formData.append('damage_description', this.damageDescription);
-    formData.append('user_email', 'user@example.com'); // Replace with the actual user email
+    formData.append('user_email', 'shah@gmail.com'); // Replace with the actual user email
 
     console.log('Report Data:', formData);
 

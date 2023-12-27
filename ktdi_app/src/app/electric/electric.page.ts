@@ -1,5 +1,6 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { DecimalPipe } from '@angular/common'; // Import DecimalPipe
 
 interface Appliance {
   id: number;
@@ -25,7 +26,10 @@ export class ElectricPage implements OnInit {
   selectedPaymentMethod: string = '';
   submitted = false;
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private decimalPipe: DecimalPipe // Inject DecimalPipe
+  ) {}
 
   ngOnInit(): void {
     this.getAppliances();
@@ -60,14 +64,38 @@ export class ElectricPage implements OnInit {
   }
 
   toggleSelection(appliance: Appliance): void {
+    console.log('Before Toggle - Appliance:', appliance);
     appliance.selected = !appliance.selected;
-    this.updateTotalPrice();
+    console.log('After Toggle - Appliance:', appliance);
+  
+    // Check if the appliance should be added or removed from selectedAppliances
+    if (appliance.selected && !this.selectedAppliances.includes(appliance)) {
+      // Add the appliance to selectedAppliances
+      this.selectedAppliances.push(appliance);
+    } else if (!appliance.selected && this.selectedAppliances.includes(appliance)) {
+      // Remove the appliance from selectedAppliances
+      this.selectedAppliances = this.selectedAppliances.filter(a => a.id !== appliance.id);
+    }
+  
+    this.updateTotalPrice(); // Call the method to update the total price
+  
+    console.log('After Update - Selected Appliances:', this.selectedAppliances);
   }
-
+  
   updateTotalPrice(): void {
-    this.totalPrice = this.selectedAppliances.reduce((acc, curr) => acc + curr.price, 0);
+    console.log('Updating total price...');
+    this.totalPrice = this.selectedAppliances.reduce((acc, curr) => {
+      console.log('Current Appliance Price:', curr.price);
+      return acc + parseFloat(curr.price.toString()); // Ensure curr.price is parsed as a number
+    }, 0);
+    console.log('Total Price:', this.totalPrice);
+    this.formatTotalPrice(); // Call the method to format the total price
   }
 
+  formatTotalPrice(): string {
+    return this.decimalPipe.transform(this.totalPrice, '1.2-2') || '0.00';
+  }
+  
   proceedToPayment(): void {
     if (this.selectedAppliances.length > 0) {
       this.showPaymentSection = true;
