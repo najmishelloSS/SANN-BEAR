@@ -70,6 +70,8 @@ export class RoomRegistrationPage implements OnInit {
   }
 
   filterRoom(Block,Level){
+    console.log (this.selectedLevel); 
+    console.log(this.selectedBlock);
     let result = this.emptyRooms.filter(e => e["Block"] == Block) // filter out block != MA1
     result = result.filter(e => e["Level"] == Level) // filter out level != 1
     let roomNumbers = result.map(e => e["RoomNumber"]) // extract the RoomNumber property
