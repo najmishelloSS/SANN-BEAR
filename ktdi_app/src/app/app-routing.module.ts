@@ -110,10 +110,15 @@ const routes: Routes = [
       special:DataResolverService
     },
     loadChildren: () => import('./report-status/report-status.module').then( m => m.ReportStatusPageModule)
-  },  {
+  },
+  {
     path: 'admin',
     loadChildren: () => import('./admin/admin.module').then( m => m.AdminPageModule)
+  },  {
+    path: 'hall-details',
+    loadChildren: () => import('./hall-details/hall-details.module').then( m => m.HallDetailsPageModule)
   },
+
 
 
 
