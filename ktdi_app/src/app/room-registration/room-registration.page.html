@@ -52,7 +52,7 @@
         <ion-item lines="none">
           <ion-label>
             <span class="label-text">MA1</span>
-            <span class="additional-text"> {{ filterBlock('MA1') }} Rooms Available </span>
+            <span class="additional-text"> {{ filterSingleBlock('MA1') }} Rooms Available </span>
             <!-- <span class="additional-text"> {{ getAvailableRooms('MA1', 'G') }} Rooms Available</span> -->
           </ion-label>
           <ion-radio slot="end" value="MA1"></ion-radio>
@@ -62,7 +62,7 @@
         <ion-item lines="none">
           <ion-label>
             <span class="label-text">MA4</span>
-            <span class="additional-text"> {{ filterBlock('MA4') }} Rooms Available</span>
+            <span class="additional-text"> {{ filterSingleBlock('MA4') }} Rooms Available</span>
           </ion-label>
           <ion-radio slot="end" value="MA4"></ion-radio>
         </ion-item></ion-card>
@@ -71,7 +71,7 @@
         <ion-item lines="none">
           <ion-label>
             <span class="label-text">MA5</span>
-            <span class="additional-text">{{ filterBlock('MA5') }} Rooms Available</span>
+            <span class="additional-text">{{ filterSingleBlock('MA5') }} Rooms Available</span>
           </ion-label>
           <ion-radio slot="end" value="MA5"></ion-radio>
         </ion-item></ion-card>
@@ -80,7 +80,7 @@
         <ion-item lines="none">
           <ion-label>
             <span class="label-text">MA6</span>
-            <span class="additional-text">{{ filterBlock('MA5') }} Rooms Available</span>
+            <span class="additional-text">{{ filterSingleBlock('MA5') }} Rooms Available</span>
           </ion-label>
           <ion-radio slot="end" value="MA6"></ion-radio>
         </ion-item></ion-card>
@@ -89,7 +89,7 @@
         <ion-item lines="none">
           <ion-label>
             <span class="label-text">MA7</span>
-            <span class="additional-text">{{ filterBlock('MA7') }} Rooms Available</span>
+            <span class="additional-text">{{ filterSingleBlock('MA7') }} Rooms Available</span>
           </ion-label>
           <ion-radio slot="end" value="MA7"></ion-radio>
         </ion-item></ion-card>
@@ -119,7 +119,7 @@
          <ion-item lines="none">
           <ion-label>
             <span class="label-text">G</span>
-            <span class="additional-text">{{ filterLevel('G') }} rooms available</span>
+            <span class="additional-text">{{ filterSingleLevel('G') }} rooms available</span>
           </ion-label>
           <ion-radio slot="end" value="G"></ion-radio>
         </ion-item></ion-card>
@@ -128,7 +128,7 @@
         <ion-item lines="none">
           <ion-label>
             <span class="label-text">L1</span>
-            <span class="additional-text">{{ filterLevel('1') }} Rooms Available</span>
+            <span class="additional-text">{{ filterSingleLevel('1') }} Rooms Available</span>
           </ion-label>
           <ion-radio slot="end" value="1"></ion-radio>
         </ion-item></ion-card>
@@ -137,7 +137,7 @@
         <ion-item lines="none">
           <ion-label>
             <span class="label-text">L2</span>
-            <span class="additional-text">{{ filterLevel('2') }} Rooms Available</span>
+            <span class="additional-text">{{ filterSingleLevel('2') }} Rooms Available</span>
           </ion-label>
           <ion-radio slot="end" value="2"></ion-radio>
         </ion-item></ion-card>
@@ -146,7 +146,7 @@
         <ion-item lines="none">
           <ion-label>
             <span class="label-text">L3</span>
-            <span class="additional-text">{{ filterLevel('3') }} Rooms Available</span>
+            <span class="additional-text">{{ filterSingleLevel('3') }} Rooms Available</span>
           </ion-label>
           <ion-radio slot="end" value="3"></ion-radio>
         </ion-item></ion-card>
@@ -155,7 +155,7 @@
         <ion-item lines="none">
           <ion-label>
             <span class="label-text">L4</span>
-            <span class="additional-text">{{ filterLevel('4') }} Rooms Available</span>
+            <span class="additional-text">{{ filterSingleLevel('4') }} Rooms Available</span>
           </ion-label>
           <ion-radio slot="end" value="4"></ion-radio>
         </ion-item></ion-card>
@@ -181,7 +181,7 @@
          <!-- Example: Displaying circles with room numbers -->
          <ion-card>
           <div style="display: flex; flex-wrap: wrap; justify-content: space-between;">
-            <ion-button *ngFor="let roomNumber of filterRoom(selectedBlock,selectedLevel)" 
+            <ion-button *ngFor="let roomNumber of filterSingleRoom(selectedBlock,selectedLevel)" 
                         (click)="selectRoom(roomNumber)"
                         [class.selected]="isRoomSelected(roomNumber)"
                         class="room-circle" color="secondary">
@@ -189,7 +189,7 @@
             </ion-button>
           </div>
         </ion-card>
-        <ion-button expand="full" shape="round" color="primary" style="height: 7%;" (click)="navigateModal('availableRoomModalSingle','displayRoomModalSingle')" >Confirm</ion-button>
+        <ion-button expand="full" shape="round" color="primary" style="height: 7%;" (click)="selectedValue('availableRoomModalSingle','displayRoomModalSingle')" >Confirm</ion-button>
       </div>
     </div>
 
@@ -207,7 +207,7 @@
       </div>
     
       <div style="width: 100%; text-align: center; color: #1F1F1F; font-size: 64px; line-height: 26px; word-wrap: break-word; margin-top: 40px;">
-        1-14
+        {{selectedRoom}}
       </div>
     
       <div style="width: 100%; text-align: center; color: #1F1F1F; font-size: 24px; line-height: 26px; word-wrap: break-word; margin-top: 40px;">
@@ -221,14 +221,7 @@
       <ion-button expand="full" shape="round" color="primary" style="height: 7%; margin-top: 40px;" (click)="navigateToHome()">
         Back to Home
       </ion-button>
-    
     </div>
-    
-
-
-
-
-
 <!--********************************************************  THIS IS FOR DOUBLE ROOM **************************************************************-->
 
   <!-- Select Block -->
@@ -250,7 +243,7 @@
         <ion-item lines="none">
           <ion-label>
             <span class="label-text">MA1</span>
-            <span class="additional-text">100 Rooms Available</span>
+            <span class="additional-text">{{ filterDoubleBlock('MA1') }} Rooms Available</span>
           </ion-label>
           <ion-radio slot="end" value="MA1"></ion-radio>
         </ion-item></ion-card>
@@ -259,7 +252,7 @@
         <ion-item lines="none">
           <ion-label>
             <span class="label-text">MA4</span>
-            <span class="additional-text">100 Rooms Available</span>
+            <span class="additional-text">{{ filterDoubleBlock('MA4') }} Rooms Available</span>
           </ion-label>
           <ion-radio slot="end" value="MA4"></ion-radio>
         </ion-item></ion-card>
@@ -269,7 +262,7 @@
         <ion-item lines="none">
           <ion-label>
             <span class="label-text">MA5</span>
-            <span class="additional-text">100 Rooms Available</span>
+            <span class="additional-text">{{ filterDoubleBlock('MA5') }} Rooms Available</span>
           </ion-label>
           <ion-radio slot="end" value="MA5"></ion-radio>
         </ion-item></ion-card>
@@ -278,7 +271,7 @@
         <ion-item lines="none">
           <ion-label>
             <span class="label-text">MA6</span>
-            <span class="additional-text">100 Rooms Available</span>
+            <span class="additional-text">{{ filterDoubleBlock('MA6') }} Rooms Available</span>
           </ion-label>
           <ion-radio slot="end" value="MA6"></ion-radio>
         </ion-item></ion-card>
@@ -287,13 +280,13 @@
         <ion-item lines="none">
           <ion-label>
             <span class="label-text">MA7</span>
-            <span class="additional-text">100 Rooms Available</span>
+            <span class="additional-text">{{ filterDoubleBlock('MA7') }} Rooms Available</span>
           </ion-label>
           <ion-radio slot="end" value="MA7"></ion-radio>
         </ion-item></ion-card>
       </ion-radio-group>
 
-      <ion-button expand="full" shape="round" color="primary" (click)="selectedValue('availableBlockModalDouble','availableLevelModalDOuble')" style="height: 7%;">Continue</ion-button>
+      <ion-button expand="full" shape="round" color="primary" (click)="selectedValue('availableBlockModalDouble','availableLevelModalDouble')" style="height: 7%;">Continue</ion-button>
     </div>
   </div>
 
@@ -304,7 +297,7 @@
         ,<ion-toolbar>
           <ion-buttons slot="start">
             <!-- Use the ion-back-button component to navigate back to the roomTypeModal -->
-            <ion-back-button [defaultHref]="'/room-registration'" (click)="navigateModal('availableLevelModalSingle','availableBlockModalSingle')" text = ""></ion-back-button>
+            <ion-back-button [defaultHref]="'/room-registration'" (click)="navigateModal('availableLevelModalDouble','availableBlockModalDouble')" text = ""></ion-back-button>
           </ion-buttons>
           <ion-title class="ion-text-center">Available Level</ion-title></ion-toolbar>
       </ion-header>
@@ -317,50 +310,78 @@
            <ion-item lines="none">
             <ion-label>
               <span class="label-text">LG</span>
-              <span class="additional-text">100 Rooms Available</span>
+              <span class="additional-text">{{ filterDoubleLevel('G') }} Rooms Available</span>
             </ion-label>
-            <ion-radio slot="end" value="LG"></ion-radio>
+            <ion-radio slot="end" value="G"></ion-radio>
           </ion-item></ion-card>
 
           <ion-card>
           <ion-item lines="none">
             <ion-label>
               <span class="label-text">L1</span>
-              <span class="additional-text">100 Rooms Available</span>
+              <span class="additional-text">{{ filterDoubleLevel('1') }} Rooms Available</span>
             </ion-label>
-            <ion-radio slot="end" value="L1"></ion-radio>
+            <ion-radio slot="end" value="1"></ion-radio>
           </ion-item></ion-card>
 
           <ion-card>
           <ion-item lines="none">
             <ion-label>
               <span class="label-text">L2</span>
-              <span class="additional-text">100 Rooms Available</span>
+              <span class="additional-text">{{ filterDoubleLevel('2') }} Rooms Available</span>
             </ion-label>
-            <ion-radio slot="end" value="L2"></ion-radio>
+            <ion-radio slot="end" value="2"></ion-radio>
           </ion-item></ion-card>
 
           <ion-card>
           <ion-item lines="none">
             <ion-label>
               <span class="label-text">L3</span>
-              <span class="additional-text">100 Rooms Available</span>
+              <span class="additional-text">{{ filterDoubleLevel('3') }} Rooms Available</span>
             </ion-label>
-            <ion-radio slot="end" value="L3"></ion-radio>
+            <ion-radio slot="end" value="3"></ion-radio>
           </ion-item></ion-card>
 
           <ion-card>
           <ion-item lines="none">
             <ion-label>
               <span class="label-text">L4</span>
-              <span class="additional-text">100 Rooms Available</span>
+              <span class="additional-text">{{ filterDoubleLevel('4') }} Rooms Available</span>
             </ion-label>
-            <ion-radio slot="end" value="L4"></ion-radio>
+            <ion-radio slot="end" value="4"></ion-radio>
           </ion-item></ion-card>
         </ion-radio-group>
   
-        <ion-button expand="full" shape="round" color="primary"(click)="selectedValue('availableLevelModalSingle','availableRoomModalSingle')" style="height: 7%;">Continue</ion-button>
+        <ion-button expand="full" shape="round" color="primary"(click)="selectedValue('availableLevelModalDouble','availableRoomModalDouble')" style="height: 7%;">Continue</ion-button>
       </div>
     </div>
+
+  <!-- Select Room -->
+
+  <div *ngIf="availableRoomModalDouble" class="ion-padding" style="display: flex; flex-direction: column; height: 100%;">
+    <ion-header>
+      <ion-toolbar>
+      <ion-buttons slot="start">
+        <!-- Use the ion-back-button component to navigate back to the roomTypeModal -->
+        <ion-back-button [defaultHref]="'/room-registration'" (click)="navigateModal('availableRoomModalDouble','availableLevelModalDouble')" text = ""></ion-back-button>
+      </ion-buttons>
+        <ion-title class="ion-text-center">Available Room</ion-title></ion-toolbar>
+    </ion-header>
+
+    <div class="ion-padding" class="ion-padding" style="flex: 1; display: flex; flex-direction: column; justify-content: space-between;">
+       <!-- Example: Displaying circles with room numbers -->
+       <ion-card>
+        <div style="display: flex; flex-wrap: wrap; justify-content: space-between;">
+          <ion-button *ngFor="let roomNumber of filterDoubleRoom(selectedBlock,selectedLevel)" 
+                      (click)="selectRoom(roomNumber)"
+                      [class.selected]="isRoomSelected(roomNumber)"
+                      class="room-circle" color="secondary">
+            {{ roomNumber }}
+          </ion-button>
+        </div>
+      </ion-card>
+      <ion-button expand="full" shape="round" color="primary" style="height: 7%;" (click)="selectedValue('availableRoomModalDouble','displayRoomModalSingle')" >Confirm</ion-button>
+    </div>
+  </div>
 
 </ion-content>
