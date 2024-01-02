@@ -9,7 +9,7 @@ import { Component } from '@angular/core';
  export class AppComponent {
    constructor() {
      Stripe.initialize({
-       publishableKey: 'Your Publishable Key',
+       publishableKey: 'pk_test_51ORPauC1wAehoBy5RVL9j1UnBmtilUN38wT4vUwteBMBgp3GEHbY4UYdpwXabAjG3FvIbMQ9y2YhQ0bxB8g7vCM600E1D7REkI',
      });
    }
  }

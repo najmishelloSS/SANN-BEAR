@@ -1,6 +1,9 @@
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { DecimalPipe } from '@angular/common'; // Import DecimalPipe
+import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
+import { DecimalPipe } from '@angular/common';
+import { Stripe, PaymentSheetEventsEnum, PaymentFlowEventsEnum } from '@capacitor-community/stripe';
+import { environment } from 'src/environments/environment';
+import { first, lastValueFrom } from 'rxjs';
 
 interface Appliance {
   id: number;
@@ -21,26 +24,98 @@ export class ElectricPage implements OnInit {
 
   appliances: Appliance[] = [];
   totalPrice = 0;
-  selectedAppliances: Appliance[] = []; // Newly added to store selected appliances
+  selectedAppliances: Appliance[] = [];
   showPaymentSection = false;
   selectedPaymentMethod: string = '';
   submitted = false;
-
+  data: any = {};
   page: string = 'page1';
-  
 
   constructor(
     private http: HttpClient,
-    private decimalPipe: DecimalPipe // Inject DecimalPipe
+    private decimalPipe: DecimalPipe
   ) {}
+
+  httpPost(url: string, body: HttpParams) {
+    return this.http.post<any>(url, body).pipe(first());
+  }
+
+  async ngOnInit(): Promise<void> {
+    this.getAppliances();
+  }
+
+  async initiateStripePayment(): Promise<void> {
+    try {
+      // Add your Stripe payment initiation logic here
+      await this.paymentSheet(); // Call paymentSheet or paymentFlow based on your logic
+    } catch (error) {
+      console.error('Error initiating Stripe payment:', error);
+    }
+  }
+  async paymentSheet() {
+    try {
+      const requestData = { email: 'shah@gmail.com', name: 'Shah' }; 
+      
+      let params = new HttpParams();
+      Object.keys(requestData).forEach(key => {
+        params = params.append(key, requestData[key]);
+      });
+  
+      const data$ = this.httpPost(environment.api + 'payment-sheet', params);
+  
+      const { paymentIntent, ephemeralKey, customer } = await lastValueFrom(data$);
+  
+      await Stripe.createPaymentSheet({
+        paymentIntentClientSecret: paymentIntent,
+        customerId: customer,
+        customerEphemeralKeySecret: ephemeralKey,
+      });
+  
+      const result = await Stripe.presentPaymentSheet();
+      console.log('result: ', result);
+      if (result && result.paymentResult === PaymentSheetEventsEnum.Completed) {
+        // Handle successful payment
+        return paymentIntent.split('_').slice(0, 2). join('_')
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  }
+  
+
+  async paymentFlow() {
+    Stripe.addListener(PaymentFlowEventsEnum.Completed, () => {
+      console.log('PaymentFlowEventsEnum.Completed');
+    });
+
+    const data = new HttpParams({ fromObject: this.data });
+    const data$ = this.httpPost(environment.api + 'payment-sheet', data);
+
+    const { paymentIntent, ephemeralKey, customer } = await lastValueFrom(data$);
+
+    // Prepare PaymentFlow with CreatePaymentFlowOption.
+    await Stripe.createPaymentFlow({
+      paymentIntentClientSecret: paymentIntent,
+      customerEphemeralKeySecret: ephemeralKey,
+      customerId: customer,
+    });
+
+    // Present PaymentFlow.
+    const presentResult = await Stripe.presentPaymentFlow();
+    console.log(presentResult); // { cardNumber: "●●●● ●●●● ●●●● ****" }
+
+    // Confirm PaymentFlow.
+    const confirmResult = await Stripe.confirmPaymentFlow();
+    if (confirmResult.paymentResult === PaymentFlowEventsEnum.Completed) {
+      // Handle successful confirmation
+    }
+  }
+
 
   navigateToPage(targetPage: string) {
     this.page = targetPage;
   }
 
-  ngOnInit(): void {
-    this.getAppliances();
-  }
 
   getAppliances(): void {
     this.http.get<any>(this.apiUrl).subscribe(
@@ -103,9 +178,16 @@ export class ElectricPage implements OnInit {
       console.error('Please select at least one appliance to proceed to payment.');
     }
   }  
-  selectPaymentMethod(method: string): void {
-    this.selectedPaymentMethod = method;
+ selectPaymentMethod(method: string): void {
+  this.selectedPaymentMethod = method;
+  if (method === 'Credit Card' || method === 'Debit Card') {
+    // Show the payment section when Credit Card or Debit Card is selected
+    this.showPaymentSection = true;
+  } else {
+    // For other payment methods (like PayPal, QR Code, etc.), hide the payment section
+    this.showPaymentSection = false;
   }
+}
 
   paymentMethods = ['Credit Card', 'Debit Card', 'PayPal'];
 
