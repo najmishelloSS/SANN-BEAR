@@ -114,19 +114,18 @@ const routes: Routes = [
   {
     path: 'admin',
     loadChildren: () => import('./admin/admin.module').then( m => m.AdminPageModule)
-  },  {
-    path: 'hall-details',
-    loadChildren: () => import('./hall-details/hall-details.module').then( m => m.HallDetailsPageModule)
   },
-
-
-
-
-
-
-
-
-
+  {
+    path: 'hallrecord',
+    loadChildren: () => import('./hallrecord/hallrecord.module').then( m => m.HallrecordPageModule)
+  },
+  {
+    path: 'hallrecord/:id',
+    resolve:{
+      special:DataResolverService
+    },
+    loadChildren: () => import('./hallrecord/hallrecord.module').then( m => m.HallrecordPageModule)
+  },
 ];
 
 @NgModule({
