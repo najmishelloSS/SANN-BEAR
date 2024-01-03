@@ -25,10 +25,10 @@
   <swiper-container (slidechange)="swiperSlideChanged($event)" [loop]="true" [pagination]="true">
     <swiper-slide *ngFor="let slide of swiperSlides">
       <!-- Add any content you want for each slide -->
-      <ion-img [src]="slide.image" alt="{{slide.alt}}"></ion-img>
+      <ion-img [src]="slide.image" alt="{{slide.alt}}" style="width: 335px; height: 144px; object-fit: cover; margin: auto;"></ion-img>
       <div class="slide-content">
-        <h5>{{slide.title}}</h5>
-        <p>{{slide.description}}</p>
+        <h5 style="margin-left: 1.5rem;">{{slide.title}}</h5>
+        <p style="margin-left: 1rem; margin-right: 1rem; font-size: small;">{{slide.description}}</p>
       </div>
     </swiper-slide>
   </swiper-container>
@@ -37,7 +37,7 @@
  <h4>Services</h4>
  <div class="categories">
   <div class="icon-button-container">
-  <ion-button color="primary" (click)="navigate('bookhall', 'forward')" class="touchable-button">
+  <ion-button color="primary" (click)="navigate('hallrecord', 'forward')" class="touchable-button">
     <ion-icon name="calendar"></ion-icon>
   </ion-button>
   <span class="button-caption">Hall Booking</span>
