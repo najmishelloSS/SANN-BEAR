@@ -1,0 +1,286 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons style='color:white;margin-top: constant(safe-area-inset-top);margin-top: env(safe-area-inset-top);' slot="start">
+      <ion-button (click)="navigate('home','back')"><ion-icon style='color:var(--ion-color-dark)' class="icon" name="arrow-back-outline"></ion-icon></ion-button>
+    </ion-buttons>
+    <ion-title>{{language['Hall Record']}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">{{language['Hall Record']}}</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-card class="bg">
+    <ion-card-content>
+      <ion-segment mode="md" [(ngModel)]="list">
+        <ion-segment-button value="current" (click)="reset()">
+            <ion-label>
+              <ion-icon name="calendar-sharp" style="font-size:32px;"></ion-icon><br>
+              {{language['Active']}}
+            </ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="past" (click)="reset()">
+          <ion-label>
+            <ion-icon name="book-sharp" style="font-size:32px;"></ion-icon><br>
+            {{language['Record']}}
+          </ion-label>
+        </ion-segment-button>
+      </ion-segment>
+
+      <div [ngSwitch]="list">
+        <ion-list *ngSwitchCase="'current'">
+          <ion-searchbar [debounce]="1000" (ionInput)="search($event, 'active')" style="--border-radius: 20px;" color="light" show-clear-button="always" animated="true" placeholder="{{language['Search Booking']}}"></ion-searchbar>
+          
+          <div *ngIf="!loaded">
+              <!-- <ion-item *ngFor="let item of loadLoop">
+                <ion-thumbnail slot="start">
+                  <ion-skeleton-text [animated]="true"></ion-skeleton-text>
+                </ion-thumbnail>
+                <ion-label>
+                  <h3><ion-skeleton-text [animated]="true" style="width: 8rem;"></ion-skeleton-text></h3>
+                  <p><ion-skeleton-text [animated]="true" style="width: 8rem;"></ion-skeleton-text></p>
+                  <p><ion-skeleton-text [animated]="true" style="width: 8rem;"></ion-skeleton-text></p>
+                  <p><ion-skeleton-text [animated]="true" style="width: 8rem;"></ion-skeleton-text> </p>
+                </ion-label>
+              </ion-item> -->
+
+              <ion-item *ngFor="let item of loadLoop">
+                <ion-label>
+                  <ion-row class="ion-align-items-center">
+                    <ion-col class="ion-text-start" size="9">
+                      <h3><ion-skeleton-text [animated]="true" style="width: 4rem;"></ion-skeleton-text></h3>
+                    </ion-col>
+                    <ion-col class="ion-text-end">
+                      <p><ion-skeleton-text [animated]="true" style="width: 4rem;"></ion-skeleton-text></p>
+                    </ion-col>
+                  </ion-row>
+                  <ion-row style="margin-top: -10px;">
+                    <ion-col>
+                      <p><ion-skeleton-text [animated]="true" style="width: 8rem;"></ion-skeleton-text></p>
+                    </ion-col>
+                  </ion-row>
+                  <ion-row style="margin-top: -10px; color: var(--ion-color-medium); font-size: 8px;">
+                    <ion-col class="ion-text-start" size="9">
+                      <p><ion-skeleton-text [animated]="true" style="width: 10rem;"></ion-skeleton-text></p>
+                    </ion-col>
+                    <ion-col class="ion-text-end">
+                      <p><ion-skeleton-text slot="end" [animated]="true" style="width: 4rem;"></ion-skeleton-text></p>
+                    </ion-col>
+                  </ion-row>
+                </ion-label>
+              </ion-item>
+          </div>
+
+          <div *ngIf="loaded">
+            <div *ngIf="active.length > 0; else elseActive">
+              <div *ngFor="let item of active">
+                <ion-item-sliding>
+                  <ion-item-options side="start">
+                    <ion-item-option color="success" (click)="goToLink(item.approval_letter_filepath)" href="http://ktdiapp.mooo.com/{{item.approval_letter_filepath}}">{{language['Approval Letter']}}<ion-icon name="document-sharp" slot="bottom"></ion-icon></ion-item-option>
+                  </ion-item-options>
+    
+                  <ion-item>
+                    <ion-label>
+                      <ion-row class="ion-align-items-center">
+                        <ion-col class="ion-text-start">
+                          <ion-text color="primary">#{{item.booking_id}}</ion-text>
+                        </ion-col>
+                        <ion-col class="ion-text-end">
+                          <ion-badge [color]="item.status_color" style="font-size: 16px; border-radius: 50px; color: white;">{{translateData(item.programme_status)}}</ion-badge>
+                        </ion-col>
+                      </ion-row>
+                      <ion-row style="margin-top: -10px;">
+                        <ion-col>
+                          <p style="color: var(--ion-color-text);">{{item.programme_name | titlecase}}</p>
+                        </ion-col>
+                      </ion-row>
+                      <ion-row style="margin-top: -10px; color: var(--ion-color-medium); font-size: 8px;">
+                        <ion-col class="ion-text-start">
+                          <p>{{item.programme_date | date:'dd/MM/YYYY'}} - {{item.programme_end | date:'dd/MM/YYYY'}}</p>
+                        </ion-col>
+                        <ion-col class="ion-text-end">
+                          <p style="font-weight: bold;">RM {{item.rent_fee | number: '1.2'}}</p>
+                        </ion-col>
+                      </ion-row>
+                    </ion-label>
+                  </ion-item>
+    
+                  <ion-item-options side="end">
+                    <ion-item-option color="secondary" (click)="goToLink(item.programme_tentative_filepath)" href="http://ktdiapp.mooo.com/{{item.programme_tentative_filepath}}">{{language['Programme Tentative']}}<ion-icon name="eye-sharp" slot="bottom"></ion-icon></ion-item-option>
+                  </ion-item-options>
+                </ion-item-sliding>
+    
+              </div>
+
+              <ion-row>
+                <ion-col></ion-col>
+                <ion-col size="auto" class="ion-text-center">
+                  <div class="pagination ion-padding">
+                    <a (click)="paging('previous','active', pageActive)">❮</a>
+                    <span *ngFor="let loop of pageActive; index as i; count as c" >
+                      <a *ngIf="loop <= page+2 && loop >= page && page == 1" [ngClass]="{ 'active': page === loop }" (click)="paging(loop,'active', pageActive)">{{loop}}</a>
+                      <a *ngIf="loop <= page+1 && loop >= page-1 && page != 1 && page != pageActive.length" [ngClass]="{ 'active': page === loop }" (click)="paging(loop,'active', pageActive)">{{loop}}</a>
+                      <a *ngIf="loop <= page && loop >= page-2 && page == pageActive.length && pageActive.length != 1" [ngClass]="{ 'active': page === loop }" (click)="paging(loop,'active', pageActive)">{{loop}}</a>
+                    </span>
+                    <a (click)="paging('next','active', pageActive)">❯</a>
+                    <br>
+                    <br>
+                    <p>{{page}} <span *ngIf="language">{{language['of']}}</span> {{pageActive.length}} <span *ngIf="language">{{language['page']}}</span></p>
+                  </div>
+                </ion-col>
+                <ion-col></ion-col>
+              </ion-row>
+              <br>
+
+            </div>
+            
+            <ng-template #elseActive>
+              <ion-card style="box-shadow: none !important;">
+                <img alt="Silhouette of mountains" src="https://ionicframework.com/docs/img/demos/card-media.png" />
+                <ion-card-header>
+                  <ion-card-title class="ion-text-center">No Booking Found!</ion-card-title>
+                </ion-card-header>
+              
+                <ion-card-content class="ion-text-justify">
+                  There are no ongoing nor upcoming programme that could be found here.
+                </ion-card-content>
+              </ion-card>
+            </ng-template>
+          </div>
+
+
+        </ion-list>
+
+        <ion-list *ngSwitchCase="'past'">
+          
+          <ion-searchbar [debounce]="1000" (ionInput)="search($event, 'past')" style="--border-radius: 20px;" color="light" show-clear-button="always" animated="true" placeholder="{{language['Search Booking']}}"></ion-searchbar>
+          
+          <div *ngIf="!loaded">
+            <!-- <ion-item *ngFor="let item of loadLoop">
+              <ion-thumbnail slot="start">
+                <ion-skeleton-text [animated]="true"></ion-skeleton-text>
+              </ion-thumbnail>
+              <ion-label>
+                <h3><ion-skeleton-text [animated]="true" style="width: 8rem;"></ion-skeleton-text></h3>
+                <p><ion-skeleton-text [animated]="true" style="width: 8rem;"></ion-skeleton-text></p>
+                <p><ion-skeleton-text [animated]="true" style="width: 8rem;"></ion-skeleton-text></p>
+                <p><ion-skeleton-text [animated]="true" style="width: 8rem;"></ion-skeleton-text> </p>
+              </ion-label>
+            </ion-item> -->
+
+            <ion-item *ngFor="let item of loadLoop">
+              <ion-label>
+                <ion-row class="ion-align-items-center">
+                  <ion-col class="ion-text-start" size="9">
+                    <h3><ion-skeleton-text [animated]="true" style="width: 4rem;"></ion-skeleton-text></h3>
+                  </ion-col>
+                  <ion-col class="ion-text-end">
+                    <p><ion-skeleton-text [animated]="true" style="width: 4rem;"></ion-skeleton-text></p>
+                  </ion-col>
+                </ion-row>
+                <ion-row style="margin-top: -10px;">
+                  <ion-col>
+                    <p><ion-skeleton-text [animated]="true" style="width: 8rem;"></ion-skeleton-text></p>
+                  </ion-col>
+                </ion-row>
+                <ion-row style="margin-top: -10px; color: var(--ion-color-medium); font-size: 8px;">
+                  <ion-col class="ion-text-start" size="9">
+                    <p><ion-skeleton-text [animated]="true" style="width: 10rem;"></ion-skeleton-text></p>
+                  </ion-col>
+                  <ion-col class="ion-text-end">
+                    <p><ion-skeleton-text slot="end" [animated]="true" style="width: 4rem;"></ion-skeleton-text></p>
+                  </ion-col>
+                </ion-row>
+              </ion-label>
+            </ion-item>
+          </div>
+
+          <div *ngIf="loaded">
+            <div *ngIf="past.length > 0; else elsePast">
+              <div *ngFor="let item of past">
+                <ion-item-sliding>
+                  <ion-item-options side="start">
+                    <ion-item-option color="success" (click)="goToLink(item.approval_letter_filepath)" href="http://ktdiapp.mooo.com/{{item.approval_letter_filepath}}">{{language['Approval Letter']}}<ion-icon name="document-sharp" slot="bottom"></ion-icon></ion-item-option>
+                  </ion-item-options>
+
+                  <ion-item>
+                    <ion-label>
+                      <ion-row class="ion-align-items-center">
+                        <ion-col class="ion-text-start">
+                          <ion-text color="primary">#{{item.booking_id}}</ion-text>
+                        </ion-col>
+                        <ion-col class="ion-text-end">
+                          <ion-badge [color]="item.status_color" style="font-size: 16px; border-radius: 50px; color: white;">{{translateData(item.programme_status)}}</ion-badge>
+                        </ion-col>
+                      </ion-row>
+                      <ion-row style="margin-top: -10px;">
+                        <ion-col>
+                          <p style="color: var(--ion-color-text);">{{item.programme_name | titlecase}}</p>
+                        </ion-col>
+                      </ion-row>
+                      <ion-row style="margin-top: -10px; color: var(--ion-color-medium); font-size: 8px;">
+                        <ion-col class="ion-text-start">
+                          <p>{{item.programme_date | date:'dd/MM/YYYY'}} - {{item.programme_end | date:'dd/MM/YYYY'}}</p>
+                        </ion-col>
+                        <ion-col class="ion-text-end">
+                          <p style="font-weight: bold;">RM {{item.rent_fee | number: '1.2'}}</p>
+                        </ion-col>
+                      </ion-row>
+                    </ion-label>
+                  </ion-item>
+
+                  <ion-item-options side="end">
+                    <ion-item-option color="secondary" (click)="goToLink(item.programme_tentative_filepath)" href="http://ktdiapp.mooo.com/{{item.programme_tentative_filepath}}">{{language['Programme Tentative']}}<ion-icon name="eye-sharp" slot="bottom"></ion-icon></ion-item-option>
+                  </ion-item-options>
+                </ion-item-sliding>
+
+              </div>
+
+              <ion-row>
+                <ion-col></ion-col>
+                <ion-col size="auto" class="ion-text-center">
+                  <div class="pagination ion-padding">
+                    <a (click)="paging('previous','past', pagePast)">❮</a>
+                    <span *ngFor="let loop of pagePast; index as i; count as c" >
+                      <a *ngIf="loop <= page+2 && loop >= page && page == 1" [ngClass]="{ 'active': page === loop }" (click)="paging(loop,'past', pagePast)">{{loop}}</a>
+                      <a *ngIf="loop <= page+1 && loop >= page-1 && page != 1 && page != pagePast.length" [ngClass]="{ 'active': page === loop }" (click)="paging(loop,'past', pagePast)">{{loop}}</a>
+                      <a *ngIf="loop <= page && loop >= page-2 && page == pagePast.length && pagePast.length != 1" [ngClass]="{ 'active': page === loop }" (click)="paging(loop,'past', pagePast)">{{loop}}</a>
+                    </span>
+                    <a (click)="paging('next','past', pagePast)">❯</a>
+                    <br>
+                    <br>
+                    <p>{{page}} <span *ngIf="language">{{language['of']}}</span> {{pagePast.length}} <span *ngIf="language">{{language['page']}}</span></p>
+                  </div>
+                </ion-col>
+                <ion-col></ion-col>
+              </ion-row>
+              <br>
+            </div>
+            <ng-template #elsePast>
+              <ion-card style="box-shadow: none !important;">
+                <img alt="Silhouette of mountains" src="https://ionicframework.com/docs/img/demos/card-media.png" />
+                <ion-card-header>
+                  <ion-card-title class="ion-text-center">No Booking Found!</ion-card-title>
+                </ion-card-header>
+              
+                <ion-card-content class="ion-text-justify">
+                  There are no past programme that could be found here.
+                </ion-card-content>
+              </ion-card>
+            </ng-template>
+          </div>
+
+        </ion-list>
+        
+      </div>
+    </ion-card-content> 
+  </ion-card>
+</ion-content>
+
+<ion-footer>
+  <ion-button expand="full" (click)="navigate('bookhall', 'forward')">{{language['Book Hall']}}</ion-button>
+</ion-footer>
