@@ -31,7 +31,6 @@ export class BookhallPage implements OnInit {
   currentDate = format(new Date(), 'yyyy-MM-dd HH:mm a');
   minDate : any = new Date().toISOString();
   file:File
-  file2:File
   @ViewChild(IonDatetime) datetime :IonDatetime;
 
   booking={ //for booking inputs
@@ -52,17 +51,6 @@ export class BookhallPage implements OnInit {
     price_input:["", "var(--ion-color-success)"], //default colour input
     venue_input:["", "var(--ion-color-success)"]
   }
-
-  plastic = 0; //furniture
-  banquet = 0;
-  desk = 0;
-  whiteboard = 0;
-  partition = 0;
-  pa_system = 0;
-  hand_mic = 0;
-  stand_mic = 0;
-  comber = 0;
-  projector = 0;
 
   constructor(
     public route:ActivatedRoute,
@@ -87,6 +75,7 @@ export class BookhallPage implements OnInit {
     this.formattedString = this.language['Select Date'];
     this.startString = this.language['Select Starting Time'];
     this.endString = this.language['Select Ending Time'];
+
   }
 
   isWeekDay(dateString: string){
@@ -173,41 +162,6 @@ export class BookhallPage implements OnInit {
     this.booking.total += +this.booking.rent_price * this.booking.rent_duration
     this.booking.venue_input =  ["", "var(--ion-color-success)"];
     this.booking.price_input =  ["", "var(--ion-color-success)"];
-  }
-
-  addFurniture(furniture, value){
-    switch(furniture){
-      case "plastic":
-        this.plastic += value
-        break;
-      case "banquet":
-        this.banquet += value
-        break;      
-      case "desk":
-        this.desk += value
-        break;      
-      case "whiteboard":
-        this.whiteboard += value
-        break;      
-      case "partition":
-        this.partition += value
-        break;      
-      case "pa_system":
-        this.pa_system += value
-        break;      
-      case "hand_mic":
-        this.hand_mic += value
-        break;      
-      case "stand_mic":
-        this.stand_mic += value
-        break;      
-      case "comber":
-        this.comber += value
-        break;      
-      case "projector":
-        this.projector += value
-        break;  
-    }
   }
 
   setOpen(isOpen: boolean, modal) { //open or close modal
@@ -303,27 +257,21 @@ export class BookhallPage implements OnInit {
         break;
       case "tentative":
         this.booking.tentative = fileChangeEvent.target.files[0]
-        this.file2 = fileChangeEvent.target.files[0]
         console.log(this.booking.tentative)
         break;
     }
   }
 
-  async bookHall(){
+  bookHall(){
     var headers = new Headers();
     headers.append("Accept", 'application/json');
     headers.append('Content-Type', 'application/json');
-
-    let programme_end:any = this.booking.rent_date
-    programme_end = programme_end.slice(-1)
-    console.log(programme_end)
 
     let formData = new FormData();
     formData.append('user_id', this.data.login.user_id);
     formData.append('programme_name', this.booking.name!);
     formData.append('programme_venue', this.booking.hall_name!);
-    formData.append('programme_date', JSON.stringify(this.booking.rent_date!));
-    formData.append('programme_end', programme_end);
+    formData.append('programme_date', this.booking.rent_date!);
     formData.append('rent_fee', this.booking.total.toString());
     formData.append('no_of_participants', this.booking.participant!);
     formData.append('programme_type', this.booking.rent_type!);
@@ -331,30 +279,21 @@ export class BookhallPage implements OnInit {
     formData.append('end_time', format(new Date(this.booking.rent_end!), 'HH:mm a'));
     formData.append('rent_duration', this.booking.rent_duration.toString());
     formData.append('approval_letter', this.file);
-    formData.append('programme_tentative', this.file2);
-    formData.append('booking', JSON.stringify(this.booking));
+    // formData.append('programme_name', JSON.stringify(this.data)); // send array
     console.log(this.booking)
 
-    const loading = await this.component.loadingController.create({
-      message: this.language["Booking in progress..."]
-    });
-    loading.present();
-
-    this.component.getAPI('http://ktdiapp.mooo.com/api/book_hall.php', formData, "post").subscribe( (data:any) => {
+    this.component.getAPI('http://ktdiapp.mooo.com/api/book_hall.php', formData, "post").subscribe( (data:any) => { //login API
       data.forEach( async item => {
         if(item.Code == '200'){
           console.log(data)
-          loading.dismiss()
         }else{
           this.component.toast(this.language["Something went wrong, please try again later"])
-          loading.dismiss()
         }
       });
     }, async error => {
         console.log(error)
         this.component.toast(this.language["Something went wrong, please try again later"])
-        loading.dismiss()
-      });
+    });
   }
 
 }

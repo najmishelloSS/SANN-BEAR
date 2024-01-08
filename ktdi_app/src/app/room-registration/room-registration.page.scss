@@ -34,6 +34,8 @@ line-height: 22px;
     justify-content: center;
   }
 
-  .room-circle:active {
+  ion-button.room-circle {
+    &.selected {
       background-color: yellow;
+    }
   }
