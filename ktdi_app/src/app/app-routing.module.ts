@@ -114,6 +114,19 @@ const routes: Routes = [
     path: 'admin',
     loadChildren: () => import('./admin/admin.module').then( m => m.AdminPageModule)
   },
+<<<<<<< Updated upstream
+=======
+  {
+    path: 'hall-details',
+    loadChildren: () => import('./hall-details/hall-details.module').then( m => m.HallDetailsPageModule)
+  },
+  {
+    path: 'electric-details',
+    loadChildren: () => import('./electric-details/electric-details.module').then( m => m.ElectricDetailsPageModule)
+  },
+
+];
+>>>>>>> Stashed changes
 
 
 

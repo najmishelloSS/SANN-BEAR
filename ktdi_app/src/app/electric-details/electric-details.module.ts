@@ -3,16 +3,18 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
-import { AdminPageRoutingModule } from './admin-routing.module';
-import { AdminPage } from './admin.page';
+
+import { ElectricDetailsPageRoutingModule } from './electric-details-routing.module';
+
+import { ElectricDetailsPage } from './electric-details.page';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    AdminPageRoutingModule
+    ElectricDetailsPageRoutingModule
   ],
-  declarations: [AdminPage]
+  declarations: [ElectricDetailsPage]
 })
-export class AdminPageModule {}
+export class ElectricDetailsPageModule {}
