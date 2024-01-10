@@ -6,6 +6,7 @@ import { AlertController } from '@ionic/angular';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { from } from 'rxjs';
+import { DataService } from '../service/data.service';
 //////////////DEPENDENCIES///////////////////////
 
 @Injectable({
@@ -23,21 +24,28 @@ import { from } from 'rxjs';
 export class RoomRegistrationPage implements OnInit {
 
   emptyRooms : any;
+  emptyDoubleRooms:any;
 
   constructor(
     public component: ComponentsService,
     private navCtrl: NavController,
+    public dataservice:DataService,
     public alertController: AlertController,
     private http: HttpClient,
   ) {}
 
   //****************************************** PHP SECTION *************************************************/
-
-  ngOnInit() { //initialization
-    this.getEmptyRoom()
+ngOnInit() { //initialization
+    this.getEmptySingleRoom() 
+    this.getEmptyDoubleRoom()
   }
 
-  async getEmptyRoom(){ //get all single room
+
+  // ********************************* Single Room *********************
+
+  
+
+  async getEmptySingleRoom(){ //get all single room
     let formData = new FormData();
 
     this.component.getAPI('http://ktdiapp.mooo.com/api/single_room.php', formData, "get").subscribe( (response:any) => {
@@ -78,6 +86,77 @@ export class RoomRegistrationPage implements OnInit {
     console.log (roomNumbers)
     return roomNumbers // return array of RoomNumber
   }
+
+
+  // ******************************* UPDATE SINGLE ROOM ********************
+
+  async updateSingleRoom(block: string, level: string, roomNumber: string, status: string){ //get all single room
+    // var headers = new Headers();
+    //   headers.append("Accept", 'application/json');
+    //   headers.append('Content-Type', 'application/json');
+    let requestData = { Block: block, Level: level, RoomNumber: roomNumber, Status : status };
+    this.component.getAPI('http://ktdiapp.mooo.com/api/update_single_room.php', requestData, "POST").subscribe( (response:any) => {
+     console.log(response)
+    }, error => {
+        console.log(error)
+        this.component.toast("Something went wrong, please try again later")
+    });
+  }
+
+  updateSingleRoomStatus ()
+  {
+    let block = this.selectedBlock
+    let level = this.selectedLevel
+    let room = this.selectedRoom
+    let status = 'Full'
+    this.updateSingleRoom(block,level,room,status)
+  }
+
+  // ******************************* DOUBLE ROOM ****************************
+
+  
+  async getEmptyDoubleRoom(){ //get all single room
+    let formData = new FormData();
+
+    this.component.getAPI('http://ktdiapp.mooo.com/api/double_room.php', formData, "get").subscribe( (response:any) => {
+     console.log(response)
+     this.emptyDoubleRooms = response.Room
+    }, error => {
+        console.log(error)
+        this.component.toast("Something went wrong, please try again later")
+    });
+  }
+
+  filterDoubleLevel(Level){
+    let Block = this.selectedBlock
+    let result
+    for(let i = 0; i < this.emptyDoubleRooms.length ; i++){
+      result = this.emptyDoubleRooms.filter(e => e["Block"] == Block) // filter out block != MA1
+      result = result.filter(e => e["Level"] == Level) // filter out level != 1
+    }
+    console.log(result)
+    return result.length // return count
+  }
+
+  filterDoubleBlock(Block){
+    let result
+    for(let i = 0; i < this.emptyDoubleRooms.length ; i++){
+      result = this.emptyDoubleRooms.filter(e => e["Block"] == Block) // filter out block != MA1
+    }
+    console.log(result)
+    return result.length // return array
+  }
+
+  filterDoubleRoom(Block,Level){
+    console.log (this.selectedLevel); 
+    console.log(this.selectedBlock);
+    let result = this.emptyDoubleRooms.filter(e => e["Block"] == Block) // filter out block != MA1
+    result = result.filter(e => e["Level"] == Level) // filter out level != 1
+    let roomNumbers = result.map(e => e["RoomNo"]) // extract the RoomNumber property
+    console.log (roomNumbers)
+    return roomNumbers // return array of RoomNumber
+  }
+
 
   
   //******************************************************************************************************/
@@ -227,6 +306,15 @@ export class RoomRegistrationPage implements OnInit {
           this.navigateModal(location, destination);
         }
         break;
+
+        case 'availableRoomModalSingle':
+          if (this.selectedRoom === 'default') {
+            this.presentAlert('Please choose your room number!');
+          } else {
+            this.updateSingleRoomStatus();
+            this.navigateModal(location, destination);
+          }
+          break;
   
       // Double room 
   
@@ -245,6 +333,16 @@ export class RoomRegistrationPage implements OnInit {
           this.navigateModal(location, destination);
         }
         break;
+
+        case 'availableRoomModalDouble':
+          if (this.selectedRoom === 'default') {
+            this.presentAlert('Please choose your room number!');
+          } else {
+            this.updateSingleRoomStatus();
+            this.navigateModal(location, destination);
+          }
+          break;
+  
       
   
       default:
