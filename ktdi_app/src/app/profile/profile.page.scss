@@ -1,0 +1,35 @@
+ion-content {
+    .profile-picture {
+      display: block;
+      margin: 0 auto;
+      max-width: 150px;
+      border-radius: 50%;
+      margin-top: 20px;
+    }
+  
+    h2 {
+      text-align: center;
+      margin-top: 10px;
+      font-size: 1.5em;
+      font-weight: bold;
+    }
+  
+    ion-item {
+      margin-top: 15px;
+  
+      ion-icon {
+        color: #3498db; // Blue color for icons
+      }
+  
+      ion-label {
+        font-weight: bold;
+        margin-left: 10px;
+      }
+    }
+  
+    ion-button {
+      margin-top: 20px;
+      --background: #e74c3c; // Red color for the logout button
+      --color: #fff; // White text color
+    }
+  }

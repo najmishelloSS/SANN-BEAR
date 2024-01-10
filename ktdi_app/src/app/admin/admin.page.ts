@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
-
 @Component({
   selector: 'app-admin',
   templateUrl: './admin.page.html',
@@ -14,11 +13,11 @@ export class AdminPage implements OnInit {
 
   ngOnInit() {
   }
-
   navigate(route: string, direction: string) {
     console.log("Go " + direction + " to " + route);
     
     // Update this part to navigate to the specified route
     this.router.navigate([route]);
   }
+
 }

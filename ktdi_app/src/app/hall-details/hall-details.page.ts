@@ -1,6 +1,5 @@
-
 import { Component, OnInit } from '@angular/core';
-import { HallBookingService } from '../service/hall-booking.service';
+import { HallBookingService } from './hall-booking.service';
 
 @Component({
   selector: 'app-hall-details',

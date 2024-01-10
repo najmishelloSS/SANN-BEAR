@@ -6,6 +6,7 @@ import { AlertController } from '@ionic/angular';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { from } from 'rxjs';
+import { DataService } from '../service/data.service';
 //////////////DEPENDENCIES///////////////////////
 
 @Injectable({
@@ -28,18 +29,21 @@ export class RoomRegistrationPage implements OnInit {
   constructor(
     public component: ComponentsService,
     private navCtrl: NavController,
+    public dataservice:DataService,
     public alertController: AlertController,
     private http: HttpClient,
   ) {}
 
   //****************************************** PHP SECTION *************************************************/
-
-  // ********************************* Single Room *********************
-
-  ngOnInit() { //initialization
+ngOnInit() { //initialization
     this.getEmptySingleRoom() 
     this.getEmptyDoubleRoom()
   }
+
+
+  // ********************************* Single Room *********************
+
+  
 
   async getEmptySingleRoom(){ //get all single room
     let formData = new FormData();
@@ -89,6 +93,30 @@ export class RoomRegistrationPage implements OnInit {
     return roomNumbers // return array of RoomNumber
   }
 
+
+  // ******************************* UPDATE SINGLE ROOM ********************
+
+  async updateSingleRoom(block: string, level: string, roomNumber: string, status: string){ //get all single room
+    var headers = new Headers();
+      headers.append("Accept", 'application/json');
+      headers.append('Content-Type', 'application/json');
+    let requestData = { Block: block, Level: level, RoomNumber: roomNumber, Status : status };
+    this.component.getAPI('http://ktdiapp.mooo.com/api/update_single_room.php', requestData, "POST").subscribe( (response:any) => {
+     console.log(response)
+    }, error => {
+        console.log(error)
+        this.component.toast("Something went wrong, please try again later")
+    });
+  }
+
+  updateSingleRoomStatus ()
+  {
+    let block = this.selectedBlock
+    let level = this.selectedLevel
+    let room = this.selectedRoom
+    let status = 'Full'
+    this.updateSingleRoom(block,level,room,status)
+  }
 
   // ******************************* DOUBLE ROOM ****************************
 
@@ -289,6 +317,7 @@ export class RoomRegistrationPage implements OnInit {
           if (this.selectedRoom === 'default') {
             this.presentAlert('Please choose your room number!');
           } else {
+            this.updateSingleRoomStatus ();
             this.navigateModal(location, destination);
           }
           break;
@@ -315,6 +344,7 @@ export class RoomRegistrationPage implements OnInit {
           if (this.selectedRoom === 'default') {
             this.presentAlert('Please choose your room number!');
           } else {
+            this.updateSingleRoomStatus();
             this.navigateModal(location, destination);
           }
           break;

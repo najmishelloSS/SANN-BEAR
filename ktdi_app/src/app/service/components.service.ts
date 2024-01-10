@@ -57,35 +57,6 @@ export class ComponentsService {
     this.router.navigateByUrl(route+"/"+data.page); //navigate to page eg profile/2
   }
 
-  translateData(data, language){ //translate data
-    if(language == "malay"){
-      switch(data){
-        case "Upcoming":
-          data = "Akan Datang"
-          break;
-        case "Ongoing":
-          data = "Sedang Langsung"
-          break;
-        case "Finished":
-          data = "Tamat"
-          break;
-      }
-    }else{
-      switch(data){
-        case "Upcoming":
-          data = "Upcoming"
-          break;
-        case "Ongoing":
-          data = "Ongoing"
-          break;
-        case "Finished":
-          data = "Finished"
-          break;
-      }
-    }
-    return data
-  }
-
   getLanguage(language){
     switch(language){
       case "malay":
@@ -160,24 +131,6 @@ export class ComponentsService {
         this.language["Programme Tentative"] = "Tentatif Program"
         this.language["Date/Time Information"] = "Maklumat Tarikh/Masa"
         this.language["PDF, JPG, JPEG and PNG only"] = "Hanya PDF, JPG, JPEG dan PNG"
-        this.language["Booking in progress..."] = "Sedang menempah..."
-        this.language["Hall Record"] = "Rekod Dewan"
-        this.language["Book Hall"] = "Tempah Dewan"
-        this.language["Active"] = "Aktif"
-        this.language["Record"] = "Rekod"
-        this.language["Search Booking"] = "Cari Tempahan"
-        this.language["Furniture Information"] = "Maklumat Perabot"
-        this.language["Broadcast Equipment Information"] = "Maklumat Set Siaraya"
-        this.language["Plastic Chair"] = "Kerusi Plastik"
-        this.language["Banquet Chair"] = "Kerusi Bankuet"        
-        this.language["Long Desk"] = "Meja Panjang"
-        this.language["Whiteboard"] = "Papan Putih"
-        this.language["Partition"] = "Partition"
-        this.language["P.A. System"] = "Sistem P.A."
-        this.language["Hand Mic"] = "Mic Tangan"
-        this.language["Stand Mic"] = "Mic Diri"
-        this.language["Comber"] = "Comber"
-        this.language["LCD Projector"] = "Projektor LCD"
         break;
       default:
         this.language["Home"] = "Home"
@@ -250,24 +203,6 @@ export class ComponentsService {
         this.language["Programme Tentative"] = "Programme Tentative"
         this.language["Date/Time Information"] = "Date/Time Information"
         this.language["PDF, JPG, JPEG and PNG only"] = "PDF, JPG, JPEG and PNG only"
-        this.language["Booking in progress..."] = "Booking in progress..."
-        this.language["Hall Record"] = "Hall Record"
-        this.language["Book Hall"] = "Book Hall"
-        this.language["Active"] = "Active"
-        this.language["Record"] = "Record"
-        this.language["Search Booking"] = "Search Booking"
-        this.language["Furniture Information"] = "Furniture Information"
-        this.language["Broadcast Equipment Information"] = "Broadcast Equipment Information"
-        this.language["Plastic Chair"] = "Plastic Chair"
-        this.language["Banquet Chair"] = "Banquet Chair"
-        this.language["Long Desk"] = "Long Desk"
-        this.language["Whiteboard"] = "Whiteboard"
-        this.language["Partition"] = "Partition"
-        this.language["P.A. System"] = "P.A. System"
-        this.language["Hand Mic"] = "Hand Mic"
-        this.language["Stand Mic"] = "Stand Mic"
-        this.language["Comber"] = "Comber"
-        this.language["LCD Projector"] = "LCD Projector"
     }
     return this.language
   }

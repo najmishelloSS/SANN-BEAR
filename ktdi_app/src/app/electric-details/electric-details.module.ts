@@ -4,17 +4,17 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { HallrecordPageRoutingModule } from './hallrecord-routing.module';
+import { ElectricDetailsPageRoutingModule } from './electric-details-routing.module';
 
-import { HallrecordPage } from './hallrecord.page';
+import { ElectricDetailsPage } from './electric-details.page';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    HallrecordPageRoutingModule
+    ElectricDetailsPageRoutingModule
   ],
-  declarations: [HallrecordPage]
+  declarations: [ElectricDetailsPage]
 })
-export class HallrecordPageModule {}
+export class ElectricDetailsPageModule {}
