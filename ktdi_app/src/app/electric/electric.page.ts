@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { DecimalPipe } from '@angular/common';
-import { Stripe, PaymentSheetEventsEnum, PaymentFlowEventsEnum } from '@capacitor-community/stripe';
+import { Stripe, PaymentSheetEventsEnum } from '@capacitor-community/stripe';
 import { environment } from 'src/environments/environment';
-import { first, lastValueFrom } from 'rxjs';
+import { lastValueFrom } from 'rxjs';
 
 interface Appliance {
   id: number;
@@ -28,6 +28,7 @@ export class ElectricPage implements OnInit {
   showPaymentSection = false;
   selectedPaymentMethod: string = '';
   submitted = false;
+  paymentSuccessful = false;
   data: any = {};
   page: string = 'page1';
 
@@ -37,24 +38,16 @@ export class ElectricPage implements OnInit {
   ) {}
 
   httpPost(url: string, body: HttpParams) {
-    return this.http.post<any>(url, body).pipe(first());
+    return this.http.post<any>(url, body);
   }
 
   async ngOnInit(): Promise<void> {
-    this.getAppliances();
+    await this.getAppliances();
   }
-
+  
   async initiateStripePayment(): Promise<void> {
     try {
-      // Add your Stripe payment initiation logic here
-      await this.paymentSheet(); // Call paymentSheet or paymentFlow based on your logic
-    } catch (error) {
-      console.error('Error initiating Stripe payment:', error);
-    }
-  }
-  async paymentSheet() {
-    try {
-      const requestData = { email: 'shah@gmail.com', name: 'Shah' }; 
+      const requestData = { email: 'shah@gmail.com', name: 'Shah', amount: this.totalPrice }; 
       
       let params = new HttpParams();
       Object.keys(requestData).forEach(key => {
@@ -75,48 +68,66 @@ export class ElectricPage implements OnInit {
       console.log('result: ', result);
       if (result && result.paymentResult === PaymentSheetEventsEnum.Completed) {
         // Handle successful payment
-        return paymentIntent.split('_').slice(0, 2). join('_')
+        return paymentIntent.split('_').slice(0, 2).join('_');
       }
     } catch (e) {
       console.log(e);
     }
   }
+
+  async paymentSheet(): Promise<void> {
+    try {
+      const requestData = { email: 'shah@gmail.com', name: 'Shah', amount: this.totalPrice }; 
+      
+      let params = new HttpParams();
+      Object.keys(requestData).forEach(key => {
+        params = params.append(key, requestData[key]);
+      });
   
-
-  async paymentFlow() {
-    Stripe.addListener(PaymentFlowEventsEnum.Completed, () => {
-      console.log('PaymentFlowEventsEnum.Completed');
-    });
-
-    const data = new HttpParams({ fromObject: this.data });
-    const data$ = this.httpPost(environment.api + 'payment-sheet', data);
-
-    const { paymentIntent, ephemeralKey, customer } = await lastValueFrom(data$);
-
-    // Prepare PaymentFlow with CreatePaymentFlowOption.
-    await Stripe.createPaymentFlow({
-      paymentIntentClientSecret: paymentIntent,
-      customerEphemeralKeySecret: ephemeralKey,
-      customerId: customer,
-    });
-
-    // Present PaymentFlow.
-    const presentResult = await Stripe.presentPaymentFlow();
-    console.log(presentResult); // { cardNumber: "●●●● ●●●● ●●●● ****" }
-
-    // Confirm PaymentFlow.
-    const confirmResult = await Stripe.confirmPaymentFlow();
-    if (confirmResult.paymentResult === PaymentFlowEventsEnum.Completed) {
-      // Handle successful confirmation
+      const data$ = this.httpPost(environment.api + 'payment-sheet', params);
+  
+      const { paymentIntent, ephemeralKey, customer } = await lastValueFrom(data$);
+  
+      await Stripe.createPaymentSheet({
+        paymentIntentClientSecret: paymentIntent,
+        customerId: customer,
+        customerEphemeralKeySecret: ephemeralKey,
+      });
+  
+      const result = await Stripe.presentPaymentSheet();
+      console.log('result: ', result);
+      if (result && result.paymentResult === PaymentSheetEventsEnum.Completed) {
+        // Handle successful payment
+        return paymentIntent.split('_').slice(0, 2).join('_');
+      }
+    } catch (e) {
+      console.log(e);
     }
   }
 
-
-  navigateToPage(targetPage: string) {
+  async presentPaymentSheet(): Promise<void> {
+    try {
+      const result = await Stripe.presentPaymentSheet();
+      console.log('Payment sheet presented:', result);
+      if (result && result.paymentResult === PaymentSheetEventsEnum.Completed) {
+        // Handle successful payment
+        console.log('Payment completed successfully');
+      } else if (result && result.paymentResult === PaymentSheetEventsEnum.Canceled) {
+        // Handle payment cancellation
+        console.log('Payment canceled by user');
+      } else {
+        // Handle other payment outcomes
+        console.log('Payment failed or encountered an error');
+      }
+    } catch (error) {
+      console.error('Error presenting payment sheet:', error);
+    }
+  }
+  
+  async navigateToPage(targetPage: string): Promise<void> {
     this.page = targetPage;
   }
-
-
+  
   getAppliances(): void {
     this.http.get<any>(this.apiUrl).subscribe(
       (data: any) => {
@@ -165,6 +176,7 @@ export class ElectricPage implements OnInit {
       return acc + parseFloat(curr.price.toString()); // Ensure curr.price is parsed as a number
     }, 0);
     this.formatTotalPrice(); // Call the method to format the total price
+
   }
 
   formatTotalPrice(): string {

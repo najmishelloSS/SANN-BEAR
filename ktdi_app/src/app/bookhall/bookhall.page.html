@@ -1,7 +1,7 @@
 <ion-header style="overflow: hidden;">
   <ion-toolbar>
     <ion-buttons style='color:white;margin-top: constant(safe-area-inset-top);margin-top: env(safe-area-inset-top);' slot="start">
-      <ion-button (click)="navigate('hallrecord','back')"><ion-icon style='color:var(--ion-color-dark)' class="icon" name="arrow-back-outline"></ion-icon></ion-button>
+      <ion-button (click)="navigate('home','back')"><ion-icon style='color:var(--ion-color-dark)' class="icon" name="arrow-back-outline"></ion-icon></ion-button>
     </ion-buttons>
     <ion-title size="large">{{language['Hall Booking']}}</ion-title>
   </ion-toolbar>
@@ -179,142 +179,35 @@
         </div>
 
         <div *ngIf="page == 3">
-          <h1><b>{{language["Furniture Information"]}}</b></h1>
+          <h1><b>{{language["Hall Information"]}}</b></h1>
 
-          <!-- <ion-item style="--border-radius: 20px;--border-width: 2px;--height:4rem;">
+          <ion-item style="--border-radius: 20px;--border-width: 2px;--height:4rem;">
             <ion-label><ion-icon color="medium" style="font-size: 32px;" name="location-outline"></ion-icon></ion-label>
             <ion-input type="text" [(ngModel)]="booking['hall_name']" readonly (ionChange)="ionChange('save')"></ion-input>
           </ion-item>
-          <br> -->
-
-          <ion-item style="--border-radius: 20px;--border-width: 2px;--height:4rem;">
-            <ion-button (click)="addFurniture('plastic', 1)" color="success" fill="clear" slot="start">
-              <ion-icon slot="icon-only" name="add-circle"></ion-icon>
-            </ion-button>
-            <ion-input [(ngModel)]="plastic" type="number" label="{{language['Plastic Chair']}}" label-placement="stacked"></ion-input>
-            <ion-button (click)="addFurniture('plastic', -1)" color="danger" fill="clear" slot="end" aria-label="Show/hide">
-              <ion-icon slot="icon-only" name="remove-circle" aria-hidden="true"></ion-icon>
-            </ion-button>
-          </ion-item>
-          <br>
-
-          <ion-item style="--border-radius: 20px;--border-width: 2px;--height:4rem;">
-            <ion-button (click)="addFurniture('banquet', 1)" color="success" fill="clear" slot="start">
-              <ion-icon slot="icon-only" name="add-circle"></ion-icon>
-            </ion-button>
-            <ion-input [(ngModel)]="banquet" type="number" label="{{language['Banquet Chair']}}" label-placement="stacked" value="0"></ion-input>
-            <ion-button (click)="addFurniture('banquet', -1)" color="danger" fill="clear" slot="end" aria-label="Show/hide">
-              <ion-icon slot="icon-only" name="remove-circle" aria-hidden="true"></ion-icon>
-            </ion-button>
-          </ion-item>
-          <br>
-
-          <ion-item style="--border-radius: 20px;--border-width: 2px;--height:4rem;">
-            <ion-button (click)="addFurniture('desk', 1)" color="success" fill="clear" slot="start">
-              <ion-icon slot="icon-only" name="add-circle"></ion-icon>
-            </ion-button>
-            <ion-input [(ngModel)]="desk" type="number" label="{{language['Long Desk']}}" label-placement="stacked" value="0"></ion-input>
-            <ion-button (click)="addFurniture('desk', -1)" color="danger" fill="clear" slot="end" aria-label="Show/hide">
-              <ion-icon slot="icon-only" name="remove-circle" aria-hidden="true"></ion-icon>
-            </ion-button>
-          </ion-item>
-          <br>
-
-          <ion-item style="--border-radius: 20px;--border-width: 2px;--height:4rem;">
-            <ion-button (click)="addFurniture('whiteboard', 1)" color="success" fill="clear" slot="start">
-              <ion-icon slot="icon-only" name="add-circle"></ion-icon>
-            </ion-button>
-            <ion-input [(ngModel)]="whiteboard" type="number" label="{{language['Whiteboard']}}" label-placement="stacked" value="0"></ion-input>
-            <ion-button (click)="addFurniture('whiteboard', -1)" color="danger" fill="clear" slot="end" aria-label="Show/hide">
-              <ion-icon slot="icon-only" name="remove-circle" aria-hidden="true"></ion-icon>
-            </ion-button>
-          </ion-item>
-          <br>
-
-          <ion-item style="--border-radius: 20px;--border-width: 2px;--height:4rem;">
-            <ion-button (click)="addFurniture('partition', 1)" color="success" fill="clear" slot="start">
-              <ion-icon slot="icon-only" name="add-circle"></ion-icon>
-            </ion-button>
-            <ion-input [(ngModel)]="partition" type="number" label="{{language['Partition']}}" label-placement="stacked" value="0"></ion-input>
-            <ion-button (click)="addFurniture('partition', -1)" color="danger" fill="clear" slot="end" aria-label="Show/hide">
-              <ion-icon slot="icon-only" name="remove-circle" aria-hidden="true"></ion-icon>
-            </ion-button>
-          </ion-item>
           <br>
 
         </div>
-
-        <div *ngIf="page == 4">
-          <h1><b>{{language["Broadcast Equipment Information"]}}</b></h1>
-
-          <ion-item style="--border-radius: 20px;--border-width: 2px;--height:4rem;">
-            <ion-button (click)="addFurniture('pa_system', 1)" color="success" fill="clear" slot="start">
-              <ion-icon slot="icon-only" name="add-circle"></ion-icon>
-            </ion-button>
-            <ion-input [(ngModel)]="pa_system" type="number" label="{{language['P.A. System']}}" label-placement="stacked" value="0"></ion-input>
-            <ion-button (click)="addFurniture('pa_system', -1)" color="danger" fill="clear" slot="end" aria-label="Show/hide">
-              <ion-icon slot="icon-only" name="remove-circle" aria-hidden="true"></ion-icon>
-            </ion-button>
-          </ion-item>
-          <br>
-
-          <ion-item style="--border-radius: 20px;--border-width: 2px;--height:4rem;">
-            <ion-button (click)="addFurniture('hand_mic', 1)" color="success" fill="clear" slot="start">
-              <ion-icon slot="icon-only" name="add-circle"></ion-icon>
-            </ion-button>
-            <ion-input [(ngModel)]="hand_mic" type="number" label="{{language['Hand Mic']}}" label-placement="stacked" value="0"></ion-input>
-            <ion-button (click)="addFurniture('hand_mic', -1)" color="danger" fill="clear" slot="end" aria-label="Show/hide">
-              <ion-icon slot="icon-only" name="remove-circle" aria-hidden="true"></ion-icon>
-            </ion-button>
-          </ion-item>
-          <br>
-
-          <ion-item style="--border-radius: 20px;--border-width: 2px;--height:4rem;">
-            <ion-button (click)="addFurniture('stand_mic', 1)" color="success" fill="clear" slot="start">
-              <ion-icon slot="icon-only" name="add-circle"></ion-icon>
-            </ion-button>
-            <ion-input [(ngModel)]="stand_mic" type="number" label="{{language['Stand Mic']}}" label-placement="stacked" value="0"></ion-input>
-            <ion-button (click)="addFurniture('stand_mic', -1)" color="danger" fill="clear" slot="end" aria-label="Show/hide">
-              <ion-icon slot="icon-only" name="remove-circle" aria-hidden="true"></ion-icon>
-            </ion-button>
-          </ion-item>
-          <br>
-
-          <ion-item style="--border-radius: 20px;--border-width: 2px;--height:4rem;">
-            <ion-button (click)="addFurniture('comber', 1)" color="success" fill="clear" slot="start">
-              <ion-icon slot="icon-only" name="add-circle"></ion-icon>
-            </ion-button>
-            <ion-input [(ngModel)]="comber" type="number" label="{{language['Comber']}}" label-placement="stacked" value="0"></ion-input>
-            <ion-button (click)="addFurniture('comber', -1)" color="danger" fill="clear" slot="end" aria-label="Show/hide">
-              <ion-icon slot="icon-only" name="remove-circle" aria-hidden="true"></ion-icon>
-            </ion-button>
-          </ion-item>
-          <br>
-
-          <ion-item style="--border-radius: 20px;--border-width: 2px;--height:4rem;">
-            <ion-button (click)="addFurniture('projector', 1)" color="success" fill="clear" slot="start">
-              <ion-icon slot="icon-only" name="add-circle"></ion-icon>
-            </ion-button>
-            <ion-input [(ngModel)]="projector" type="number" label="{{language['LCD Projector']}}" label-placement="stacked" value="0"></ion-input>
-            <ion-button (click)="addFurniture('projector', -1)" color="danger" fill="clear" slot="end" aria-label="Show/hide">
-              <ion-icon slot="icon-only" name="remove-circle" aria-hidden="true"></ion-icon>
-            </ion-button>
-          </ion-item>
-          <br>
-
-          <!-- <ion-row>
-            <ion-col>
-              <ion-item (click)="setOpen(false,'bookingModal');ionChange('reset')" detail="false" lines="none" button color="danger" style="--border-radius: 20px;--border-width: 0px;--height:4rem">
-                <ion-label style="text-align: center;color: white;">{{language["Cancel"]}}</ion-label>
-              </ion-item>
-            </ion-col>
-            <ion-col>
-              <ion-item (click)="display()" detail="false" lines="none" button color="primary" style="--border-radius: 20px;--border-width: 0px;--height:4rem">
-                <ion-label style="text-align: center;color: white;">{{language["Save"]}}</ion-label>
-              </ion-item>
-            </ion-col>
-          </ion-row> -->
-        </div>
+        
+        <!-- <ion-row>
+          <ion-col></ion-col>
+          <ion-col size="auto" class="ion-text-center">
+            <div class="pagination ion-padding">
+              <a (click)="paging('previous')">❮</a>
+              <span *ngFor="let loop of pageArray; index as i; count as c" >
+                <a *ngIf="loop <= page+2 && loop >= page && page == 1" [ngClass]="{ 'active': page === loop }" (click)="paging(loop)">{{loop}}</a>
+                <a *ngIf="loop <= page+1 && loop >= page-1 && page != 1 && page != pageArray.length" [ngClass]="{ 'active': page === loop }" (click)="paging(loop)">{{loop}}</a>
+                <a *ngIf="loop <= page && loop >= page-2 && page == pageArray.length && pageArray.length != 1" [ngClass]="{ 'active': page === loop }" (click)="paging(loop)">{{loop}}</a>
+              </span>
+              <a (click)="paging('next')">❯</a>
+              <br>
+              <br>
+              <p>{{page}} <span *ngIf="language">{{language['of']}}</span> 4 <span *ngIf="language">{{language['page']}}</span></p>
+            </div>
+          </ion-col>
+          <ion-col></ion-col>
+        </ion-row>
+        <br> -->
 
         <br>
         <ion-row>
@@ -337,6 +230,21 @@
           </ion-col>
         </ion-row>
         <br>
+
+        <div *ngIf="page == 4">
+          <!-- <ion-row>
+            <ion-col>
+              <ion-item (click)="setOpen(false,'bookingModal');ionChange('reset')" detail="false" lines="none" button color="danger" style="--border-radius: 20px;--border-width: 0px;--height:4rem">
+                <ion-label style="text-align: center;color: white;">{{language["Cancel"]}}</ion-label>
+              </ion-item>
+            </ion-col>
+            <ion-col>
+              <ion-item (click)="display()" detail="false" lines="none" button color="primary" style="--border-radius: 20px;--border-width: 0px;--height:4rem">
+                <ion-label style="text-align: center;color: white;">{{language["Save"]}}</ion-label>
+              </ion-item>
+            </ion-col>
+          </ion-row> -->
+        </div>
 
       </ion-content>
     </ng-template>
