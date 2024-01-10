@@ -22,25 +22,17 @@
         <ion-icon name="grid-outline"></ion-icon>
         <ion-label style="font-size: 14px; margin-left: 10px; color: grey;">Dashboard</ion-label>
       </ion-item>
-      <ion-item button (click)="navigate('apps','forward')">
-        <ion-icon name="information-circle-outline"></ion-icon>
-        <ion-label style="font-size: 14px; margin-left: 10px; color: grey;">Apps</ion-label>
+      <ion-item button (click)="navigate('hall-details','forward')">
+        <ion-icon name="calendar-outline"></ion-icon>
+        <ion-label style="font-size: 14px; margin-left: 10px; color: grey;">Hall Book</ion-label>
+      </ion-item>
+      <ion-item button (click)="navigate('electric-details','forward')">
+        <ion-icon name="flash-outline"></ion-icon>
+        <ion-label style="font-size: 14px; margin-left: 10px; color: grey;">Electrical Registration</ion-label>
       </ion-item>
       <ion-item button (click)="navigate('charts','forward')">
         <ion-icon name="bar-chart-outline"></ion-icon>
         <ion-label style="font-size: 14px; margin-left: 10px; color: grey;">Charts</ion-label>
-      </ion-item>
-      <ion-item button (click)="navigate('bootstrap','forward')">
-        <ion-icon name="star-outline"></ion-icon>
-        <ion-label style="font-size: 14px; margin-left: 10px; color: grey;">Bootstrap</ion-label>
-      </ion-item>
-      <ion-item button (click)="navigate('plugins','forward')">
-        <ion-icon name="heart-outline"></ion-icon>
-        <ion-label style="font-size: 14px; margin-left: 10px; color: grey;">Plugins</ion-label>
-      </ion-item>
-      <ion-item button (click)="navigate('widget','forward')">
-        <ion-icon name="settings-outline"></ion-icon>
-        <ion-label style="font-size: 14px; margin-left: 10px; color: grey;">Widget</ion-label>
       </ion-item>
       <ion-item button (click)="navigate('forms','forward')">
         <ion-icon name="document-text-outline"></ion-icon>
@@ -66,10 +58,6 @@
         <ion-searchbar [debounce]="1000" style="--border-radius: 20px;" color="light" show-clear-button="always" animated="true" placeholder="Search Here"></ion-searchbar>
       </ion-col>
       <ion-col size="2">
-        <ion-button (click)="navigate('notification', 'forward')" lines="none" fill="clear" style="--background: transparent;">
-          <ion-badge style="position: absolute; z-index:100; margin-left: 20px; margin-bottom: 20px;" color="danger">2</ion-badge>
-          <ion-icon name="gift-outline" style="font-size: 25px" color="dark"></ion-icon>
-        </ion-button>
       </ion-col>
       <ion-col size="2">
         <ion-button (click)="navigate('notification', 'forward')" lines="none" fill="clear" style="--background: transparent;">
@@ -146,6 +134,100 @@
         </ion-card>
       </ion-col>
     </ion-row>
+
+     <!-- Hall Booking Results -->
+     <ion-row>
+      <ion-col size="12">
+        <ion-card>
+          <ion-card-header>
+            <ion-card-title>Hall Booking Results</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <!-- Display hall booking results here -->
+            <ion-item>
+              <ion-label>Date: 2023-01-01</ion-label>
+              <ion-label>Hall: Hall A</ion-label>
+              <ion-label>Booked by: John Doe</ion-label>
+            </ion-item>
+            <!-- Add more ion-items as needed -->
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  
+    <!-- Report Damage Status -->
+    <ion-row>
+      <ion-col size="12">
+        <ion-card>
+          <ion-card-header>
+            <ion-card-title>Reported Damage Status</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <!-- Display reported damage status here -->
+            <ion-item>
+              <ion-label>Location: Room 101</ion-label>
+              <ion-label>Status: In Progress</ion-label>
+              <ion-label>Reported by: Jane Doe</ion-label>
+            </ion-item>
+            <!-- Add more ion-items as needed -->
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  
+    <!-- Total Room Registration -->
+    <ion-row>
+      <ion-col size="12">
+        <ion-card>
+          <ion-card-header>
+            <ion-card-title>Total Room Registration</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <!-- Display total room registration count here -->
+            <ion-item>
+              <ion-label>Total Rooms: 100</ion-label>
+            </ion-item>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  
+    <!-- Total Registered Electrical Appliances -->
+    <ion-row>
+      <ion-col size="12">
+        <ion-card>
+          <ion-card-header>
+            <ion-card-title>Total Registered Electrical Appliances</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <!-- Display total registered electrical appliances count here -->
+            <ion-item>
+              <ion-label>Total Appliances: 500</ion-label>
+            </ion-item>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  
+    <!-- Feedback and Recommendations -->
+    <ion-row>
+      <ion-col size="12">
+        <ion-card>
+          <ion-card-header>
+            <ion-card-title>Feedback and Recommendations</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <!-- Display feedback and recommendations here -->
+            <ion-item>
+              <ion-label>User: John Doe</ion-label>
+              <ion-label>Feedback: Excellent facilities!</ion-label>
+            </ion-item>
+            <!-- Add more ion-items as needed -->
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  
 
     <ion-card>
       <ion-card-content>

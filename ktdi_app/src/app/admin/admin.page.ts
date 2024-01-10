@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-admin',
@@ -6,14 +7,17 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./admin.page.scss'],
 })
 export class AdminPage implements OnInit {
+  hallBookings: any[] = [];
 
-  constructor() { }
+  constructor(private router: Router) { }
 
   ngOnInit() {
   }
-
-  navigate(route, direction){
-    console.log("Go " + direction + " to " +route )
+  navigate(route: string, direction: string) {
+    console.log("Go " + direction + " to " + route);
+    
+    // Update this part to navigate to the specified route
+    this.router.navigate([route]);
   }
 
 }
