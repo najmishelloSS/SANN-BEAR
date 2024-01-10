@@ -1,0 +1,17 @@
+.item-inner {
+    ion-label {
+      color: #666;
+      font-weight: normal;
+    }
+
+    ion-input {
+      margin-bottom: 10px;
+    }
+ }
+
+ ion-button {
+    margin-top: 20px;
+    &:last-child {
+      margin-top: 40px;
+    }
+ }
