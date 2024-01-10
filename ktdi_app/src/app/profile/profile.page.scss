@@ -1,17 +1,35 @@
-.item-inner {
-    ion-label {
-      color: #666;
-      font-weight: normal;
+ion-content {
+    .profile-picture {
+      display: block;
+      margin: 0 auto;
+      max-width: 150px;
+      border-radius: 50%;
+      margin-top: 20px;
     }
-
-    ion-input {
-      margin-bottom: 10px;
+  
+    h2 {
+      text-align: center;
+      margin-top: 10px;
+      font-size: 1.5em;
+      font-weight: bold;
     }
- }
-
- ion-button {
-    margin-top: 20px;
-    &:last-child {
-      margin-top: 40px;
+  
+    ion-item {
+      margin-top: 15px;
+  
+      ion-icon {
+        color: #3498db; // Blue color for icons
+      }
+  
+      ion-label {
+        font-weight: bold;
+        margin-left: 10px;
+      }
     }
- }
+  
+    ion-button {
+      margin-top: 20px;
+      --background: #e74c3c; // Red color for the logout button
+      --color: #fff; // White text color
+    }
+  }
