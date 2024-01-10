@@ -23,8 +23,8 @@ import { DataService } from '../service/data.service';
 
 export class RoomRegistrationPage implements OnInit {
 
-  emptyRooms : any;
-  emptyDoubleRooms:any;
+  emptySingleRooms : any;
+  emptyDoubleRooms : any;
 
   constructor(
     public component: ComponentsService,
@@ -50,38 +50,44 @@ ngOnInit() { //initialization
 
     this.component.getAPI('http://ktdiapp.mooo.com/api/single_room.php', formData, "get").subscribe( (response:any) => {
      console.log(response)
-     this.emptyRooms = response.Room
+     this.emptySingleRooms = response.Room
     }, error => {
         console.log(error)
         this.component.toast("Something went wrong, please try again later")
     });
   }
 
-  filterLevel(Level){
+  filterSingleLevel(Level){
+    let Status = "Empty"
     let Block = this.selectedBlock
     let result
-    for(let i = 0; i < this.emptyRooms.length ; i++){
-      result = this.emptyRooms.filter(e => e["Block"] == Block) // filter out block != MA1
+    for(let i = 0; i < this.emptySingleRooms.length ; i++){
+      result = this.emptySingleRooms.filter(e => e["Block"] == Block) // filter out block != MA1
       result = result.filter(e => e["Level"] == Level) // filter out level != 1
+      result = result.filter(e => e["Status"] == Status) // filter out status = "Empty"
     }
     console.log(result)
     return result.length // return count
   }
 
-  filterBlock(Block){
+  filterSingleBlock(Block){
+    let Status = "Empty"
     let result
-    for(let i = 0; i < this.emptyRooms.length ; i++){
-      result = this.emptyRooms.filter(e => e["Block"] == Block) // filter out block != MA1
+    for(let i = 0; i < this.emptySingleRooms.length ; i++){
+      result = this.emptySingleRooms.filter(e => e["Block"] == Block) // filter out block != MA1
+      result = result.filter(e => e["Status"] == Status) // filter out status = "Empty"
     }
     console.log(result)
     return result.length // return array
   }
 
-  filterRoom(Block,Level){
+  filterSingleRoom(Block,Level){
     console.log (this.selectedLevel); 
     console.log(this.selectedBlock);
-    let result = this.emptyRooms.filter(e => e["Block"] == Block) // filter out block != MA1
+    let Status = "Empty"
+    let result = this.emptySingleRooms.filter(e => e["Block"] == Block) // filter out block != MA1
     result = result.filter(e => e["Level"] == Level) // filter out level != 1
+    result = result.filter(e => e["Status"] == Status) // filter out status = "Empty"
     let roomNumbers = result.map(e => e["RoomNumber"]) // extract the RoomNumber property
     console.log (roomNumbers)
     return roomNumbers // return array of RoomNumber
@@ -91,9 +97,9 @@ ngOnInit() { //initialization
   // ******************************* UPDATE SINGLE ROOM ********************
 
   async updateSingleRoom(block: string, level: string, roomNumber: string, status: string){ //get all single room
-    // var headers = new Headers();
-    //   headers.append("Accept", 'application/json');
-    //   headers.append('Content-Type', 'application/json');
+    var headers = new Headers();
+      headers.append("Accept", 'application/json');
+      headers.append('Content-Type', 'application/json');
     let requestData = { Block: block, Level: level, RoomNumber: roomNumber, Status : status };
     this.component.getAPI('http://ktdiapp.mooo.com/api/update_single_room.php', requestData, "POST").subscribe( (response:any) => {
      console.log(response)
@@ -249,7 +255,7 @@ ngOnInit() { //initialization
     {
       this.availableBlockModalDouble = isOpen; 
     }
-    else if (modalName == "availableLevelModalDOuble")
+    else if (modalName == "availableLevelModalDouble")
     {
       this.availableLevelModalDouble = isOpen; 
     }
@@ -311,7 +317,7 @@ ngOnInit() { //initialization
           if (this.selectedRoom === 'default') {
             this.presentAlert('Please choose your room number!');
           } else {
-            this.updateSingleRoomStatus();
+            this.updateSingleRoomStatus ();
             this.navigateModal(location, destination);
           }
           break;
@@ -354,11 +360,13 @@ ngOnInit() { //initialization
 
 
 
-  availableRooms = ['101','102']
   selectRoom(roomNumber: string) {
     // Implement your logic when a room is selected
+    this.selectedRoom = roomNumber;
     console.log(`Room ${roomNumber} selected`);
   }
+
+
 
   // Function to check if a room is selected
 isRoomSelected(roomNumber: string): boolean {
