@@ -53,4 +53,12 @@ export class HomePage implements OnInit{
     this.component.navigate(route, this.data, direction)
   }
 
+  updateProfile() {
+    // Add logic for updating profile
+  }
+
+  logout() {
+    // Add logic for logging out
+  }
+
 }
