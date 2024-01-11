@@ -1,3 +1,69 @@
 .selected-item {
-  background-color: lightgreen;
+  background-color: lightgreen; /* Background color for selected items */
+}
+
+.label-text {
+  font-size: 24px;
+  font-weight: bold;
+  /* Add other styles as needed */
+}
+
+.additional-text {
+  font-size: 16px;
+  color: #666;
+  /* Add other styles as needed */
+}
+
+.categories-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px; /* Adjust spacing between category boxes */
+}
+
+.category-box {
+  flex: 1 1 300px; /* Adjust box width as needed */
+  border: 1px solid #ccc; /* Example border for category boxes */
+  padding: 10px;
+  border-radius: 8px;
+  /* Additional styling for category boxes */
+}
+
+.category-box h3 {
+  margin-top: 0;
+  /* Styling for category titles */
+}
+
+.item-container {
+  display: flex;
+  overflow-x: auto;
+  overflow-y: hidden;
+  white-space: nowrap;
+  padding-bottom: 10px; /* Add some padding at the bottom for better UI */
+}
+
+.item {
+  display: inline-block;
+  border-radius: 50%; /* Make the items circular */
+  padding: 15px;
+  margin: 5px;
+  border: 2px solid transparent; /* Border to indicate selected items */
+  background-color: #f1f1f1e7; /* Default background color for unselected items */
+  transition: background-color 0.35s ease-in-out; /* Smooth transition effect */
+}
+
+
+.selected-item {
+  background-color: lightgreen; /* Background color for selected items */
+  border-color: green; /* Border color for selected items */
+}
+
+.total-price {
+  font-size: 16px;
+  font-weight: bold;
+  /* Add other styles as needed */
+}
+
+.tax-text {
+  color: #777;
+  /* Add other styles as needed */
 }
