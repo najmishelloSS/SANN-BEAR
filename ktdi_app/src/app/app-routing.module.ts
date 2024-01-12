@@ -57,6 +57,17 @@ const routes: Routes = [
     loadChildren: () => import('./bookhall/bookhall.module').then( m => m.BookhallPageModule)
   },
   {
+    path: 'hallrecord',
+    loadChildren: () => import('./hallrecord/hallrecord.module').then( m => m.HallrecordPageModule)
+  },
+  {
+    path: 'hallrecord/:id',
+    resolve:{
+      special:DataResolverService
+    },
+    loadChildren: () => import('./hallrecord/hallrecord.module').then( m => m.HallrecordPageModule)
+  },
+  {
     path: 'room-registration',
     loadChildren: () => import('./room-registration/room-registration.module').then( m => m.RoomRegistrationPageModule)
   },

@@ -50,45 +50,45 @@
  <h4>Services</h4>
  <div class="categories">
   <div class="icon-button-container">
-  <ion-button color="primary" (click)="navigate('bookhall', 'forward')" class="touchable-button">
+  <ion-button color="primary" (click)="navigate('hallrecord', 'forward')" class="touchable-button">
     <ion-icon name="calendar"></ion-icon>
   </ion-button>
-  <span class="button-caption">Hall Booking</span>
+  <span (click)="navigate('hallrecord', 'forward')" class="button-caption">Hall Booking</span>
   </div>
   
   <div class="icon-button-container">
   <ion-button color="primary" (click)="navigate('report', 'forward')" class="touchable-button">
     <ion-icon name="document-text"></ion-icon>
   </ion-button>
-  <span class="button-caption">Report</span>
+  <span (click)="navigate('report', 'forward')" class="button-caption">Report</span>
   </div>
   
   <div class="icon-button-container">
   <ion-button color="primary" (click)="navigate('report-status', 'forward')" class="touchable-button">
     <ion-icon name="bar-chart"></ion-icon>
   </ion-button>
-  <span class="button-caption">Report Status</span>
+  <span (click)="navigate('report-status', 'forward')" class="button-caption">Report Status</span>
   </div>
   
   <div class="icon-button-container">
   <ion-button color="primary" (click)="navigate('room-registration', 'forward')" class="touchable-button">
     <ion-icon name="business"></ion-icon>
   </ion-button>
-  <span class="button-caption">Room Registration</span>
+  <span (click)="navigate('room-registration', 'forward')" class="button-caption">Room Registration</span>
   </div>
   
   <div class="icon-button-container">
   <ion-button color="primary" (click)="navigate('electric', 'forward')" class="touchable-button">
     <ion-icon name="power"></ion-icon> 
   </ion-button>
-  <span class="button-caption">Register Electrical Appliances</span>
+  <span (click)="navigate('electric', 'forward')" class="button-caption">Register Electrical Appliances</span>
   </div>
   
   <div class="icon-button-container">
   <ion-button color="primary" (click)="navigate('feedback', 'forward')" class="touchable-button">
     <ion-icon name="chatbubbles"></ion-icon> 
   </ion-button>
-  <span class="button-caption">Feedback & Recommendation</span>
+  <span (click)="navigate('feedback', 'forward')" class="button-caption">Feedback & Recommendation</span>
   </div>
 </div>
 
