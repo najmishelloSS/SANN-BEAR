@@ -211,7 +211,7 @@ export class ElectricPage implements OnInit {
 
   submitRegistration(): void {
     // Logic for submitting registration goes here
-    // You can access this.selectedAppliances to get the selected items
+
     this.submitted = true;
   }
 }
