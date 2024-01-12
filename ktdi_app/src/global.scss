@@ -25,6 +25,8 @@
 @import "@ionic/angular/css/text-transformation.css";
 @import "@ionic/angular/css/flex-utils.css";
 
+  // container START
+
 #container {
     text-align: center;
   
@@ -51,4 +53,40 @@
   
   #container a {
     text-decoration: none;
+  }
+
+  // container END
+
+
+  // pagination START
+
+  .pagination {
+    display: inline-block;
+  }
+  
+  .pagination a {
+    color: var(--ion-text-color);
+    float: left;
+    padding: 8px 16px;
+    text-decoration: none;
+    transition: background-color .3s;
+    border: 1px solid #ddd;
+    margin: 4px 4px; /* 0 is for top and bottom. Feel free to change it */
+  }
+  
+  .pagination a.active {
+    background-color: var(--ion-color-primary);
+    color: var(--ion-text-color);
+    border: 1px solid var(--ion-color-primary);
+  }
+  
+  .pagination a:hover:not(.active) {background-color: #ddd;}
+
+  // pagination END
+
+  ion-badge{
+    --padding-end: 10px; 
+    --padding-start: 10px; 
+    --padding-top: 5px; 
+    --padding-bottom: 5px;
   }

@@ -1,0 +1,36 @@
+.date{
+    background: rgba(44,39,45,0.2);
+
+    &part::part(content){
+        backdrop-filter: blur(6px);
+    }
+
+    ion-content{
+        --background: transparent;
+        --padding-top:25vh;
+        --padding-start:20px;
+        --padding-end:20px;
+    }
+
+    ion-datetime{
+        border-radius:8px;
+        border-width : 1px;
+        border-color : var(--ion-color-primary);
+        border-style : solid;
+    }
+}
+
+    ion-modal.file {
+        --width: fit-content;
+        --min-width: 250px;
+        --height: fit-content;
+        --border-radius: 6px;
+        --box-shadow: 0 28px 48px rgba(0, 0, 0, 0.4);
+        --border-width : 1px;
+        --border-color : var(--ion-color-primary);
+        --border-style : solid;
+      }
+      
+      ion-modal.file .wrapper {
+        margin-bottom: 10px;
+      }

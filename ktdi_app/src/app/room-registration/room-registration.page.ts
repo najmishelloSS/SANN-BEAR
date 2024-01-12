@@ -1,4 +1,18 @@
+//////////////DEPENDENCIES///////////////////////
 import { Component, OnInit } from '@angular/core';
+import { ComponentsService } from '../service/components.service';
+import { NavController } from '@ionic/angular';
+import { AlertController } from '@ionic/angular';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { from } from 'rxjs';
+import { DataService } from '../service/data.service';
+//////////////DEPENDENCIES///////////////////////
+
+@Injectable({
+  providedIn: 'root',
+})
+
 
 @Component({
   selector: 'app-room-registration',
@@ -6,47 +20,364 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./room-registration.page.scss'],
 })
 
-//new coding
-
 
 export class RoomRegistrationPage implements OnInit {
 
-  constructor() { 
+  emptySingleRooms : any;
+  emptyDoubleRooms : any;
+
+  constructor(
+    public component: ComponentsService,
+    private navCtrl: NavController,
+    public dataservice:DataService,
+    public alertController: AlertController,
+    private http: HttpClient,
+  ) {}
+
+  //****************************************** PHP SECTION *************************************************/
+ngOnInit() { //initialization
+    this.getEmptySingleRoom() 
+    this.getEmptyDoubleRoom()
   }
+
+
+  // ********************************* Single Room *********************
 
   
 
-  roomTypeModal = false; 
-  availableBlockModal = false; 
+  async getEmptySingleRoom(){ //get all single room
+    let formData = new FormData();
+
+    this.component.getAPI('http://ktdiapp.mooo.com/api/single_room.php', formData, "get").subscribe( (response:any) => {
+     console.log(response)
+     this.emptySingleRooms = response.Room
+    }, error => {
+        console.log(error)
+        this.component.toast("Something went wrong, please try again later")
+    });
+  }
+
+  filterSingleLevel(Level){
+    let Status = "Empty"
+    let Block = this.selectedBlock
+    let result
+    for(let i = 0; i < this.emptySingleRooms.length ; i++){
+      result = this.emptySingleRooms.filter(e => e["Block"] == Block) // filter out block != MA1
+      result = result.filter(e => e["Level"] == Level) // filter out level != 1
+      result = result.filter(e => e["Status"] == Status) // filter out status = "Empty"
+    }
+    console.log(result)
+    return result.length // return count
+  }
+
+  filterSingleBlock(Block){
+    let Status = "Empty"
+    let result
+    for(let i = 0; i < this.emptySingleRooms.length ; i++){
+      result = this.emptySingleRooms.filter(e => e["Block"] == Block) // filter out block != MA1
+      result = result.filter(e => e["Status"] == Status) // filter out status = "Empty"
+    }
+    console.log(result)
+    return result.length // return array
+  }
+
+  filterSingleRoom(Block,Level){
+    console.log (this.selectedLevel); 
+    console.log(this.selectedBlock);
+    let Status = "Empty"
+    let result = this.emptySingleRooms.filter(e => e["Block"] == Block) // filter out block != MA1
+    result = result.filter(e => e["Level"] == Level) // filter out level != 1
+    result = result.filter(e => e["Status"] == Status) // filter out status = "Empty"
+    let roomNumbers = result.map(e => e["RoomNumber"]) // extract the RoomNumber property
+    console.log (roomNumbers)
+    return roomNumbers // return array of RoomNumber
+  }
+
+
+  // ******************************* UPDATE SINGLE ROOM ********************
+
+  async updateSingleRoom(block: string, level: string, roomNumber: string, status: string){ //get all single room
+    var headers = new Headers();
+      headers.append("Accept", 'application/json');
+      headers.append('Content-Type', 'application/json');
+    let requestData = { Block: block, Level: level, RoomNumber: roomNumber, Status : status };
+    this.component.getAPI('http://ktdiapp.mooo.com/api/update_single_room.php', requestData, "POST").subscribe( (response:any) => {
+     console.log(response)
+    }, error => {
+        console.log(error)
+        this.component.toast("Something went wrong, please try again later")
+    });
+  }
+
+  updateSingleRoomStatus ()
+  {
+    let block = this.selectedBlock
+    let level = this.selectedLevel
+    let room = this.selectedRoom
+    let status = 'Full'
+    this.updateSingleRoom(block,level,room,status)
+  }
+
+  // ******************************* DOUBLE ROOM ****************************
+
+  
+  async getEmptyDoubleRoom(){ //get all single room
+    let formData = new FormData();
+
+    this.component.getAPI('http://ktdiapp.mooo.com/api/double_room.php', formData, "get").subscribe( (response:any) => {
+     console.log(response)
+     this.emptyDoubleRooms = response.Room
+    }, error => {
+        console.log(error)
+        this.component.toast("Something went wrong, please try again later")
+    });
+  }
+
+  filterDoubleLevel(Level){
+    let Block = this.selectedBlock
+    let result
+    for(let i = 0; i < this.emptyDoubleRooms.length ; i++){
+      result = this.emptyDoubleRooms.filter(e => e["Block"] == Block) // filter out block != MA1
+      result = result.filter(e => e["Level"] == Level) // filter out level != 1
+    }
+    console.log(result)
+    return result.length // return count
+  }
+
+  filterDoubleBlock(Block){
+    let result
+    for(let i = 0; i < this.emptyDoubleRooms.length ; i++){
+      result = this.emptyDoubleRooms.filter(e => e["Block"] == Block) // filter out block != MA1
+    }
+    console.log(result)
+    return result.length // return array
+  }
+
+  filterDoubleRoom(Block,Level){
+    console.log (this.selectedLevel); 
+    console.log(this.selectedBlock);
+    let result = this.emptyDoubleRooms.filter(e => e["Block"] == Block) // filter out block != MA1
+    result = result.filter(e => e["Level"] == Level) // filter out level != 1
+    let roomNumbers = result.map(e => e["RoomNo"]) // extract the RoomNumber property
+    console.log (roomNumbers)
+    return roomNumbers // return array of RoomNumber
+  }
+
+
+  
+  //******************************************************************************************************/
+ 
+
+
+  async presentAlert(message: string) {
+    const alert = await this.alertController.create({
+      header: 'Alert',
+      message: message,
+      buttons: ['OK']
+    });
+  
+    await alert.present();
+  }
+
+  navigateToHome() {
+    this.navCtrl.navigateRoot('/home');
+  }
+
+  async navigateModal(location, destination) { //close old modal and open new modal
+    this.setOpen(false, location) //close old modal
+    const loading = await this.component.loadingController.create({ //generate loading interface
+      message: "Please wait"
+    });
+    loading.present();
+    setTimeout(async ()=> { //delay action for 1 second
+      this.setOpen(true, destination) //open new modal
+      loading.dismiss(); //close loading interface
+    }, 1000);
+  }
+
+
+  roomTypeModal = true; 
+
+  // *** Single Room Component ****
+  availableBlockModalSingle = false; 
+  availableLevelModalSingle = false;
+  availableRoomModalSingle = false;
+  displayRoomModalSingle = false; 
+
 
   selectRoomType: string = 'default'; 
   selectedBlock: string = 'default'; 
-  generatedRoomNumber: string = '';
+  selectedLevel: string = 'default'; 
+  selectedRoom: string = 'default'; 
+
+
+  // *** Double Room Variable *****
+
+  availableBlockModalDouble = false; 
+  availableLevelModalDouble = false;
+  availableRoomModalDouble = false;
+  displayRoomModalDouble= false; 
+
+
 
   setOpen(isOpen: boolean, modalName: String) // open or close modal
   { 
     if(modalName == "roomTypeModal"){
       this.roomTypeModal = isOpen; 
     }
-    else if (modalName == "availableBlockModal")
+
+    // **** Single Room Component ****
+    else if (modalName == "availableBlockModalSingle")
     {
-      this.availableBlockModal = isOpen; 
+      this.availableBlockModalSingle = isOpen; 
+    }
+    else if (modalName == "availableBlockModalSingle")
+    {
+      this.availableBlockModalSingle = isOpen; 
+    }
+    else if (modalName == "availableLevelModalSingle")
+    {
+      this.availableLevelModalSingle = isOpen; 
+    }
+    else if (modalName == "availableRoomModalSingle")
+    {
+      this.availableRoomModalSingle = isOpen; 
+    }
+    else if (modalName == "displayRoomModalSingle")
+    {
+      this.displayRoomModalSingle = isOpen; 
+    }
+
+
+    // ** Double Room Component **** 
+
+    else if (modalName == "availableBlockModalDouble")
+    {
+      this.availableBlockModalDouble = isOpen; 
+    }
+    else if (modalName == "availableLevelModalDouble")
+    {
+      this.availableLevelModalDouble = isOpen; 
+    }
+    else if (modalName == "availableRoomModalDouble")
+    {
+      this.availableRoomModalDouble = isOpen; 
     }
 
   }
 
+
   selectedRoomType () 
   {
-    this.setOpen(true, 'availableBlockModal');
+   if (this.selectRoomType === 'single')
+   {
+    this.navigateModal('roomTypeModal','availableBlockModalSingle')
+   }
+   else if (this.selectRoomType === 'double')
+   {
+    this.navigateModal('roomTypeModal','availableBlockModalDouble')
+   }
+   else 
+   {
+    // Example usage:
+    this.presentAlert('Please choose your room type!');
+   }
+  }
+
+
+  selectedValue(location, destination) {
+    switch (location) {
+      case 'roomTypeModal':
+        if (this.selectRoomType === 'single') {
+          this.navigateModal('roomTypeModal', 'availableBlockModalSingle');
+        } else if (this.selectRoomType === 'double') {
+          this.navigateModal('roomTypeModal', 'availableBlockModalDouble');
+        } else {
+          this.presentAlert('Please choose your room type!');
+        }
+        break;
+  
+      case 'availableBlockModalSingle':
+        if (this.selectedBlock === 'default') {
+          this.presentAlert('Please choose your block!');
+        } else {
+          this.navigateModal(location, destination);
+        }
+        break;
+  
+      case 'availableLevelModalSingle':
+        if (this.selectedLevel === 'default') {
+          this.presentAlert('Please choose your level!');
+        } else {
+          this.navigateModal(location, destination);
+        }
+        break;
+
+        case 'availableRoomModalSingle':
+          if (this.selectedRoom === 'default') {
+            this.presentAlert('Please choose your room number!');
+          } else {
+            this.updateSingleRoomStatus ();
+            this.navigateModal(location, destination);
+          }
+          break;
+  
+      // Double room 
+  
+      case 'availableBlockModalDouble':
+        if (this.selectedBlock === 'default') {
+          this.presentAlert('Please choose your block!');
+        } else {
+          this.navigateModal(location, destination);
+        }
+        break;
+  
+      case 'availableLevelModalDouble':
+        if (this.selectedLevel === 'default') {
+          this.presentAlert('Please choose your level!');
+        } else {
+          this.navigateModal(location, destination);
+        }
+        break;
+
+        case 'availableRoomModalDouble':
+          if (this.selectedRoom === 'default') {
+            this.presentAlert('Please choose your room number!');
+          } else {
+            this.updateSingleRoomStatus();
+            this.navigateModal(location, destination);
+          }
+          break;
+  
+      
+  
+      default:
+        // Handle unexpected location value
+        break;
+    }
+  }
+  
+
+
+
+  selectRoom(roomNumber: string) {
+    // Implement your logic when a room is selected
+    this.selectedRoom = roomNumber;
+    console.log(`Room ${roomNumber} selected`);
   }
 
 
 
-  // Function to generate a random floor and room number
+  // Function to check if a room is selected
+isRoomSelected(roomNumber: string): boolean {
+  return this.selectedRoom === roomNumber;
+}
 
- 
 
-  ngOnInit() {
-  }
+
+
+
+
+
 
 }

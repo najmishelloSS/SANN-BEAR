@@ -1,7 +1,7 @@
 <ion-header style="overflow: hidden;">
   <ion-toolbar>
     <ion-buttons style='color:white;margin-top: constant(safe-area-inset-top);margin-top: env(safe-area-inset-top);' slot="start">
-      <ion-button (click)="navigate('home','back')"><ion-icon style='color:var(--ion-color-dark)' class="icon" name="arrow-back-outline"></ion-icon></ion-button>
+      <ion-button (click)="navigate('hallrecord','back')"><ion-icon style='color:var(--ion-color-dark)' class="icon" name="arrow-back-outline"></ion-icon></ion-button>
     </ion-buttons>
     <ion-title size="large">{{language['Hall Booking']}}</ion-title>
   </ion-toolbar>
@@ -9,97 +9,476 @@
 
 <ion-content [fullscreen]="true">
   <ion-list [inset]="true">
-    <ion-item button (click)="book('Dewan Sri Resak', 150)" lines="none" detail="false">
-      <ion-label>
-        <h6>
-          <b>Dewan Sri Resak</b>
-          <ion-label style="float:right; font-size: 20px;">RM 150</ion-label>
-        </h6>
-        <p><span style="color:#777">Suitable for general events</span></p>
-      </ion-label>
-    </ion-item>
-    <ion-item button (click)="book('Dewan Serbaguna', 150)" lines="none" detail="false">
-      <ion-label>
-        <h6>
-          <b>Dewan Serbaguna</b>
-          <ion-label style="float:right; font-size: 20px;">RM 150</ion-label>
-        </h6>
-        <p><span style="color:#777">Suitable for small events</span></p>
-      </ion-label>
-    </ion-item>
-    <ion-item button (click)="book('Bilik Seminar', 150)" lines="none" detail="false">
-      <ion-label>
-        <h6>
-          <b>Bilik Seminar</b>
-          <ion-label style="float:right; font-size: 20px;">RM 150</ion-label>
-        </h6>
-        <p><span style="color:#777">Suitable for seminars</span></p>
-      </ion-label>
-    </ion-item>
-    <ion-item button (click)="book('Bilik Komputer', 150)" lines="none" detail="false">
-      <ion-label>
-        <h6>
-          <b>Bilik Komputer</b>
-          <ion-label style="float:right; font-size: 20px;">RM 150</ion-label>
-        </h6>
-        <p><span style="color:#777">Suitable for practical events</span></p>
-      </ion-label>
-    </ion-item>
-    <ion-item button (click)="book('Surau', 150)" lines="none" detail="false">
-      <ion-label>
-        <h6>
-          <b>Surau</b>
-          <ion-label style="float:right; font-size: 20px;">RM 150</ion-label>
-        </h6>
-        <p><span style="color:#777">Suitable for small events</span></p>
-      </ion-label>
-    </ion-item>
+    <div *ngFor="let item of data.hall; index as i">
+      <ion-item button (click)="book(i)" lines="none" detail="false" [ngStyle]="{'--background':booking.selected === i ? 'var(--ion-color-primary)' : '' }">
+        <ion-label>
+          <h6>
+            <b>{{item['hall_name']}}</b>
+          </h6>
+          <p>
+            <span *ngIf="data.language == 'english'" style="color:#777">{{item['hall_desc_en']}}</span>
+            <span *ngIf="data.language == 'malay'" style="color:#777">{{item['hall_desc_bm']}}</span>
+          </p>
+        </ion-label>
+        <ion-item lines="none" detail="false" style="float:right; font-size: 15px;" [ngStyle]="{'--background':booking.selected === i ? 'var(--ion-color-primary)' : '' }">
+          RM {{item['full_day_rent']}} / Day
+        </ion-item>
+      </ion-item>
+    </div>
   </ion-list>
   <br>
 
-  <ion-row>
-    <ion-col>
-      <ion-tab-button (click)="book('Surau', 150)">
-        <ion-label color="dark" style="font-size: 20px;"><b>{{date | date: 'dd'}}</b></ion-label>
-        <ion-label color="dark"style="font-size: 20px;">{{date | date: 'E'}}</ion-label>
-      </ion-tab-button>
-    </ion-col>
-    <ion-col>
-      <ion-tab-button (click)="book('Surau', 150)">
-        <ion-label color="primary" style="font-size: 20px;"><b>{{date | date: 'dd'}}</b></ion-label>
-        <ion-label color="primary" style="font-size: 20px;">{{date | date: 'E'}}</ion-label>
-      </ion-tab-button>
-    </ion-col>
-    <ion-col>
-      <ion-tab-button (click)="book('Surau', 150)">
-        <ion-label color="dark"style="font-size: 20px;"><b>{{date | date: 'dd'}}</b></ion-label>
-        <ion-label color="dark"style="font-size: 20px;">{{date | date: 'E'}}</ion-label>
-      </ion-tab-button>
-    </ion-col>
-    <ion-col>
-      <ion-tab-button (click)="book('Surau', 150)">
-        <ion-label color="dark"style="font-size: 20px;"><b>{{date | date: 'dd'}}</b></ion-label>
-        <ion-label color="dark"style="font-size: 20px;">{{date | date: 'E'}}</ion-label>
-      </ion-tab-button>
-    </ion-col>
-  </ion-row>
+  <ion-modal [isOpen]="bookingModal" (willDismiss)="setOpen(false,'bookingModal');ionChange('save')" [initialBreakpoint]="0.75" style="--border-radius: 30px">
+    <ng-template>
+        <ion-toolbar style="--background: transparent; margin-top: 5%;">
+          <ion-title><b>{{language["Hall Booking"]}} ({{booking['hall_name']}})</b></ion-title>
+        </ion-toolbar>
+      <ion-content class="ion-padding">
+
+        <div *ngIf="page == 1">
+          <h1><b>{{language["Programme Information"]}}</b></h1>
+          <ion-item style="--border-radius: 20px;--border-width: 2px;--height:4rem;">
+            <ion-label><ion-icon color="medium" style="font-size: 32px;" name="information-circle-outline"></ion-icon></ion-label>
+            <ion-input type="text" [(ngModel)]="booking.name" placeholder="{{language['Programme Name']}}" (ionChange)="ionChange('save')"></ion-input>
+          </ion-item>
+          <br>
+
+          <ion-item style="--border-radius: 20px;--border-width: 2px;--height:4rem;">
+            <ion-label><ion-icon color="medium" style="font-size: 32px;" name="people-outline"></ion-icon></ion-label>
+            <ion-input type="number" [(ngModel)]="booking.participant" placeholder="{{language['Number of Participants']}}" (ionChange)="ionChange('save')"></ion-input>
+          </ion-item>
+          <br>
+
+          <ion-item style="--border-radius: 20px;--border-width: 2px;--height:4rem;">
+            <ion-label><ion-icon color="medium" style="font-size: 32px;" name="document-text-outline"></ion-icon></ion-label>
+            <ion-input readonly (click)="setOpen(true, 'approvalModal')" [value]="booking.letter ? booking.letter['name'] : '' " placeholder="{{language['Approval Letter']}}"></ion-input>
+          </ion-item>
+          <br>
+
+          <ion-modal class="file" [isOpen]="approvalModal" (willDismiss)="setOpen(false,'approvalModal')" style="--border-radius: 30px">
+            <ng-template>
+              <div class="wrapper ion-padding">
+                <h1>{{language['Approval Letter']}}</h1>
+                <ion-input type="file" (change)="onFileChange($event, 'approval')"></ion-input>
+                <ion-text color="danger">*{{language['PDF, JPG, JPEG and PNG only']}}</ion-text>
+              </div>
+            </ng-template>
+          </ion-modal>
+
+          <ion-item style="--border-radius: 20px;--border-width: 2px;--height:4rem;">
+            <ion-label><ion-icon color="medium" style="font-size: 32px;" name="document-text-outline"></ion-icon></ion-label>
+            <ion-input readonly (click)="setOpen(true, 'tentativeModal')" [value]="booking.tentative ? booking.tentative['name'] : '' " placeholder="{{language['Programme Tentative']}}"></ion-input>
+          </ion-item>
+          <br>
+
+          <ion-modal class="file" [isOpen]="tentativeModal" (willDismiss)="setOpen(false,'tentativeModal')" style="--border-radius: 30px">
+            <ng-template>
+              <div class="wrapper ion-padding">
+                <h1>{{language['Programme Tentative']}}</h1>
+                <ion-input type="file" (change)="onFileChange($event, 'tentative')"></ion-input>
+                <ion-text color="danger">*{{language['PDF, JPG, JPEG and PNG only']}}</ion-text>
+              </div>
+            </ng-template>
+          </ion-modal>
+
+          <ion-item style="--border-radius: 20px;--border-width: 2px;--height:4rem">
+            <ion-select slot="start" justify="start" [(ngModel)]="booking['rent_type']" placeholder="{{language['Select Activity Type']}}" (ionChange)="ionChange('save')">
+                <ion-icon slot="label" color="medium" style="font-size: 32px;" name="briefcase-outline"></ion-icon>
+                <ion-select-option slot="start" value="Formal">{{language['Formal']}}</ion-select-option>
+                <ion-select-option slot="start" value="Informal">{{language['Informal']}}</ion-select-option>
+                <ion-select-option slot="start" value="Club">{{language['Club']}}</ion-select-option>
+                <ion-select-option slot="start" value="Faculty">{{language['Faculty']}}</ion-select-option>
+                <ion-select-option slot="start" value="Other">{{language['Other']}}</ion-select-option>
+            </ion-select>
+          </ion-item> 
+          <br>
+
+        </div>
+
+        <div *ngIf="page == 2">
+          <h1><b>{{language["Date/Time Information"]}}</b></h1>
+          
+          <ion-item (click)="setOpen(true, 'setDateModal');" style="--border-radius: 20px;--border-width: 2px;--height:4rem">
+            <ion-label><ion-icon color="medium" style="font-size: 32px;" name="calendar-outline"></ion-icon></ion-label>
+            <ion-input type="text" readonly [ngStyle]="{'--placeholder-opacity': formattedString === 'Select Date' ? '0.6' : '1.0'}" placeholder="{{formattedString}}"></ion-input>
+          </ion-item> 
+          <br>
+
+          <ion-modal class="date" [isOpen]="setDateModal">
+            <ng-template>
+              <ion-content>
+                <ion-datetime 
+                #datetime
+                [multiple]="true"
+                [showDefaultButtons]="true" 
+                [value]="booking.rent_date"
+                [min]="minDate"
+                size="cover"
+                presentation="date"
+                (ionChange)="dateChanged(datetime.value, 'date');setOpen(false, 'setDateModal')"
+                (ionCancel)="setOpen(false, 'setDateModal')"
+                [isDateEnabled]="isWeekDay">
+                </ion-datetime>
+              </ion-content>
+            </ng-template>
+          </ion-modal>
+
+          <ion-item (click)="setOpen(true, 'setStartModal');" style="--border-radius: 20px;--border-width: 2px;--height:4rem">
+            <ion-label><ion-icon color="medium" style="font-size: 32px;" name="time-outline"></ion-icon></ion-label>
+            <ion-input type="text" readonly [ngStyle]="{'--placeholder-opacity': startString === 'Select Starting Time' ? '0.6' : '1.0'}" placeholder="{{startString}}"></ion-input>
+          </ion-item> 
+          <br>
+
+          <ion-modal class="date" [isOpen]="setStartModal">
+            <ng-template>
+              <ion-content>
+                <ion-datetime 
+                #starttime
+                [showDefaultButtons]="true" 
+                [value]="booking.rent_start"
+                size="cover"
+                presentation="time"
+                (ionChange)="dateChanged(datetime.value, 'starttime');setOpen(false, 'setStartModal')"
+                (ionCancel)="setOpen(false, 'setStartModal')">
+                </ion-datetime>
+              </ion-content>
+            </ng-template>
+          </ion-modal>
+
+          <ion-item (click)="setOpen(true, 'setEndModal');" style="--border-radius: 20px;--border-width: 2px;--height:4rem">
+            <ion-label><ion-icon color="medium" style="font-size: 32px;" name="time-outline"></ion-icon></ion-label>
+            <ion-input type="text" readonly [ngStyle]="{'--placeholder-opacity': endString === 'Select Ending Time' ? '0.6' : '1.0'}" placeholder="{{endString}}"></ion-input>
+          </ion-item> 
+          <br>
+
+          <ion-modal class="date" [isOpen]="setEndModal">
+            <ng-template>
+              <ion-content>
+                <ion-datetime 
+                #endtime
+                [showDefaultButtons]="true" 
+                [value]="booking.rent_end"
+                size="cover"
+                presentation="time"
+                (ionChange)="dateChanged(datetime.value, 'endtime');setOpen(false, 'setEndModal')"
+                (ionCancel)="setOpen(false, 'setEndModal')">
+                </ion-datetime>
+              </ion-content>
+            </ng-template>
+          </ion-modal>
+
+          <ion-item style="--border-radius: 20px;--border-width: 2px;--height:4rem">
+            <ion-select slot="start" justify="start" [(ngModel)]="booking['rent_price']" placeholder="{{language['Select Duration']}}" (ionChange)="ionChange('update')">
+                <ion-icon slot="label" color="medium" style="font-size: 32px;" name="hourglass-outline"></ion-icon>
+                <ion-select-option value="{{booking['full_day_rent']}}">{{language['Full Day']}} (RM {{booking['full_day_rent']}})</ion-select-option>
+                <ion-select-option value="{{booking['half_day_rent']}}">{{language['Half Day']}} (RM {{booking['half_day_rent']}})</ion-select-option>
+            </ion-select>
+          </ion-item> 
+          <br>
+
+          <ion-item *ngIf="booking.hall_name == 'Dewan Sri Resak' || booking.hall_name == 'Dewan Serbaguna'" style="--border-radius: 20px;--border-width: 2px;--height:4rem">
+            <ion-select slot="start" justify="start" [(ngModel)]="booking['deposit']" placeholder="{{language['Meal Break']}}" (ionChange)="ionChange('update')">
+                <ion-icon slot="label" color="medium" style="font-size: 32px;" name="restaurant-outline"></ion-icon>
+                <ion-select-option value="200">{{language['Yes']}} (Deposit RM 200)</ion-select-option>
+                <ion-select-option value="100">{{language['No']}} (Deposit RM 100)</ion-select-option>
+            </ion-select>
+          </ion-item> 
+          <br>
+
+        </div>
+
+        <div *ngIf="page == 3">
+          <h1><b>{{language["Furniture Information"]}}</b></h1>
+
+          <!-- <ion-item style="--border-radius: 20px;--border-width: 2px;--height:4rem;">
+            <ion-label><ion-icon color="medium" style="font-size: 32px;" name="location-outline"></ion-icon></ion-label>
+            <ion-input type="text" [(ngModel)]="booking['hall_name']" readonly (ionChange)="ionChange('save')"></ion-input>
+          </ion-item>
+          <br> -->
+
+          <ion-item style="--border-radius: 20px;--border-width: 2px;--height:4rem;">
+            <ion-button (click)="addFurniture('plastic', 1)" color="success" fill="clear" slot="start">
+              <ion-icon slot="icon-only" name="add-circle"></ion-icon>
+            </ion-button>
+            <ion-input [(ngModel)]="plastic" type="number" label="{{language['Plastic Chair']}}" label-placement="stacked"></ion-input>
+            <ion-button (click)="addFurniture('plastic', -1)" color="danger" fill="clear" slot="end" aria-label="Show/hide">
+              <ion-icon slot="icon-only" name="remove-circle" aria-hidden="true"></ion-icon>
+            </ion-button>
+          </ion-item>
+          <br>
+
+          <ion-item style="--border-radius: 20px;--border-width: 2px;--height:4rem;">
+            <ion-button (click)="addFurniture('banquet', 1)" color="success" fill="clear" slot="start">
+              <ion-icon slot="icon-only" name="add-circle"></ion-icon>
+            </ion-button>
+            <ion-input [(ngModel)]="banquet" type="number" label="{{language['Banquet Chair']}}" label-placement="stacked" value="0"></ion-input>
+            <ion-button (click)="addFurniture('banquet', -1)" color="danger" fill="clear" slot="end" aria-label="Show/hide">
+              <ion-icon slot="icon-only" name="remove-circle" aria-hidden="true"></ion-icon>
+            </ion-button>
+          </ion-item>
+          <br>
+
+          <ion-item style="--border-radius: 20px;--border-width: 2px;--height:4rem;">
+            <ion-button (click)="addFurniture('desk', 1)" color="success" fill="clear" slot="start">
+              <ion-icon slot="icon-only" name="add-circle"></ion-icon>
+            </ion-button>
+            <ion-input [(ngModel)]="desk" type="number" label="{{language['Long Desk']}}" label-placement="stacked" value="0"></ion-input>
+            <ion-button (click)="addFurniture('desk', -1)" color="danger" fill="clear" slot="end" aria-label="Show/hide">
+              <ion-icon slot="icon-only" name="remove-circle" aria-hidden="true"></ion-icon>
+            </ion-button>
+          </ion-item>
+          <br>
+
+          <ion-item style="--border-radius: 20px;--border-width: 2px;--height:4rem;">
+            <ion-button (click)="addFurniture('whiteboard', 1)" color="success" fill="clear" slot="start">
+              <ion-icon slot="icon-only" name="add-circle"></ion-icon>
+            </ion-button>
+            <ion-input [(ngModel)]="whiteboard" type="number" label="{{language['Whiteboard']}}" label-placement="stacked" value="0"></ion-input>
+            <ion-button (click)="addFurniture('whiteboard', -1)" color="danger" fill="clear" slot="end" aria-label="Show/hide">
+              <ion-icon slot="icon-only" name="remove-circle" aria-hidden="true"></ion-icon>
+            </ion-button>
+          </ion-item>
+          <br>
+
+          <ion-item style="--border-radius: 20px;--border-width: 2px;--height:4rem;">
+            <ion-button (click)="addFurniture('partition', 1)" color="success" fill="clear" slot="start">
+              <ion-icon slot="icon-only" name="add-circle"></ion-icon>
+            </ion-button>
+            <ion-input [(ngModel)]="partition" type="number" label="{{language['Partition']}}" label-placement="stacked" value="0"></ion-input>
+            <ion-button (click)="addFurniture('partition', -1)" color="danger" fill="clear" slot="end" aria-label="Show/hide">
+              <ion-icon slot="icon-only" name="remove-circle" aria-hidden="true"></ion-icon>
+            </ion-button>
+          </ion-item>
+          <br>
+
+        </div>
+
+        <div *ngIf="page == 4">
+          <h1><b>{{language["Broadcast Equipment Information"]}}</b></h1>
+
+          <ion-item style="--border-radius: 20px;--border-width: 2px;--height:4rem;">
+            <ion-button (click)="addFurniture('pa_system', 1)" color="success" fill="clear" slot="start">
+              <ion-icon slot="icon-only" name="add-circle"></ion-icon>
+            </ion-button>
+            <ion-input [(ngModel)]="pa_system" type="number" label="{{language['P.A. System']}}" label-placement="stacked" value="0"></ion-input>
+            <ion-button (click)="addFurniture('pa_system', -1)" color="danger" fill="clear" slot="end" aria-label="Show/hide">
+              <ion-icon slot="icon-only" name="remove-circle" aria-hidden="true"></ion-icon>
+            </ion-button>
+          </ion-item>
+          <br>
+
+          <ion-item style="--border-radius: 20px;--border-width: 2px;--height:4rem;">
+            <ion-button (click)="addFurniture('hand_mic', 1)" color="success" fill="clear" slot="start">
+              <ion-icon slot="icon-only" name="add-circle"></ion-icon>
+            </ion-button>
+            <ion-input [(ngModel)]="hand_mic" type="number" label="{{language['Hand Mic']}}" label-placement="stacked" value="0"></ion-input>
+            <ion-button (click)="addFurniture('hand_mic', -1)" color="danger" fill="clear" slot="end" aria-label="Show/hide">
+              <ion-icon slot="icon-only" name="remove-circle" aria-hidden="true"></ion-icon>
+            </ion-button>
+          </ion-item>
+          <br>
+
+          <ion-item style="--border-radius: 20px;--border-width: 2px;--height:4rem;">
+            <ion-button (click)="addFurniture('stand_mic', 1)" color="success" fill="clear" slot="start">
+              <ion-icon slot="icon-only" name="add-circle"></ion-icon>
+            </ion-button>
+            <ion-input [(ngModel)]="stand_mic" type="number" label="{{language['Stand Mic']}}" label-placement="stacked" value="0"></ion-input>
+            <ion-button (click)="addFurniture('stand_mic', -1)" color="danger" fill="clear" slot="end" aria-label="Show/hide">
+              <ion-icon slot="icon-only" name="remove-circle" aria-hidden="true"></ion-icon>
+            </ion-button>
+          </ion-item>
+          <br>
+
+          <ion-item style="--border-radius: 20px;--border-width: 2px;--height:4rem;">
+            <ion-button (click)="addFurniture('comber', 1)" color="success" fill="clear" slot="start">
+              <ion-icon slot="icon-only" name="add-circle"></ion-icon>
+            </ion-button>
+            <ion-input [(ngModel)]="comber" type="number" label="{{language['Comber']}}" label-placement="stacked" value="0"></ion-input>
+            <ion-button (click)="addFurniture('comber', -1)" color="danger" fill="clear" slot="end" aria-label="Show/hide">
+              <ion-icon slot="icon-only" name="remove-circle" aria-hidden="true"></ion-icon>
+            </ion-button>
+          </ion-item>
+          <br>
+
+          <ion-item style="--border-radius: 20px;--border-width: 2px;--height:4rem;">
+            <ion-button (click)="addFurniture('projector', 1)" color="success" fill="clear" slot="start">
+              <ion-icon slot="icon-only" name="add-circle"></ion-icon>
+            </ion-button>
+            <ion-input [(ngModel)]="projector" type="number" label="{{language['LCD Projector']}}" label-placement="stacked" value="0"></ion-input>
+            <ion-button (click)="addFurniture('projector', -1)" color="danger" fill="clear" slot="end" aria-label="Show/hide">
+              <ion-icon slot="icon-only" name="remove-circle" aria-hidden="true"></ion-icon>
+            </ion-button>
+          </ion-item>
+          <br>
+
+          <!-- <ion-row>
+            <ion-col>
+              <ion-item (click)="setOpen(false,'bookingModal');ionChange('reset')" detail="false" lines="none" button color="danger" style="--border-radius: 20px;--border-width: 0px;--height:4rem">
+                <ion-label style="text-align: center;color: white;">{{language["Cancel"]}}</ion-label>
+              </ion-item>
+            </ion-col>
+            <ion-col>
+              <ion-item (click)="display()" detail="false" lines="none" button color="primary" style="--border-radius: 20px;--border-width: 0px;--height:4rem">
+                <ion-label style="text-align: center;color: white;">{{language["Save"]}}</ion-label>
+              </ion-item>
+            </ion-col>
+          </ion-row> -->
+        </div>
+        
+        <!-- <ion-row>
+          <ion-col></ion-col>
+          <ion-col size="auto" class="ion-text-center">
+            <div class="pagination ion-padding">
+              <a (click)="paging('previous')">❮</a>
+              <span *ngFor="let loop of pageArray; index as i; count as c" >
+                <a *ngIf="loop <= page+2 && loop >= page && page == 1" [ngClass]="{ 'active': page === loop }" (click)="paging(loop)">{{loop}}</a>
+                <a *ngIf="loop <= page+1 && loop >= page-1 && page != 1 && page != pageArray.length" [ngClass]="{ 'active': page === loop }" (click)="paging(loop)">{{loop}}</a>
+                <a *ngIf="loop <= page && loop >= page-2 && page == pageArray.length && pageArray.length != 1" [ngClass]="{ 'active': page === loop }" (click)="paging(loop)">{{loop}}</a>
+              </span>
+              <a (click)="paging('next')">❯</a>
+              <br>
+              <br>
+              <p>{{page}} <span *ngIf="language">{{language['of']}}</span> 4 <span *ngIf="language">{{language['page']}}</span></p>
+            </div>
+          </ion-col>
+          <ion-col></ion-col>
+        </ion-row>
+        <br> -->
+
+        <div *ngIf="page == 5">
+          <h1><b>{{language["Additional Equipment Information"]}}</b></h1>
+
+          <div *ngIf="!additional.length">
+            <ion-item style="--border-radius: 20px;--border-width: 2px;--height:4rem;">
+              <ion-button disabled color="success" fill="clear" slot="start">
+                <ion-icon slot="icon-only" name="add-circle"></ion-icon>
+              </ion-button>
+              <ion-input disabled type="number" [label]="language['Add New Item']" value="0" label-placement="stacked"></ion-input>
+              <ion-button disabled color="danger" fill="clear" slot="end" aria-label="Show/hide">
+                <ion-icon slot="icon-only" name="remove-circle" aria-hidden="true"></ion-icon>
+              </ion-button>
+            </ion-item>
+            <br>
+          </div>
+          <div *ngFor="let item of additional; index as i">
+            <ion-item style="--border-radius: 20px;--border-width: 2px;--height:4rem;">
+              <ion-button (click)="addFurniture(i, 1)" color="success" fill="clear" slot="start">
+                <ion-icon slot="icon-only" name="add-circle"></ion-icon>
+              </ion-button>
+              <ion-input [(ngModel)]="additional[i]['amount']" type="number" [label]="additional[i]['name']" label-placement="stacked"></ion-input>
+              <ion-button (click)="addFurniture(i, -1)" color="danger" fill="clear" slot="end" aria-label="Show/hide">
+                <ion-icon slot="icon-only" name="remove-circle" aria-hidden="true"></ion-icon>
+              </ion-button>
+            </ion-item>
+            <br>
+          </div>
+          <div *ngFor="let item of additionalNull; index as i, count as c">
+            <div *ngIf="additional.length < (i+2)">
+              <ion-item style="opacity: 0;;--border-radius: 20px;--border-width: 2px;--height:4rem;">
+                <ion-button disabled color="success" fill="clear" slot="start">
+                  <ion-icon slot="icon-only" name="add-circle"></ion-icon>
+                </ion-button>
+                <ion-input disabled type="number" [label]="language['Add New Item']" value="{{i+2}}" label-placement="stacked"></ion-input>
+                <ion-button disabled color="danger" fill="clear" slot="end" aria-label="Show/hide">
+                  <ion-icon slot="icon-only" name="remove-circle" aria-hidden="true"></ion-icon>
+                </ion-button>
+              </ion-item>
+              <br>
+            </div>
+          </div>
+          <br>
+          <ion-row>
+            <ion-col>
+              <ion-item [disabled]="additional.length == 4" detail="false" (click)="addEquipment('add')" lines="none" button color="primary" style="--border-radius: 20px;--border-width: 0px;--height:4rem">
+                <!-- <ion-icon slot="start" style="color: white;" name="add-circle"></ion-icon> -->
+                <ion-label style="text-align: center;color: white;">{{language["Add"]}}</ion-label>
+              </ion-item>
+            </ion-col>
+            <ion-col>
+              <ion-item [disabled]="additional.length == 0" detail="false" (click)="addEquipment('remove')" lines="none" button color="danger" style="--border-radius: 20px;--border-width: 0px;--height:4rem">
+                <!-- <ion-icon slot="start" style="color: white;" name="remove-circle"></ion-icon> -->
+                <ion-label style="text-align: center;color: white;">{{language["Remove"]}}</ion-label>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+
+
+        </div>
+
+        <div *ngIf="page == 6">
+          <h1><b>{{language["Applicant Acknowledgement"]}}</b></h1>
+
+          <ion-list lines="full">
+            <ion-item>
+              <ion-icon aria-hidden="true" color="success" name="checkmark-circle" slot="start"></ion-icon>
+              <ion-label>{{language["Prioritise the safety of the university's property."]}}</ion-label>
+            </ion-item>
+            <ion-item>
+              <ion-icon aria-hidden="true" color="success" name="checkmark-circle" slot="start"></ion-icon>
+              <ion-label>{{language['Preserve the cleanliness of the venue and its surrounding.']}}</ion-label>
+            </ion-item>
+            <ion-item>
+              <ion-icon aria-hidden="true" color="success" name="checkmark-circle" slot="start"></ion-icon>
+              <ion-label>{{language['Ensure the safety of the participants during the programme.']}}</ion-label>
+            </ion-item>
+            <ion-item>
+              <ion-icon aria-hidden="true" color="success" name="checkmark-circle" slot="start"></ion-icon>
+              <ion-label>{{language['Return every borrowed furniture and equipments in adequate amount within the allocated period.']}}</ion-label>
+            </ion-item>
+            <ion-item>
+              <ion-icon aria-hidden="true" color="success" name="checkmark-circle" slot="start"></ion-icon>
+              <ion-label>{{language['Liable of replacing any broken or lost equipments due to mishaps during usage.']}}</ion-label>
+            </ion-item>
+            <br>
+            <ion-item>
+              <ion-checkbox (click)="checkbox($event)" [(ngModel)]="check" labelPlacement="end" style="--border-color:var(--ion-color-success)" color="success"><span style="white-space: normal;">{{ language["I agree to abide to the above rules and regulations"] }} <span style="color: red;">*</span></span></ion-checkbox>
+            </ion-item>
+          </ion-list>
+
+        </div>
+
+        <br>
+        <ion-row>
+          <ion-col>
+            <ion-item [disabled]="page == 1" (click)="paging('previous')" detail="false" lines="none" button color="success" style="--border-radius: 20px;--border-width: 0px;--height:4rem">
+              <ion-icon slot="start" style="color: white;" name="arrow-back-outline"></ion-icon>
+              <ion-label style="text-align: center;color: white;">{{language["Previous"]}}</ion-label>
+            </ion-item>
+          </ion-col>
+          <ion-col [ngStyle]="{'display':page !== 6 ? 'block' : 'none' }">
+            <ion-item (click)="paging('next')" detail="false" lines="none" button color="success" style="--border-radius: 20px;--border-width: 0px;--height:4rem">
+              <ion-icon slot="end" style="color: white;" name="arrow-forward-outline"></ion-icon>
+              <ion-label style="text-align: center;color: white;">{{language["Next"]}}</ion-label>
+            </ion-item>
+          </ion-col>
+          <ion-col [ngStyle]="{'display':page === 6 ? 'block' : 'none' }">
+            <ion-item [disabled]="!check" (click)="display()" detail="false" lines="none" button color="primary" style="--border-radius: 20px;--border-width: 0px;--height:4rem">
+              <ion-label style="text-align: center;color: white;">{{language["Save"]}}</ion-label>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+        <br>
+
+      </ion-content>
+    </ng-template>
+  </ion-modal>
 </ion-content>
 
 <ion-footer>
   
   <ion-row>
     <ion-col>
-      <ion-item (click)="book('Dewan Sri Resak', 150)" lines="none" detail="false">
+      <ion-item lines="none" detail="false">
         <ion-label>
           <h6>
-            <b>RM 150</b>
+            <b>RM {{booking.total | number: '1.2'}}</b>
           </h6>
           <p><span style="color:#777">inc. of all taxes</span></p>
         </ion-label>
       </ion-item>
     </ion-col>
     <ion-col>
-      <ion-item detail="false" button color="primary" style="--border-radius: 20px;--border-width: 2px;--height:4rem; color: white;">
+      <ion-item (click)="bookHall()" detail="false" button color="primary" style="--border-radius: 20px;--border-width: 2px;--height:4rem; color: white;">
         <ion-label style="text-align: center;">Proceed</ion-label>
       </ion-item>
     </ion-col>

@@ -1,10 +1,10 @@
 apply plugin: 'com.android.application'
 
 android {
-    namespace "io.ionic.starter"
-    compileSdkVersion rootProject.ext.compileSdkVersion
+    namespace "com.ktdi.app"
+    compileSdk 34
     defaultConfig {
-        applicationId "io.ionic.starter"
+        applicationId "com.ktdi.app"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1

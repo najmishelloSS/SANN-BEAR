@@ -1,116 +1,100 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-buttons slot="start">
-      <!-- Use the ion-back-button component to navigate back to the home page -->
       <ion-back-button [defaultHref]="'/home'"></ion-back-button>
     </ion-buttons>
-    <ion-title>Electrical Appliances</ion-title>
+    <ion-title>Register Electrical Appliances</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <ion-label>Select from the list of appliances</ion-label>
+  <!-- Content for page 1 (No Appliance Registered)--> 
+  <div *ngIf="page === 'page1'">
+    <p><strong>No Appliance Registered</strong></p>
+    <p class="additional-text">You have not registered for any appliance yet</p>
+    <div style="text-align: center; margin-top: 50px;">
+      <ion-button expand="full" shape="round" color="primary" class="ion-margin" (click)="navigateToPage('page2')" style="height: 7%;"> 
+        Register
+      </ion-button>
+    </div>
+  </div>
 
-  <ion-grid>
-    <!-- Kitchen Appliances -->
-    <ion-row>
-      <ion-col size="6">
-        <ion-item-divider>
-          <ion-label>Kitchen Appliances</ion-label>
-        </ion-item-divider>
-        <ion-item (click)="selectAppliance('Electric Kettle')">
-          <ion-thumbnail slot="start">
-            <ion-img src="assets/image/kettle.png"></ion-img>
-          </ion-thumbnail>
-          <ion-label>Electric Kettle</ion-label>
-        </ion-item>
-        <ion-item (click)="selectAppliance('Microwave')">
-          <ion-thumbnail slot="start">
-            <ion-img src="assets/image/microwave.png"></ion-img>
-          </ion-thumbnail>
-          <ion-label>Microwave</ion-label>
-        </ion-item>
-        <ion-item (click)="selectAppliance('Toaster')">
-          <ion-thumbnail slot="start">
-            <ion-img src="assets/image/toaster.png"></ion-img>
-          </ion-thumbnail>
-          <ion-label>Toaster</ion-label>
-        </ion-item>
-        <!-- Add other kitchen appliances -->
-      </ion-col>
-    </ion-row>
+  <!-- Content for page 2 -->
+  <div *ngIf="page === 'page2'" class="categories-container">
+    <ion-grid>
+      <ion-row *ngFor="let category of sortedCategories">
+        <ion-col>
+          <div class="category-box">
+            <h2 class="label-text">{{ category }}</h2>
+            <p class="additional-text">Select appliance from the list</p>
+            <div class="item-container">
+              <div class="item" *ngFor="let appliance of getAppliancesByCategory(category)" (click)="toggleSelection(appliance)" [class.selected-item]="appliance.selected">
+                <ion-label>
+                  <img [src]="appliance.image" alt="Appliance Image" style="width: 50px; height: 40px;">
+                  <p><strong>{{ appliance.name }}</strong></p>
+                  <p><strong>Price:</strong> RM{{ appliance.price }}</p>
+                </ion-label>
+              </div>
+            </div>
+          </div>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
 
-    <!-- Personal Grooming and Comfort -->
-    <ion-row>
-      <ion-col size="6">
-        <ion-item-divider>
-          <ion-label>Personal Grooming and Comfort</ion-label>
-        </ion-item-divider>
-        <ion-item (click)="selectAppliance('Hair Dryer')">
-          <ion-thumbnail slot="start">
-            <ion-img src="assets/image/hair dryer.png"></ion-img>
-          </ion-thumbnail>
-          <ion-label>Hair Dryer</ion-label>
-        </ion-item>
-        <ion-item (click)="selectAppliance('Electric Shaver')">
-          <ion-thumbnail slot="start">
-            <ion-img src="assets/image/shaver.png"></ion-img>
-          </ion-thumbnail>
-          <ion-label>Electric Shaver</ion-label>
-        </ion-item>
-        <ion-item (click)="selectAppliance('Iron')">
-          <ion-thumbnail slot="start">
-            <ion-img src="assets/image/iron.png"></ion-img>
-          </ion-thumbnail>
-          <ion-label>Iron</ion-label>
-        </ion-item>
-        <!-- Add other personal grooming appliances -->
-      </ion-col>
-    </ion-row>
+    <ion-footer class="ion-no-border">
+      <ion-row class="ion-align-items-center">
+        <ion-col>
+          <ion-label class="total-price">
+            <b>RM {{ totalPrice | number: '1.2-2' }}</b>
+            <p><span class="tax-text">inc. of all taxes</span></p>
+          </ion-label>
+        </ion-col>
+        <ion-col class="ion-text-center">
+          <ion-button (click)="navigateToPage('page3')" expand="block" color="primary" shape="round">
+            Proceed
+          </ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-footer>
+  </div>
 
-    <!-- Study Appliances -->
-    <ion-row>
-      <ion-col size="6">
-        <ion-item-divider>
-          <ion-label>Study Appliances</ion-label>
-        </ion-item-divider>
-        <ion-item (click)="selectAppliance('Laptop')">
-          <ion-thumbnail slot="start">
-            <ion-img src="assets/image/laptop.jpg"></ion-img>
-          </ion-thumbnail>
-          <ion-label>PC/Laptop/Printer</ion-label>
-        </ion-item>
-        <ion-item (click)="selectAppliance('Charger')">
-          <ion-thumbnail slot="start">
-            <ion-img src="assets/image/charger.png"></ion-img>
-          </ion-thumbnail>
-          <ion-label>Phone Charger</ion-label>
-        </ion-item>
-        <!-- Add other study appliances -->
-      </ion-col>
-    </ion-row>
+<!-- Content for page 3 -->
+  <ion-content>
+    <div *ngIf="page === 'page3'">
+      <h2>Select Payment Type</h2>
+        <!-- Ion-segment buttons for payment methods -->
+        <ion-segment>
+        <ion-segment-button (click)="selectPaymentMethod('Credit Card')">Credit Card</ion-segment-button>
+        <ion-segment-button (click)="selectPaymentMethod('Debit Card')">Debit Card</ion-segment-button>
+        <ion-segment-button (click)="selectPaymentMethod('PayPal')">PayPal</ion-segment-button>
+        <ion-segment-button (click)="selectPaymentMethod('QR Code')">QR Code</ion-segment-button>
+      </ion-segment>
+  
+      <!-- Payment section for Credit Card or Debit Card -->
+      <div *ngIf="showPaymentSection && (selectedPaymentMethod === 'Credit Card' || selectedPaymentMethod === 'Debit Card')">
+          <!-- Button to initiate payment -->
+          <ion-button (click)="initiateStripePayment()">Pay Now</ion-button>
+      </div>
+      
+      <!-- Payment successful message -->
+      <div *ngIf="paymentSuccessful">
+        <h2>Payment Successful!</h2>
+        <!-- Additional details or customization for successful payment -->
+      </div>
 
-    <!-- Other Appliances -->
-    <ion-row>
-      <ion-col size="6">
-        <ion-item-divider>
-          <ion-label>Other Appliances</ion-label>
-        </ion-item-divider>
-        <ion-item (click)="selectAppliance('Extension')">
-          <ion-thumbnail slot="start">
-            <ion-img src="assets/image/extension.png"></ion-img>
-          </ion-thumbnail>
-          <ion-label>Extension</ion-label>
-        </ion-item>
-        <ion-item (click)="selectAppliance('Table Lamp')">
-          <ion-thumbnail slot="start">
-            <ion-img src="assets/image/desk lamp.png"></ion-img>
-          </ion-thumbnail>
-          <ion-label>Table Lamp</ion-label>
-        </ion-item>
-        <!-- Add other study appliances -->
-      </ion-col>
-    </ion-row>
-  </ion-grid>
-  <div style="width: 100%; text-align: center; color: black; font-size: 16px; font-family: Poppins; font-weight: 500; line-height: 22px; word-wrap: break-word">Proceed</div>
+      <!-- Approval message -->
+      <div *ngIf="submitted" style="text-align: center; margin-top: 50px;">
+        <p><strong>Your registration has been approved</strong></p>
+      </div>
+    </div>
+
+   <!-- Content for registeredPage (Registration Completed) -->
+   <div *ngIf="page === 'registeredPage'">
+    <h2>You have already registered</h2>
+    <!-- Navigate back to the default home page -->
+    <ion-buttons slot="start">
+      <ion-back-button [defaultHref]="'/home'"></ion-back-button>
+    </ion-buttons>
+      <ion-label style="text-align: center;">Go back</ion-label>
+  </div>
 </ion-content>

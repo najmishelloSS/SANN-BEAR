@@ -17,35 +17,121 @@ ion-content{
         h3 {
             font-weight: 600;
             color: white;
-            margin: 0;
-        }
-
-        .noti-bell {
-            width: 35px;
-            height: 35px;
-            background-color: white;
-            border-radius: 50%;
-            display: flex;
-            align-items: flex-end;
-            justify-content: center;
-            overflow: hidden;
-
-            ion-img {
-                width: 70%;
-                height: 70px;
-            }
         }
     }
 
-    swiper-container {
-        width:25%;
-        height:50%;
+    app-searchbar{
+        margin-left: 0.5;
+        margin-right: 0.5;
     }
 
-    swiper-slide {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-    } 
+   /* Apply styles to the swiper-container */
+swiper-container {
+    // margin-left: 2rem;
+    // margin-right: 2rem;
+    width: 80%;
+    height: 20%;
+  }
+  
+swiper-slide 
+{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+  // /* Apply styles to the swiper-slide within swiper-container */
+  // swiper-container swiper-slide {
+  //   text-size-adjust: 8px;
+  //   text-align: justify;
+  //   margin-left: 0.5rem;
+  //   margin-right: 0.5rem;
+  // }
+
+  /*Apply for the categories*/ 
+   .categories {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(81px, 1fr));
+    grid-gap: 1rem;
+    margin-left: 1rem;
+    margin-right: 1rem;
+  }
+  
+  .icon-button-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .icon-button {
+    height: 86px;
+    width: 81px;
+    border-radius: 16px;
+    background-color: #3a5bc4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .icon-button:hover {
+    background-color: #2a3c8c;
+  }
+  
+  .button-caption {
+    margin-top: 8px; /* Adjust margin as needed */
+    font-size: 14px;
+    color: #3a5bc4;
+    cursor: pointer;
+    text-align: center;
+  }
+  
+  .button-caption:hover {
+    text-decoration: underline;
+    color: #e2e2e2;
+  }
+ 
+    h4{
+        margin-left: 0.5rem;
+    }
+
+    .hall-list {
+        font-weight: 700;
+        color: #515151;
+        font-size: 1.8rem;
+        margin-bottom: 1.6rem;
+        margin-top: 2rem;
+        margin-right: 1rem;
+        margin-left: 1rem;
+        display: grid;
+        grid-template-columns:repeat(2, auto);
+        grid-gap:1rem;
+    }
+
+
+    /* Add some styling to the image container */
+.image-style {
+  width: 100%; /* Make the container take the full width of the slide */
+  height: 100%; /* Make the container take the full height of the slide */
+  overflow: hidden; /* Hide any overflow content */
+}
+
+/* Style the image within the container */
+.image-style img {
+  width: 100%; /* Make the image take the full width of the container */
+  height: 100%; /* Make the image take the full height of the container */
+  object-fit: cover; /* Maintain the aspect ratio and cover the container */
+  border-radius: 8px; /* Add a border-radius for rounded corners, adjust as needed */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Add a subtle box shadow for depth */
+}
+
+/* Optional: Add additional styling for active or focused slides */
+.swiper-slide-active .image-style img {
+  /* Add specific styling for the active slide if needed */
+  border: 2px solid #3498db; /* Example: Add a border for the active slide */
+}
+
 }

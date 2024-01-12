@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { NavController } from '@ionic/angular';
 import { DataService } from '../service/data.service';
 import { ComponentsService } from '../service/components.service';
+import { environment } from 'src/environments/environment';
 //////////////DEPENDENCIES///////////////////////
 
 
@@ -23,8 +24,8 @@ export class LoginPage implements OnInit {
   verifyModal = false
   resetModal = false
   login={ //for login inputs
-    email:"",
-    password:"",
+    email:"shah@gmail.com",
+    password:"abcd1234",
     email_input:["", "var(--ion-color-success)"], //default colour input
     password_input:["", "var(--ion-color-success)"]
   }
@@ -162,6 +163,16 @@ export class LoginPage implements OnInit {
   }
 
   async Login(){ //login function
+    // this.login.email = "default name"
+    // this.component.getAPI(environment.ktdi_api + 'hall.php', [], "get").subscribe( (data:any) => { //login API
+    // // this.component.http.get('https://newsapi.org/v2/everything?q=tesla&from=2023-12-11&sortBy=publishedAt&apiKey=70860361655b4c37b4b39ca31b608060').subscribe( (data:any) => { //login API
+    //   console.log(data.Code)
+    //   this.login.email = data.Code
+    // }, async error => {
+    //     console.log(error)
+    //     this.login.email = error.message
+    // });
+
     let result = this.component.emailValid(this.login.email) //check email validity (must have @ eg email@gmail)
 
     if(this.login.email == "" || this.login.email == " " || this.login.email == null || this.login.email == undefined || result == false){ //check input filled or validity
@@ -178,6 +189,7 @@ export class LoginPage implements OnInit {
         message: this.language["Logging In..."]
       });
       loading.present();
+      loading.dismiss();
 
       var headers = new Headers();
       headers.append("Accept", 'application/json');
@@ -221,7 +233,10 @@ export class LoginPage implements OnInit {
       }, async error => {
           console.log(error)
           loading.dismiss();
-          this.component.toast(this.language["Something went wrong, please try again later"])
+          // this.component.toast(this.language["Something went wrong, please try again later"])
+          this.component.toast(error.name + ":" + error.message)
+          
+
       });
     }
   }

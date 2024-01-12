@@ -1,0 +1,41 @@
+ion-segment {
+    background-color: #F1F1F1;
+}
+
+    .segment-button-checked::part(indicator-background) 
+    { background-color: #FBCE4F; 
+    }
+
+.buttonset
+{
+    color: black;
+font-size: 20px;
+line-height: 22px;
+}
+
+/* Add this to your global or component-specific CSS */
+.label-text {
+    margin-right: 60px; /* Adjust the margin as needed */
+  }
+  
+  .additional-text {
+    color: gray; /* Adjust the color as needed */
+    font-size: 15px; /* Adjust the font size as needed */
+  }
+
+
+  .room-circle {
+    border-radius: 50%;
+    width: 50px; /* Adjust the size of the circles as needed */
+    height: 50px;
+    margin: 5px; /* Adjust the margin between circles */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  ion-button.room-circle {
+    &.selected {
+      background-color: yellow;
+    }
+  }

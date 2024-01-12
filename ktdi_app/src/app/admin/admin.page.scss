@@ -1,0 +1,37 @@
+.background {
+    --background: rgb(161, 99, 226); /* Light Purple */
+    --background: linear-gradient(90deg, rgba(161, 99, 226, 1) 0%, rgba(102, 19, 225, 1) 81%);
+    padding-top: 10px;
+    padding-bottom: 10px;
+    color: white;
+}
+
+ion-col {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* New Styles for Cards */
+ion-card {
+  margin-bottom: 15px;
+  border-radius: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+ion-card-header {
+  --ion-background-color: var(--background);
+  border-radius: 15px 15px 0 0;
+  color: white;
+}
+
+ion-card-title,
+ion-card-subtitle {
+  color: white;
+}
+
+ion-card-content {
+  padding: 15px;
+}
+
+ion-label {
+  color: white;
+}

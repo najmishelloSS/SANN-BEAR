@@ -7,7 +7,7 @@ const routes: Routes = [
     path: 'home/:id',
     resolve:{
       special:DataResolverService
-    }, 
+    },
     loadChildren: () => import('./home/home.module').then( m => m.HomePageModule)
   },
   {
@@ -27,9 +27,9 @@ const routes: Routes = [
     path: 'profile/:id',
     resolve:{
       special:DataResolverService
-    }, 
+    },
     loadChildren: () => import('./profile/profile.module').then( m => m.ProfilePageModule)
-  },   
+  },
   {
     path: 'login',
     loadChildren: () => import('./login/login.module').then( m => m.LoginPageModule)
@@ -38,7 +38,7 @@ const routes: Routes = [
     path: 'login/:id',
     resolve:{
       special:DataResolverService
-    }, 
+    },
     loadChildren: () => import('./login/login.module').then( m => m.LoginPageModule)
   },
   {
@@ -53,8 +53,19 @@ const routes: Routes = [
     path: 'bookhall/:id',
     resolve:{
       special:DataResolverService
-    }, 
+    },
     loadChildren: () => import('./bookhall/bookhall.module').then( m => m.BookhallPageModule)
+  },
+  {
+    path: 'hallrecord',
+    loadChildren: () => import('./hallrecord/hallrecord.module').then( m => m.HallrecordPageModule)
+  },
+  {
+    path: 'hallrecord/:id',
+    resolve:{
+      special:DataResolverService
+    },
+    loadChildren: () => import('./hallrecord/hallrecord.module').then( m => m.HallrecordPageModule)
   },
   {
     path: 'room-registration',
@@ -64,11 +75,8 @@ const routes: Routes = [
     path: 'room-registration/:id',
     resolve:{
       special:DataResolverService
-    }, 
+    },
     loadChildren: () => import('./room-registration/room-registration.module').then( m => m.RoomRegistrationPageModule)
-  },  {
-    path: 'feedback',
-    loadChildren: () => import('./feedback/feedback.module').then( m => m.FeedbackPageModule)
   },
   {
     path: 'electric',
@@ -78,7 +86,7 @@ const routes: Routes = [
     path: 'electric/:id',
     resolve:{
       special:DataResolverService
-    }, 
+    },
     loadChildren: () => import('./electric/electric.module').then( m => m.ElectricPageModule)
   },
   {
@@ -89,15 +97,51 @@ const routes: Routes = [
     path: 'feedback/:id',
     resolve:{
       special:DataResolverService
-    }, 
+    },
     loadChildren: () => import('./feedback/feedback.module').then( m => m.FeedbackPageModule)
+  },
+  {
+    path: 'report',
+    loadChildren: () => import('./report/report.module').then( m => m.ReportPageModule)
+  },
+  {
+    path: 'report/:id',
+    resolve:{
+      special:DataResolverService
+    },
+    loadChildren: () => import('./report/report.module').then( m => m.ReportPageModule)
+  },
+  {
+    path: 'report-status',
+    loadChildren: () => import('./report-status/report-status.module').then( m => m.ReportStatusPageModule)
+  },
+  {
+    path: 'report-status/:id',
+    resolve:{
+      special:DataResolverService
+    },
+    loadChildren: () => import('./report-status/report-status.module').then( m => m.ReportStatusPageModule)
+  },
+  {
+    path: 'admin',
+    loadChildren: () => import('./admin/admin.module').then( m => m.AdminPageModule)
+  },
+  {
+    path: 'hall-details',
+    loadChildren: () => import('./hall-details/hall-details.module').then( m => m.HallDetailsPageModule)
+  },
+  {
+    path: 'electric-details',
+    loadChildren: () => import('./electric-details/electric-details.module').then( m => m.ElectricDetailsPageModule)
   },
 
 
 
 
 
- 
+
+
+
 ];
 
 @NgModule({
