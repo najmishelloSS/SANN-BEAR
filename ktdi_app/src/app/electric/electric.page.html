@@ -8,50 +8,51 @@
 </ion-header>
 
 <ion-content>
-  <!-- Content for page 1 -->
+  <!-- Content for page 1 (No Appliance Registered)--> 
   <div *ngIf="page === 'page1'">
     <p><strong>No Appliance Registered</strong></p>
+    <p class="additional-text">You have not registered for any appliance yet</p>
     <div style="text-align: center; margin-top: 50px;">
-      <ion-button (click)="navigateToPage('page2')">Register</ion-button>
+      <ion-button expand="full" shape="round" color="primary" class="ion-margin" (click)="navigateToPage('page2')" style="height: 7%;"> 
+        Register
+      </ion-button>
     </div>
   </div>
 
   <!-- Content for page 2 -->
-  <div *ngIf="page === 'page2'">
+  <div *ngIf="page === 'page2'" class="categories-container">
     <ion-grid>
       <ion-row *ngFor="let category of sortedCategories">
         <ion-col>
-          <h2>{{ category }}</h2>
-          <ion-list>
-            <ion-item *ngFor="let appliance of getAppliancesByCategory(category)">
-              <ion-label>
-                <img [src]="appliance.image" alt="Appliance Image" style="width: 50px; height: 40px;">
-                <p><strong>{{ appliance.name }}</strong></p>
-                <p><strong>Price:</strong> RM{{ appliance.price }}</p>
-              </ion-label>
-              <ion-checkbox slot="start" [checked]="appliance.selected" (ionChange)="toggleSelection(appliance)"></ion-checkbox>
-            </ion-item>
-          </ion-list>
+          <div class="category-box">
+            <h2 class="label-text">{{ category }}</h2>
+            <p class="additional-text">Select appliance from the list</p>
+            <div class="item-container">
+              <div class="item" *ngFor="let appliance of getAppliancesByCategory(category)" (click)="toggleSelection(appliance)" [class.selected-item]="appliance.selected">
+                <ion-label>
+                  <img [src]="appliance.image" alt="Appliance Image" style="width: 50px; height: 40px;">
+                  <p><strong>{{ appliance.name }}</strong></p>
+                  <p><strong>Price:</strong> RM{{ appliance.price }}</p>
+                </ion-label>
+              </div>
+            </div>
+          </div>
         </ion-col>
       </ion-row>
     </ion-grid>
 
-    <ion-footer>
-      <ion-row>
+    <ion-footer class="ion-no-border">
+      <ion-row class="ion-align-items-center">
         <ion-col>
-          <ion-item lines="none" detail="false">
-            <ion-label>
-              <h6>
-                <b>RM {{ totalPrice | number: '1.2-2' }}</b>
-              </h6>
-              <p><span style="color:#777">inc. of all taxes</span></p>
-            </ion-label>          
-          </ion-item>
+          <ion-label class="total-price">
+            <b>RM {{ totalPrice | number: '1.2-2' }}</b>
+            <p><span class="tax-text">inc. of all taxes</span></p>
+          </ion-label>
         </ion-col>
-        <ion-col>
-          <ion-item (click)="navigateToPage('page3')" detail="true" button color="primary" style="--border-radius: 20px;--border-width: 2px;--height:4rem; color: white;">
-            <ion-label style="text-align: center;">Proceed</ion-label>
-          </ion-item>
+        <ion-col class="ion-text-center">
+          <ion-button (click)="navigateToPage('page3')" expand="block" color="primary" shape="round">
+            Proceed
+          </ion-button>
         </ion-col>
       </ion-row>
     </ion-footer>
@@ -86,5 +87,14 @@
         <p><strong>Your registration has been approved</strong></p>
       </div>
     </div>
-  </ion-content>
-  
+
+   <!-- Content for registeredPage (Registration Completed) -->
+   <div *ngIf="page === 'registeredPage'">
+    <h2>You have already registered</h2>
+    <!-- Navigate back to the default home page -->
+    <ion-buttons slot="start">
+      <ion-back-button [defaultHref]="'/home'"></ion-back-button>
+    </ion-buttons>
+      <ion-label style="text-align: center;">Go back</ion-label>
+  </div>
+</ion-content>

@@ -1,5 +1,4 @@
 // report.page.ts
-
 import { Component } from '@angular/core';
 import { NavController, LoadingController, ToastController } from '@ionic/angular';
 import { HttpClient } from '@angular/common/http';
@@ -47,7 +46,7 @@ export class ReportPage {
       .subscribe(
         (response) => {
           console.log('File uploaded successfully:', response);
-          this.uploadedFilePath = response.file_path;
+          this.uploadedFilePath = response.file_path; // Update to the correct field name
         },
         (error) => {
           console.error('Error uploading file:', error);
@@ -58,11 +57,12 @@ export class ReportPage {
   async submitReport() {
     console.log('Submitting Report');
 
+    // Build FormData for the entire form
     const formData = new FormData();
     formData.append('file_path', this.uploadedFilePath);
-    formData.append('damage_type', this.getSelectedDamageType());
+    formData.append('damage_type', this.getSelectedDamageTypes().join(', '));
     formData.append('damage_description', this.damageDescription);
-    formData.append('user_email', 'shah@gmail.com');
+    formData.append('user_email', 'shah@gmail.com'); // Replace with the actual user email
 
     console.log('Report Data:', formData);
 
@@ -87,9 +87,10 @@ export class ReportPage {
       );
   }
 
-  private getSelectedDamageType(): string {
-    const selectedType = this.damageTypes.find(type => type.checked);
-    return selectedType ? selectedType.label : '';
+  private getSelectedDamageTypes(): string[] {
+    return this.damageTypes
+      .filter(type => type.checked)
+      .map(type => type.label);
   }
 
   resetForm() {

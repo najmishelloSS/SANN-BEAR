@@ -26,10 +26,6 @@
         <ion-icon name="calendar-outline"></ion-icon>
         <ion-label style="font-size: 14px; margin-left: 10px; color: grey;">Hall Book</ion-label>
       </ion-item>
-      <ion-item button (click)="navigate('approval-report','forward')">
-        <ion-icon name="checkbox-outline"></ion-icon>
-        <ion-label style="font-size: 14px; margin-left: 10px; color: grey;">Approve Report</ion-label>
-      </ion-item>
       <ion-item button (click)="navigate('electric-details','forward')">
         <ion-icon name="flash-outline"></ion-icon>
         <ion-label style="font-size: 14px; margin-left: 10px; color: grey;">Electrical Registration</ion-label>
@@ -160,25 +156,24 @@
     </ion-row>
   
     <!-- Report Damage Status -->
-<ion-row>
-  <ion-col size="12">
-    <ion-card *ngFor="let report of reportData">
-      <ion-card-header>
-        <ion-card-title>Reported Damage Status</ion-card-title>
-      </ion-card-header>
-      <ion-card-content>
-        <!-- Display reported damage status here -->
-        <ion-item>
-          <ion-label>ID:{{report.id}}</ion-label>
-          <ion-label>{{ report.damage_description }}</ion-label>
-          <ion-label>{{ report.damage_type }}</ion-label>
-          <ion-label>{{ report.submitted_at }}</ion-label>
-        </ion-item>
-        <!-- Add more ion-items as needed -->
-      </ion-card-content>
-    </ion-card>
-  </ion-col>
-</ion-row>
+    <ion-row>
+      <ion-col size="12">
+        <ion-card>
+          <ion-card-header>
+            <ion-card-title>Reported Damage Status</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <!-- Display reported damage status here -->
+            <ion-item>
+              <ion-label>Location: Room 101</ion-label>
+              <ion-label>Status: In Progress</ion-label>
+              <ion-label>Reported by: Jane Doe</ion-label>
+            </ion-item>
+            <!-- Add more ion-items as needed -->
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
   
     <!-- Total Room Registration -->
     <ion-row>

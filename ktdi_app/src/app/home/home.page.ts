@@ -12,8 +12,31 @@ import Swiper from 'swiper';
 })
 export class HomePage implements OnInit{
 
+  @ViewChild('swiper')
+  swiperRef : ElementRef | undefined; 
+  swiper?: Swiper;
+
 
   contrustor(){}
+
+  swiperReady () {
+    this.swiper = this.swiperRef?.nativeElement.swiper;
+  }
+
+  goNext () 
+  {
+    this.swiper.slideNext();
+  }
+
+  goPrev () {
+    this.swiper.slidePrev(); 
+  }
+
+  images = [
+    '../../assets/image/dewan.jpg',
+    '../../assets/image/ktdi.jpg', 
+    '../../assets/image/utm.png'
+  ]
 
   swiperSlides = [
     { id: 1, image: '../../assets/image/dewan.jpg', alt: 'Dewan Image', title: 'Dewan', description: 'Welcome to Hall Dewan, a versatile and dynamic event space designed to cater to a wide array of functions and gatherings. Nestled within the vibrant campus of the Universiti Teknologi Malaysia (UTM), Hall Dewan boasts state-of-the-art facilities and a modern aesthetic that sets the stage for memorable events. Whether hosting academic conferences, cultural performances, or social gatherings, Hall Dewan provides a spacious and adaptable environment to suit diverse needs. With its contemporary design and technological amenities, it stands as a symbol of UTMs commitment to fostering a collaborative and engaging community.' },

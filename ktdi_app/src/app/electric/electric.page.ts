@@ -30,21 +30,26 @@ export class ElectricPage implements OnInit {
   submitted = false;
   paymentSuccessful = false;
   data: any = {};
-  page: string = 'page1';
+  page: string = '';
 
   constructor(
     private http: HttpClient,
     private decimalPipe: DecimalPipe
   ) {}
 
+  async ngOnInit(): Promise<void> {
+    await this.getAppliances();
+    this.checkUserRegistrationStatus();
+  }
+  checkUserRegistrationStatus(): void {
+    const userRegisteredFlag = localStorage.getItem('userRegistered');
+    this.page = userRegisteredFlag ? 'registeredPage' : 'page1';
+  }
+
   httpPost(url: string, body: HttpParams) {
     return this.http.post<any>(url, body);
   }
 
-  async ngOnInit(): Promise<void> {
-    await this.getAppliances();
-  }
-  
   async initiateStripePayment(): Promise<void> {
     try {
       const requestData = { email: 'shah@gmail.com', name: 'Shah', amount: this.totalPrice }; 
@@ -158,17 +163,18 @@ export class ElectricPage implements OnInit {
 
   toggleSelection(appliance: Appliance): void {
     appliance.selected = !appliance.selected;
-
+  
     // Check if the appliance should be added or removed from selectedAppliances
-    if (appliance.selected && !this.selectedAppliances.includes(appliance)) {
-      // Add the appliance to selectedAppliances
+    if (appliance.selected && !this.selectedAppliances.some(selected => selected.id === appliance.id)) {
+      // Add the appliance to selectedAppliances if it's selected and not already present
       this.selectedAppliances.push(appliance);
-    } else if (!appliance.selected && this.selectedAppliances.includes(appliance)) {
-      // Remove the appliance from selectedAppliances
-      this.selectedAppliances = this.selectedAppliances.filter(a => a.id !== appliance.id);
+    } else if (!appliance.selected && this.selectedAppliances.some(selected => selected.id === appliance.id)) {
+      // Remove the appliance from selectedAppliances if it's deselected and present
+      this.selectedAppliances = this.selectedAppliances.filter(selected => selected.id !== appliance.id);
     }
-
-    this.updateTotalPrice(); // Call the method to update the total price
+  
+    // Update the total price after updating selected appliances
+    this.updateTotalPrice();
   }
 
   updateTotalPrice(): void {
@@ -205,7 +211,7 @@ export class ElectricPage implements OnInit {
 
   submitRegistration(): void {
     // Logic for submitting registration goes here
-    // You can access this.selectedAppliances to get the selected items
+
     this.submitted = true;
   }
 }

@@ -1,8 +1,8 @@
 import { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'io.ionic.starter',
-  appName: 'ktdi_App',
+  appId: 'com.ktdi.app',
+  appName: 'KTDI Community',
   webDir: 'www',
   server: {
     androidScheme: 'https'

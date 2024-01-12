@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { LoadingController, NavController, ToastController } from '@ionic/angular';
+import { AlertController, LoadingController, NavController, ToastController } from '@ionic/angular';
 import { DataService } from './data.service';
 import { HttpClient } from '@angular/common/http';
+import { InAppBrowser, InAppBrowserOptions } from '@awesome-cordova-plugins/in-app-browser/ngx';
 
 @Injectable({
   providedIn: 'root'
@@ -12,6 +13,13 @@ export class ComponentsService {
   language = Array();
   data: any
 
+  options : InAppBrowserOptions = { //browser option
+    hideurlbar:'yes',
+    hidenavigationbuttons:'yes',
+    zoom:'yes',
+    hardwareback:'no'
+  }
+
   constructor(
     public route: ActivatedRoute,
     public dataservice:DataService,
@@ -19,7 +27,9 @@ export class ComponentsService {
     public navController:NavController,
     public loadingController:LoadingController,
     public http:HttpClient,
-    public toastController:ToastController
+    public toastController:ToastController,
+    public alertController:AlertController,
+    public iab:InAppBrowser
   ) { }
 
   getAPI(link, formData, type){
@@ -34,6 +44,11 @@ export class ComponentsService {
     const expression: RegExp = /^(?=.{1,254}$)(?=.{1,64}@)[-!#$%&'*+/0-9=?A-Z^_`a-z{|}~]+(\.[-!#$%&'*+/0-9=?A-Z^_`a-z{|}~]+)*@[A-Za-z0-9]([A-Za-z0-9-]{0,61}[A-Za-z0-9])?(\.[A-Za-z0-9]([A-Za-z0-9-]{0,61}[A-Za-z0-9])?)*$/;
     const result: boolean = expression.test(email);
     return result
+  }
+
+  openBrowser(url){
+    let target = "_blank";
+    this.iab.create(url, target, this.options);
   }
 
   async toast(message){
@@ -55,6 +70,35 @@ export class ComponentsService {
     data.page = data.page + 1 // add 1 to page number eg home/1 -> profile/2
     this.dataservice.setData(data.page, data); //save data before navigating
     this.router.navigateByUrl(route+"/"+data.page); //navigate to page eg profile/2
+  }
+
+  translateData(data, language){ //translate data
+    if(language == "malay"){
+      switch(data){
+        case "Upcoming":
+          data = "Akan Datang"
+          break;
+        case "Ongoing":
+          data = "Sedang Langsung"
+          break;
+        case "Finished":
+          data = "Tamat"
+          break;
+      }
+    }else{
+      switch(data){
+        case "Upcoming":
+          data = "Upcoming"
+          break;
+        case "Ongoing":
+          data = "Ongoing"
+          break;
+        case "Finished":
+          data = "Finished"
+          break;
+      }
+    }
+    return data
   }
 
   getLanguage(language){
@@ -131,6 +175,42 @@ export class ComponentsService {
         this.language["Programme Tentative"] = "Tentatif Program"
         this.language["Date/Time Information"] = "Maklumat Tarikh/Masa"
         this.language["PDF, JPG, JPEG and PNG only"] = "Hanya PDF, JPG, JPEG dan PNG"
+        this.language["Booking in progress..."] = "Sedang menempah..."
+        this.language["Hall Record"] = "Rekod Dewan"
+        this.language["Book Hall"] = "Tempah Dewan"
+        this.language["Active"] = "Aktif"
+        this.language["Record"] = "Rekod"
+        this.language["Search Booking"] = "Cari Tempahan"
+        this.language["Furniture Information"] = "Maklumat Perabot"
+        this.language["Broadcast Equipment Information"] = "Maklumat Set Siaraya"
+        this.language["Additional Equipment Information"] = "Maklumat Peralatan Tambahan"
+        this.language["Plastic Chair"] = "Kerusi Plastik"
+        this.language["Banquet Chair"] = "Kerusi Bankuet"        
+        this.language["Long Desk"] = "Meja Panjang"
+        this.language["Whiteboard"] = "Papan Putih"
+        this.language["Partition"] = "Partition"
+        this.language["P.A. System"] = "Sistem P.A."
+        this.language["Hand Mic"] = "Mic Tangan"
+        this.language["Stand Mic"] = "Mic Diri"
+        this.language["Comber"] = "Comber"
+        this.language["LCD Projector"] = "Projektor LCD"
+        this.language["Add"] = "Tambah"
+        this.language["Remove"] = "Padam"
+        this.language["Additional Equipment"] = "Peralatan Tambahan"
+        this.language["Equipment Name"] = "Nama Peralatan"
+        this.language["Equipment Amount"] = "Bilangan Peralatan"
+        this.language["Please fill in the details."] = "Sila isikan maklumat berikut."
+        this.language["Applicant Acknowledgement"] = "Pengakuan Pemohon"
+        this.language["Add New Item"] = "Tambah Peralatan Baru"
+        this.language["Prioritise the safety of the university's property."] = "Mengutamakan keselamatan hartabenda Universiti yang digunakan."
+        this.language["Preserve the cleanliness of the venue and its surrounding."] = "Menjaga kebersihan ruang dan Kawasan."
+        this.language["Ensure the safety of the participants during the programme."] = "Bertanggungjawab ke atas keselamatan peserta sepanjang penggunaan ruang"
+        this.language["Return every borrowed furniture and equipments in adequate amount within the allocated period."] = "Melakukan pemulangan peralatan/kunci pada tarikh yang ditetapkan serta bilangan yang mengcukupi."
+        this.language["Liable of replacing any broken or lost equipments due to mishaps during usage."] = "Menggantikan peralatan yang rosak atau hilang disebabkan oleh kecuaian semasa penggunaan."
+        this.language["I agree to abide to the above rules and regulations"] = "Saya berjanji akan bertanggungjawab ke atas perkara-perkara di atas"
+        this.language["Meal Break"] = "Waktu Makan"
+        this.language["Yes"] = "Ada"
+        this.language["No"] = "Tiada"
         break;
       default:
         this.language["Home"] = "Home"
@@ -203,7 +283,43 @@ export class ComponentsService {
         this.language["Programme Tentative"] = "Programme Tentative"
         this.language["Date/Time Information"] = "Date/Time Information"
         this.language["PDF, JPG, JPEG and PNG only"] = "PDF, JPG, JPEG and PNG only"
-    }
+        this.language["Booking in progress..."] = "Booking in progress..."
+        this.language["Hall Record"] = "Hall Record"
+        this.language["Book Hall"] = "Book Hall"
+        this.language["Active"] = "Active"
+        this.language["Record"] = "Record"
+        this.language["Search Booking"] = "Search Booking"
+        this.language["Furniture Information"] = "Furniture Information"
+        this.language["Broadcast Equipment Information"] = "Broadcast Equipment Information"
+        this.language["Additional Equipment Information"] = "Additional Equipment Information"
+        this.language["Plastic Chair"] = "Plastic Chair"
+        this.language["Banquet Chair"] = "Banquet Chair"
+        this.language["Long Desk"] = "Long Desk"
+        this.language["Whiteboard"] = "Whiteboard"
+        this.language["Partition"] = "Partition"
+        this.language["P.A. System"] = "P.A. System"
+        this.language["Hand Mic"] = "Hand Mic"
+        this.language["Stand Mic"] = "Stand Mic"
+        this.language["Comber"] = "Comber"
+        this.language["LCD Projector"] = "LCD Projector"
+        this.language["Add"] = "Add"
+        this.language["Remove"] = "Remove"
+        this.language["Additional Equipment"] = "Additional Equipment"
+        this.language["Equipment Name"] = "Equipment Name"
+        this.language["Equipment Amount"] = "Equipment Amount"
+        this.language["Please fill in the details."] = "Please fill in the details."
+        this.language["Applicant Acknowledgement"] = "Applicant Acknowledgement"
+        this.language["Add New Item"] = "Add New Item"
+        this.language["Prioritise the safety of the university's property."] = "Prioritise the safety of the university's property."
+        this.language["Preserve the cleanliness of the venue and its surrounding."] = "Preserve the cleanliness of the venue and its surrounding."
+        this.language["Ensure the safety of the participants during the programme."] = "Ensure the safety of the participants during the programme."
+        this.language["Return every borrowed furniture and equipments in adequate amount within the allocated period."] = "Return every borrowed furniture and equipments in adequate amount within the allocated period."
+        this.language["Liable of replacing any broken or lost equipments due to mishaps during usage."] = "Liable of replacing any broken or lost equipments due to mishaps during usage."
+        this.language["I agree to abide to the above rules and regulations"] = "I agree to abide to the above rules and regulations"
+        this.language["Meal Break"] = "Meal Break"
+        this.language["Yes"] = "Yes"
+        this.language["No"] = "No"
+      }
     return this.language
   }
 

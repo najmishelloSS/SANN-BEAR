@@ -4,8 +4,21 @@ const cors = require("cors");
 const bodyParser = require('body-parser');
 
 const stripe = Stripe('sk_test_51ORPauC1wAehoBy5dKXcQrG8TwXVwo7OUq7ScNOLBlc33o962juKIqVAJuKZ6fp1WEYIbnhfuE6DUmQtdjiVYM5Q00b0VpL1Mf');
-
 const app = express();
+
+const appearance = { 
+theme: 'flat',
+variables: { colorPrimaryText: '#262626' } };
+const options = { 
+layout: {
+  type: 'tabs',
+defaultCollapsed: false,
+}
+};
+const elements = stripe.elements({ clientSecret, appearance });
+const paymentElement = elements.create('payment', options);
+paymentElement.mount('#payment-element');
+
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 

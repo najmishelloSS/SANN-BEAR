@@ -5,7 +5,7 @@
     </ion-buttons>
     <ion-title>Profile</ion-title>
     <ion-buttons slot="end">
-      <ion-button>Update </ion-button>
+      <ion-button>Logout </ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
@@ -14,23 +14,24 @@
   <!-- Profile Picture and Name -->
   <div>
     <img src="path/to/profile-picture.jpg" alt="Profile Picture">
-    <h2>Name</h2>
+    <h2>{{data.login.full_name}}</h2>
   </div>
 
   <!-- Year/Course, Phone, Email, Faculty, Programme -->
   <ion-item>
     <ion-icon name="school-outline" slot="start"></ion-icon>
-    <ion-label>Year/Course</ion-label>
+    <ion-input placeholder="Year/Course"></ion-input>
   </ion-item>
+  
 
   <ion-item>
     <ion-icon name="call-outline" slot="start"></ion-icon>
-    <ion-label>Phone Number</ion-label>
+    <ion-label>{{data.login.phone}}</ion-label>
   </ion-item>
 
   <ion-item>
     <ion-icon name="mail-outline" slot="start"></ion-icon>
-    <ion-label>Email</ion-label>
+    <ion-label>{{data.login.email}}</ion-label>
   </ion-item>
 
   <ion-item>
@@ -45,6 +46,6 @@
 
   <!-- Logout Button -->
   <ion-button expand="full">
-    Logout
+    Update
   </ion-button>
 </ion-content>
