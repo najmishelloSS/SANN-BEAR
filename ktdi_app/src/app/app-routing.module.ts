@@ -124,16 +124,17 @@ const routes: Routes = [
     loadChildren: () => import('./electric-details/electric-details.module').then( m => m.ElectricDetailsPageModule)
   },
   {
-    path: 'approval-report',
-    loadChildren: () => import('./approval-report/approval-report.module').then( m => m.ApprovalReportPageModule)
+    path: 'report-approval',
+    loadChildren: () => import('./report-approval/report-approval.module').then( m => m.ReportApprovalPageModule)
   },
   {
-    path: 'approval-report/:id',
+    path: 'report-approval/:id',
     resolve:{
       special:DataResolverService
     },
-    loadChildren: () => import('./approval-report/approval-report.module').then( m => m.ApprovalReportPageModule)
+    loadChildren: () => import('./report-approval/report-approval.module').then( m => m.ReportApprovalPageModule)
   },
+
 
 
 
