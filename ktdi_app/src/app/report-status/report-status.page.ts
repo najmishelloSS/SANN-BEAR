@@ -8,49 +8,62 @@ import { HttpClient } from '@angular/common/http';
   styleUrls: ['./report-status.page.scss'],
 })
 export class ReportStatusPage implements OnInit {
-
   selectedStatus: string = 'active';
   activeSectionVisible: boolean = true;
   successSectionVisible: boolean = false;
-
-  // Assuming the structure of your data is like this
   reportData: any[] = [];
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   ngOnInit() {
-    // Fetch initial data when the component initializes
     this.fetchReportData();
   }
 
-  // Function to handle changes in the selected status
   onStatusChange() {
-    // Toggle the visibility of sections based on the selected status
     this.activeSectionVisible = this.selectedStatus === 'active';
     this.successSectionVisible = this.selectedStatus === 'success';
+    if (this.selectedStatus === 'active') {
+      // Fetch all reports and reset the status to "Submitted"
+      this.fetchReportData();
+    } else {
+      // Fetch only the reports with "Success" status
+      this.fetchReportData(this.selectedStatus);
+    }
   }
 
-  // Function to fetch report data from the server
-  fetchReportData() {
+  fetchReportData(status?: string) {
     const url = 'http://ktdiapp.mooo.com/api/submit-report.php';
-
-    // You might need to adjust the request parameters based on your server-side implementation
     const params = {};
 
-    this.http.post<any[]>(url, params)
+    this.http.post<any>(url, params)
       .subscribe(
-        (data:any) => {
-          console.log('Received data:', data); // Log the data received
-          // data.Reports.forEach( async item => { // to manipulate each data individually
-          //   console.log(item)
-          // });
-          this.reportData = data.Reports;
-          console.log(this.reportData)
+        (data: any) => {
+          console.log('Received data:', data);
+          if (status) {
+            // Filter the reports based on the selected status
+            this.reportData = data.Reports
+              .filter(report => report.status === status)
+              .map((report: any) => {
+                report.damage_type = report.damage_type ? [report.damage_type] : [];
+                return report;
+              });
+          } else {
+            // Reset the status to "Submitted" for all reports
+            this.reportData = data.Reports.map((report: any) => {
+              report.damage_type = report.damage_type ? [report.damage_type] : [];
+              report.status = 'Submitted';
+              return report;
+            });
+          }
+          console.log(this.reportData);
         },
         async error => {
           console.error('Error fetching report data:', error);
         }
       );
+  }
 
+  formatId(id: number): string {
+    return '#' + ('00000' + id).slice(-5);
   }
 }
