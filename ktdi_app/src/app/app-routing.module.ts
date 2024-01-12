@@ -122,7 +122,11 @@ const routes: Routes = [
   {
     path: 'electric-details',
     loadChildren: () => import('./electric-details/electric-details.module').then( m => m.ElectricDetailsPageModule)
+  },  {
+    path: 'approval-report',
+    loadChildren: () => import('./approval-report/approval-report.module').then( m => m.ApprovalReportPageModule)
   },
+
 
 
 

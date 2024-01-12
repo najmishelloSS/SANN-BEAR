@@ -1,37 +1,35 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 
 @Component({
-  selector: 'app-admin',
-  templateUrl: './admin.page.html',
-  styleUrls: ['./admin.page.scss'],
+  selector: 'app-approval-report',
+  templateUrl: './approval-report.page.html',
+  styleUrls: ['./approval-report.page.scss'],
 })
-export class AdminPage implements OnInit {
-  // hallBookings: any[] = [];
-  
-  reportData: any[] = [];
+export class ApprovalReportPage implements OnInit {
+
   selectedStatus: string = 'active';
   activeSectionVisible: boolean = true;
   successSectionVisible: boolean = false;
-  
-  constructor(private router: Router , private http: HttpClient) { }
+
+  // Assuming the structure of your data is like this
+  reportData: any[] = [];
+
+  constructor(private http: HttpClient) { }
 
   ngOnInit() {
-  }
-  navigate(route: string, direction: string) {
-    console.log("Go " + direction + " to " + route);
+    // Fetch initial data when the component initializes
     this.fetchReportData();
-    
-    this.router.navigate([route]);
   }
 
+  // Function to handle changes in the selected status
   onStatusChange() {
     // Toggle the visibility of sections based on the selected status
     this.activeSectionVisible = this.selectedStatus === 'active';
     this.successSectionVisible = this.selectedStatus === 'success';
   }
 
+  // Function to fetch report data from the server
   fetchReportData() {
     const url = 'http://ktdiapp.mooo.com/api/submit-report.php';
 
