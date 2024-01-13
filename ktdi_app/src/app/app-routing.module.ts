@@ -57,17 +57,6 @@ const routes: Routes = [
     loadChildren: () => import('./bookhall/bookhall.module').then( m => m.BookhallPageModule)
   },
   {
-    path: 'hallrecord',
-    loadChildren: () => import('./hallrecord/hallrecord.module').then( m => m.HallrecordPageModule)
-  },
-  {
-    path: 'hallrecord/:id',
-    resolve:{
-      special:DataResolverService
-    },
-    loadChildren: () => import('./hallrecord/hallrecord.module').then( m => m.HallrecordPageModule)
-  },
-  {
     path: 'room-registration',
     loadChildren: () => import('./room-registration/room-registration.module').then( m => m.RoomRegistrationPageModule)
   },
@@ -134,6 +123,18 @@ const routes: Routes = [
     path: 'electric-details',
     loadChildren: () => import('./electric-details/electric-details.module').then( m => m.ElectricDetailsPageModule)
   },
+  {
+    path: 'report-approval',
+    loadChildren: () => import('./report-approval/report-approval.module').then( m => m.ReportApprovalPageModule)
+  },
+  {
+    path: 'report-approval/:id',
+    resolve:{
+      special:DataResolverService
+    },
+    loadChildren: () => import('./report-approval/report-approval.module').then( m => m.ReportApprovalPageModule)
+  },
+
 
 
 
