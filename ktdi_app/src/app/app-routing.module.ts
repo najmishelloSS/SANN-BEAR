@@ -133,7 +133,15 @@ const routes: Routes = [
       special:DataResolverService
     },
     loadChildren: () => import('./report-approval/report-approval.module').then( m => m.ReportApprovalPageModule)
+  },  {
+    path: 'room-details',
+    loadChildren: () => import('./room-details/room-details.module').then( m => m.RoomDetailsPageModule)
   },
+  {
+    path: 'feedback-details',
+    loadChildren: () => import('./feedback-details/feedback-details.module').then( m => m.FeedbackDetailsPageModule)
+  },
+
 
 
 
