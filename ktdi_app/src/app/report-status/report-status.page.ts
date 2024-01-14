@@ -1,60 +1,49 @@
 // report-status.page.ts
-import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { Component } from '@angular/core';
+import { HttpClient, HttpParams } from '@angular/common/http';
 
 @Component({
   selector: 'app-report-status',
   templateUrl: './report-status.page.html',
   styleUrls: ['./report-status.page.scss'],
 })
-export class ReportStatusPage implements OnInit {
+export class ReportStatusPage {
   selectedStatus: string = 'active';
   activeSectionVisible: boolean = true;
   successSectionVisible: boolean = false;
   reportData: any[] = [];
+  dataFetched: boolean = false;
 
   constructor(private http: HttpClient) {}
 
-  ngOnInit() {
-    this.fetchReportData();
+  ionViewWillEnter() {
+    if (!this.dataFetched) {
+      this.fetchReportData();
+      this.dataFetched = true;
+    }
   }
 
   onStatusChange() {
     this.activeSectionVisible = this.selectedStatus === 'active';
     this.successSectionVisible = this.selectedStatus === 'success';
     if (this.selectedStatus === 'active') {
-      // Fetch all reports and reset the status to "Submitted"
       this.fetchReportData();
     } else {
-      // Fetch only the reports with "Success" status
       this.fetchReportData(this.selectedStatus);
     }
   }
 
   fetchReportData(status?: string) {
-    const url = 'http://ktdiapp.mooo.com/api/submit-report.php';
-    const params = {};
+    const url = 'http://ktdiapp.mooo.com/api/get_status.php';
 
-    this.http.post<any>(url, params)
+    this.http.get<any[]>(url)
       .subscribe(
         (data: any) => {
           console.log('Received data:', data);
-          if (status) {
-            // Filter the reports based on the selected status
-            this.reportData = data.Reports
-              .filter(report => report.status === status)
-              .map((report: any) => {
-                report.damage_type = report.damage_type ? [report.damage_type] : [];
-                return report;
-              });
-          } else {
-            // Reset the status to "Submitted" for all reports
-            this.reportData = data.Reports.map((report: any) => {
-              report.damage_type = report.damage_type ? [report.damage_type] : [];
-              report.status = 'Submitted';
-              return report;
-            });
-          }
+          this.reportData = data.Reports.map((report: any) => {
+            report.damage_type = report.damage_type ? [report.damage_type] : [];
+            return report;
+          });
           console.log(this.reportData);
         },
         async error => {
