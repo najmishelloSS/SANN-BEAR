@@ -7,30 +7,26 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-padding" [fullscreen]="true" style="--ion-background-color: #f4ebf8;">
+<ion-content>
+  <ion-list lines="full">
+    <ion-item-divider>
+      <ion-label>Hall Details</ion-label>
+    </ion-item-divider>
 
-  <ion-list>
-    <ion-item *ngFor="let booking of bookhall" lines="none">
-      <ion-card class="custom-card">
-        <ion-card-header>
-          <ion-card-title class="ion-text-uppercase">{{ booking.programme_name }}</ion-card-title>
-          <ion-card-subtitle>{{ booking.programme_date | date:'medium' }}</ion-card-subtitle>
-        </ion-card-header>
-        
-        <ion-card-content>
-          <!-- Display other booking details here -->
-          <ion-label class="ion-text-wrap">{{ booking.programme_venue }}</ion-label>
-          <ion-label class="ion-text-wrap">
-            <ion-icon name="cash-outline" color="primary"></ion-icon>
-            {{ booking.rent_fee | currency:'MYR':'symbol':'1.2-2' }}
-          </ion-label>
-        </ion-card-content>
+    <ion-item>
+      <ion-label>Hall Name: {{ hallDetails?.hall_name }}</ion-label>
+    </ion-item>
 
-        <ion-button (click)="approveBooking(booking.booking_id)" expand="full" fill="solid" color="success">
-          Approve
-        </ion-button>
-      </ion-card>
+    <ion-item>
+      <ion-label>Rent Date: {{ hallDetails?.rent_date }}</ion-label>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>Rent Price: {{ hallDetails?.rent_price }}</ion-label>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>Rent Type: {{ hallDetails?.rent_type }}</ion-label>
     </ion-item>
   </ion-list>
-
 </ion-content>

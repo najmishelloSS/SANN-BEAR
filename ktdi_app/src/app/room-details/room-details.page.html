@@ -1,8 +1,29 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-back-button [defaultHref]="'/home'"></ion-back-button>
+      <ion-back-button [defaultHref]="'/admin'"></ion-back-button>
     </ion-buttons>
     <ion-title>Room Details</ion-title>
   </ion-toolbar>
 </ion-header>
+
+<ion-content>
+
+  <!-- Table to display room information -->
+  <ion-grid>
+    <ion-row class="header-row">
+      <ion-col size-sm="4">Number of Rooms</ion-col>
+      <ion-col size-sm="4">Room Type</ion-col>
+      <ion-col size-sm="4">Resident Name</ion-col>
+      <ion-col size-sm="4">Email</ion-col>
+    </ion-row>
+
+    <ion-row *ngFor="let row of tableData" class="data-row">
+      <ion-col size-sm="4">{{ row.rooms }}</ion-col>
+      <ion-col size-sm="4">{{ row.type }}</ion-col>
+      <ion-col size-sm="4">{{ row.residentName }}</ion-col>
+      <ion-col size-sm="4">{{ row.email }}</ion-col>
+    </ion-row>
+  </ion-grid>
+
+</ion-content>
