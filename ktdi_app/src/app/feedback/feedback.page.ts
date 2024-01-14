@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController } from '@ionic/angular';
 import { HttpClient } from '@angular/common/http';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-feedback',
@@ -14,12 +15,19 @@ export class FeedbackPage {
   submitted: boolean = false;
   userRecommendation: string = '';
   file: any;
-  constructor(private navCtrl: NavController, private http: HttpClient) {}
+  data: any;
+  constructor(private navCtrl: NavController, private http: HttpClient, public route:ActivatedRoute) {}
+
+  ngOnInit() {
+    if(this.route.snapshot.data['special']){
+      this.data = this.route.snapshot.data['special'];
+    }
+    console.log(this.data.login.user_id) // user id
+  }
 
   selectedFile(event){
     this.file = event.target.files[0];
   }
-
 
   rateCollegeManagement(rating: number): void {
     this.collegeManagementRating = this.collegeManagementRating === rating ? 0 : rating;
@@ -43,7 +51,8 @@ export class FeedbackPage {
     formData.append('accommodation_rating', this.accommodationRating);
     formData.append('facilities_rating', this.facilitiesRating);
     formData.append('user_recommendation', this.userRecommendation);
-    formData.append('file', this.file);
+    formData.append('file', this.file); 
+    formData.append('user_id', this.data.login.user_id); 
 
     // Replace the URL with your actual PHP backend endpoint
     const feedbackEndpoint = 'http://ktdiapp.mooo.com/api/feedback.php';
