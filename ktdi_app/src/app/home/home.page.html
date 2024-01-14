@@ -37,7 +37,7 @@
   </swiper-container>--> 
 
   
-  <swiper-container (afterinit) = "swiperReady()"    (slidechange)="swiperSlideChanged($event)" [loop]="true" [pagination]="true">
+  <swiper-container (afterinit) = "swiperReady()"    (slidechange)="swiperSlideChanged($event)" [loop]="true" [pagination]="true" [options]="option">
     <swiper-slide *ngFor = "let image of images"> 
       <div class = "image-style">
       <img [src] = "image"  />

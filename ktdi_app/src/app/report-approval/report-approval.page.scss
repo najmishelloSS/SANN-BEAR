@@ -1,0 +1,16 @@
+.report-container {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: flex-start; /* Align to the start (left side) */
+  }
+  
+  .segment-small {
+    display: flex;
+    max-width: 100px; /* Adjust the width as needed */
+  }
+  
+  .segment-label {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
