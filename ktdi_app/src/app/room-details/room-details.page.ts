@@ -33,17 +33,15 @@ export class RoomDetailsPage implements OnInit {
   }
 
   tableData = [
-    { rooms: 101, type: 'Single', residentName: 'John Doe', email: 'john@example.com' },
-    { rooms: 102, type: 'Double', residentName: 'Jane Doe', email: 'jane@example.com' },
-    { rooms: 103, type: 'Suite', reidentName: 'Bob Smith', email: 'bob@example.com' },
-    { rooms: 104, type: 'Single', residentName: 'Alice Johnson', email: 'alice@example.com' },
-    { rooms: 105, type: 'Double', residentName: 'Charlie Brown', email: 'charlie@example.com' },
-    { rooms: 106, type: 'Suite', residentName: 'Eva Davis', email: 'eva@example.com' },
-    { rooms: 107, type: 'Single', residentName: 'Frank White', email: 'frank@example.com' },
-    { rooms: 108, type: 'Double', residentName: 'Grace Lee', email: 'grace@example.com' },
-    { rooms: 109, type: 'Suite', residentName: 'Harry Johnson', email: 'harry@example.com' },
-    { rooms: 110, type: 'Single', residentName: 'Ivy Brown', email: 'ivy@example.com' },
-    // Add more entries as needed
+    { roomNumber: '101', level: '1', block: 'A', roomType: 'Single', status: 'Full' },
+    { roomNumber: '102', level: '1', block: 'B', roomType: 'Double', status: 'Empty' },
+    { roomNumber: '201', level: '2', block: 'A', roomType: 'Single', status: 'Full' },
+    { roomNumber: '202', level: '2', block: 'B', roomType: 'Double', status: 'Empty' },
+    { roomNumber: '301', level: '3', block: 'A', roomType: 'Single', status: 'Full' },
+    { roomNumber: '302', level: '3', block: 'B', roomType: 'Double', status: 'Empty' },
+    { roomNumber: '401', level: '4', block: 'A', roomType: 'Single', status: 'Full' },
+    { roomNumber: '402', level: '4', block: 'B', roomType: 'Double', status: 'Empty' },
+    { roomNumber: '501', level: '5', block: 'A', roomType: 'Single', status: 'Full' },
+    { roomNumber: '502', level: '5', block: 'B', roomType: 'Double', status: 'Empty' },
   ];
-
 }

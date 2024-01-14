@@ -1,8 +1,37 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-back-button [defaultHref]="'/home'"></ion-back-button>
+      <ion-back-button [defaultHref]="'/admin'"></ion-back-button>
     </ion-buttons>
     <ion-title>Feedback & Recommendation</ion-title>
   </ion-toolbar>
 </ion-header>
+
+<ion-content>
+
+  <!-- Table to display room information -->
+  <ion-grid class="timetable-grid">
+    <ion-row class="header-row">      
+      <ion-col>User ID</ion-col>
+      <ion-col>Feedback ID</ion-col>
+      <ion-col>Management Rating</ion-col>
+      <ion-col >Accommodation Rating</ion-col>
+      <ion-col>Facilities Rating</ion-col>
+      <ion-col >User Recommendation</ion-col>
+      <ion-col >Submission Date</ion-col>
+      <ion-col >File</ion-col>
+    </ion-row>
+
+    <ion-row *ngFor="let row of tableData" class="data-row">
+      <ion-col >{{ row.user_id }}</ion-col>
+      <ion-col >{{ row.feedback_id }}</ion-col>
+      <ion-col >{{ row.college_management_rating }}</ion-col>
+      <ion-col >{{ row.accommodation_rating }}</ion-col>
+      <ion-col >{{ row.facilities_rating }}</ion-col>
+      <ion-col >{{ row.user_recommendation }}</ion-col>
+      <ion-col >{{ row.submission_date }}</ion-col>
+      <ion-col >{{ row.file_name }}</ion-col>
+    </ion-row>
+  </ion-grid>
+
+</ion-content>

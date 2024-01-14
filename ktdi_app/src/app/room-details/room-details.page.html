@@ -11,18 +11,20 @@
 
   <!-- Table to display room information -->
   <ion-grid>
-    <ion-row class="header-row">
-      <ion-col size-sm="4">Number of Rooms</ion-col>
+    <ion-row class="header-row">      
+      <ion-col size-sm="4">Room Number</ion-col>      
+      <ion-col size-sm="4">Level</ion-col>
+      <ion-col size-sm="4">Block</ion-col>
       <ion-col size-sm="4">Room Type</ion-col>
-      <ion-col size-sm="4">Resident Name</ion-col>
-      <ion-col size-sm="4">Email</ion-col>
+      <ion-col size-sm="4">Status</ion-col>
     </ion-row>
 
     <ion-row *ngFor="let row of tableData" class="data-row">
-      <ion-col size-sm="4">{{ row.rooms }}</ion-col>
-      <ion-col size-sm="4">{{ row.type }}</ion-col>
-      <ion-col size-sm="4">{{ row.residentName }}</ion-col>
-      <ion-col size-sm="4">{{ row.email }}</ion-col>
+      <ion-col size-sm="4">{{ row.roomNumber }}</ion-col>
+      <ion-col size-sm="4">{{ row.level }}</ion-col>
+      <ion-col size-sm="4">{{ row.block }}</ion-col>
+      <ion-col size-sm="4">{{ row.roomType }}</ion-col>
+      <ion-col size-sm="4">{{ row.status }}</ion-col>
     </ion-row>
   </ion-grid>
 

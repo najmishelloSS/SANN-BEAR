@@ -1,0 +1,27 @@
+.timetable-grid {
+    border: 2px solid #ddd; /* Add border to the entire grid */
+    border-radius: 20px; /* Add border radius */
+  }
+  
+  .header-row,
+  .data-row {
+    border-bottom: 1px solid #ddd; /* Add border between rows */
+  }
+  
+  ion-col {
+    padding: 10px;
+    text-align: center;
+  }
+  
+  .header-row ion-col {
+    font-weight: bold;
+    background-color: #6613e1; /* Header background color */
+  }
+  
+  .data-row:hover {
+    background-color: #f9f9f9; /* Highlight on hover */
+  }
+  
+  .align-right {
+    margin-left: auto; /* This will push the button to the right end */
+  }
