@@ -1,0 +1,26 @@
+
+ion-row.header-row {
+    font-weight: bold;
+    background-color: var(--ion-color-primary);
+    color: var(--ion-color-light);
+    border-radius: 10px;
+    margin-bottom: 5px;
+    border: 1px solid var(--ion-color-secondary); /* Add border to header row */
+  }
+  
+  ion-row.data-row {
+    border-radius: 10px;
+    margin-bottom: 5px;
+    background-color: var(--ion-color-light);
+    border: 1px solid var(--ion-color-secondary); /* Add border to data rows */
+  }
+  
+  ion-col {
+    text-align: center;
+    padding: 10px;
+    border: 1px solid var(--ion-color-secondary); /* Add border to columns */
+  }
+
+  ion-content {
+    --background: var(--ion-color-light);
+  }

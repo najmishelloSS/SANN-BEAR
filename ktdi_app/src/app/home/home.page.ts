@@ -19,6 +19,14 @@ export class HomePage implements OnInit{
 
   contrustor(){}
 
+  option = {
+    slidesPerView:1.5,
+    centeredSlides:true,
+    loop:true,
+    spaceBetween:10,
+    autoplay:true,
+  }
+
   swiperReady () {
     this.swiper = this.swiperRef?.nativeElement.swiper;
   }

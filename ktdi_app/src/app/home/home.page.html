@@ -20,7 +20,8 @@
   </div>
 
   <!--searchbar-->
-  <app-searchbar></app-searchbar>
+  <ion-searchbar [debounce]="100" style="--border-radius: 20px;" color="light" show-clear-button="always" animated="true" placeholder="Search">
+  </ion-searchbar>
 
 
   <!--slider-->
@@ -37,7 +38,7 @@
   </swiper-container>--> 
 
   
-  <swiper-container (afterinit) = "swiperReady()"    (slidechange)="swiperSlideChanged($event)" [loop]="true" [pagination]="true">
+  <swiper-container (afterinit) = "swiperReady()"    (slidechange)="swiperSlideChanged($event)" [loop]="true" [pagination]="true" [options]="option">
     <swiper-slide *ngFor = "let image of images"> 
       <div class = "image-style">
       <img [src] = "image"  />
@@ -90,11 +91,26 @@
   </ion-button>
   <span (click)="navigate('feedback', 'forward')" class="button-caption">Feedback & Recommendation</span>
   </div>
+
+  <div class="icon-button-container">
+    <ion-button color="primary" (click)="navigate('', 'forward')" class="touchable-button">
+      <ion-icon name="extension-puzzle-outline"></ion-icon>> 
+    </ion-button>
+    <span (click)="navigate('feedback', 'forward')" class="button-caption">Plugin</span>
+  </div>
+
+  <div class="icon-button-container">
+    <ion-button color="primary" (click)="navigate('', 'forward')" class="touchable-button">
+      <ion-icon name="navigate-outline"></ion-icon>
+    </ion-button>
+    <span (click)="navigate('feedback', 'forward')" class="button-caption">Navigate</span>
+  </div>
 </div>
 
   <!--hall available-->
   <h4>Hall Available</h4>
   <div class="hall-list">
+    <ion-img src="../../assets/image/dewan.jpg" alt="utm"></ion-img>
     <ion-img src="../../assets/image/dewan.jpg" alt="utm"></ion-img>
     <ion-img src="../../assets/image/dewan.jpg" alt="utm"></ion-img>
     <ion-img src="../../assets/image/dewan.jpg" alt="utm"></ion-img>

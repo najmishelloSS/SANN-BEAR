@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { HallBookingService } from './hall-booking.service';
+import { ActivatedRoute } from '@angular/router';
+import { ComponentsService } from '../service/components.service';
 
 @Component({
   selector: 'app-hall-details',
@@ -7,28 +8,39 @@ import { HallBookingService } from './hall-booking.service';
   styleUrls: ['./hall-details.page.scss'],
 })
 export class HallDetailsPage implements OnInit {
-  hallDetails: any[] = [];
-  bookhall: any[];
+  data: any;
+  hallDetails: any; // Property to store hall details
 
-  constructor(private hallBookingService: HallBookingService) { }
+  constructor(
+    public route: ActivatedRoute,
+    public component: ComponentsService
+  ) {}
 
   ngOnInit() {
-    this.loadHallDetails();
+    if (this.route.snapshot.data['special']) {
+      this.data = this.route.snapshot.data['special'];
+    }
+
+    // Call the method to get hall details
+    this.getHallDetails();
   }
 
-  loadHallDetails() {
-    this.hallBookingService.getHallBookings().subscribe(
-      data => {
-        this.hallDetails = data;
-      },
-      error => {
-        console.error('Error fetching hall details:', error);
-      }
-    );
-  }
+  // Method to retrieve hall details
+  getHallDetails() {
+    // Assuming that the selected hall index is available in this.data.selectedHallIndex
+    const selectedHallIndex = this.data.selectedHallIndex;
 
-  approveBooking(bookingId: number) {
-    // Implement the logic to approve the booking (you may need another service method)
-    console.log('Booking Approved:', bookingId);
+    // Check if the selectedHallIndex is valid
+    if (
+      selectedHallIndex !== undefined &&
+      selectedHallIndex >= 0 &&
+      selectedHallIndex < this.data.hall.length
+    ) {
+      // Retrieve hall details based on the selected hall index
+      this.hallDetails = this.data.hall[selectedHallIndex];
+    } else {
+      // Handle the case where the selectedHallIndex is invalid
+      console.error('Invalid selected hall index.');
+    }
   }
 }

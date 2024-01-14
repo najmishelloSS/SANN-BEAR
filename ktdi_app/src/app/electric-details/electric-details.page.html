@@ -1,20 +1,32 @@
-<ion-header>
+<ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>Electric Details</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button [defaultHref]="'/admin'"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Electrical Registration</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content class="ion-padding">
-  <!-- Your content goes here -->
-  <ion-list *ngIf="electricDetails.length > 0">
-    <ion-item *ngFor="let detail of electricDetails">
-      <ion-label>ID: {{ detail.id }}</ion-label>
-      <ion-label>User ID: {{ detail.user_id }}</ion-label>
-      <ion-label>Price: {{ detail.price | currency:'USD':'symbol':'1.2-2' }}</ion-label>
-      <ion-label>Category: {{ detail.category }}</ion-label>
-      <ion-label>Name: {{ detail.name }}</ion-label>
-    </ion-item>
-  </ion-list>
+  <ion-grid class="timetable-grid">
+    <ion-row class="header-row">      
+      <ion-col size-sm="2">Registration ID</ion-col>      
+      <ion-col size-sm="2">User ID</ion-col>
+      <ion-col size-sm="2">Name</ion-col>
+      <ion-col size-sm="2">Image Path</ion-col>
+      <ion-col size-sm="2">Registration Date</ion-col>
+      <ion-col size-sm="2">Payment Status</ion-col>
+    </ion-row>
 
-  <ion-button expand="full" (click)="approveDetails()">Approve</ion-button>
+    <ion-row *ngFor="let row of tableData" class="data-row">
+      <ion-col size-sm="2">{{ row.registrationId }}</ion-col>
+      <ion-col size-sm="2">{{ row.userId }}</ion-col>
+      <ion-col size-sm="2">{{ row.name }}</ion-col>
+      <ion-col size-sm="2">{{ row.imagePath }}</ion-col>
+      <ion-col size-sm="2">{{ row.registrationDate }}</ion-col>
+      <ion-col size-sm="2">{{ row.paymentStatus }}</ion-col>
+      <ion-button expand="full" (click)="approveDetails()" shape="round" class="align-right">Approve</ion-button>
+    </ion-row>
+  </ion-grid>
+
 </ion-content>
