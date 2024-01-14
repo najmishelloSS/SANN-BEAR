@@ -13,14 +13,14 @@
 <ion-content class="ion-padding">
   <!-- Profile Picture and Name -->
   <div>
-    <img src="path/to/profile-picture.jpg" alt="Profile Picture">
+    <img class="profile-picture" src="https://images.pexels.com/photos/771742/pexels-photo-771742.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500" alt="Profile Picture">
     <h2>{{data.login.full_name}}</h2>
   </div>
 
   <!-- Year/Course, Phone, Email, Faculty, Programme -->
   <ion-item>
     <ion-icon name="school-outline" slot="start"></ion-icon>
-    <ion-input placeholder="Year/Course"></ion-input>
+    <ion-label> Year 3</ion-label>
   </ion-item>
   
 
@@ -36,16 +36,12 @@
 
   <ion-item>
     <ion-icon name="business-outline" slot="start"></ion-icon>
-    <ion-label>Faculty</ion-label>
+    <ion-label>Faculty of Computing</ion-label>
   </ion-item>
 
   <ion-item>
     <ion-icon name="book-outline" slot="start"></ion-icon>
-    <ion-label>Programme</ion-label>
+    <ion-label>Graphic and Multimedia Software</ion-label>
   </ion-item>
 
-  <!-- Logout Button -->
-  <ion-button expand="full">
-    Update
-  </ion-button>
 </ion-content>
