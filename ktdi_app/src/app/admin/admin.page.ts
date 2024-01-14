@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-admin',
@@ -8,11 +9,26 @@ import { Router } from '@angular/router';
 })
 export class AdminPage implements OnInit {
   hallBookings: any[] = [];
-
-  constructor(private router: Router) { }
+  totalReports: number = 0;
+  totalFeedback: number = 0;
+  totalHallBooking: number = 0;
+  totalEmptySingleRooms: number = 0;
+  totalEmptyDoubleRooms: number = 0;
+  constructor(private router: Router, private http: HttpClient) { }
 
   ngOnInit() {
+
+    this.fetchTotalReports();
+
+    this.fetchTotalFeedback();
+
+    this.fetchTotalHallBooking();
+
+    this.fetchTotalEmptySingleRooms();
+
+    this.fetchTotalEmptyDoubleRooms();
   }
+
   navigate(route: string, direction: string) {
     console.log("Go " + direction + " to " + route);
     
@@ -20,4 +36,78 @@ export class AdminPage implements OnInit {
     this.router.navigate([route]);
   }
 
+  fetchTotalReports() {
+    const url = 'http://ktdiapp.mooo.com/api/get_total_report.php';
+
+    this.http.get<any>(url)
+      .subscribe(
+        (data: any) => {
+          console.log('Received data:', data);
+          this.totalReports = data.total_reports || 0;
+        },
+        async error => {
+          console.error('Error fetching total reports:', error);
+        }
+      );
+  }
+
+  fetchTotalFeedback() {
+    const url = 'http://ktdiapp.mooo.com/api/get_total_feedback.php';
+
+    this.http.get<any>(url)
+      .subscribe(
+        (data: any) => {
+          console.log('Received data:', data);
+          this.totalFeedback = data.total_feedback || 0;
+        },
+        async error => {
+          console.error('Error fetching total feedback:', error);
+        }
+      );
+  }
+
+  fetchTotalHallBooking() {
+    const url = 'http://ktdiapp.mooo.com/api/get_total_hallbooking.php';
+
+    this.http.get<any>(url)
+      .subscribe(
+        (data: any) => {
+          console.log('Received data:', data);
+          this.totalHallBooking = data.total_hallbooking || 0;
+        },
+        async error => {
+          console.error('Error fetching total hall booking:', error);
+        }
+      );
+  }
+
+  fetchTotalEmptySingleRooms() {
+    const url = 'http://ktdiapp.mooo.com/api/get_total_SingleRoom.php';
+
+    this.http.get<any>(url)
+      .subscribe(
+        (data: any) => {
+          console.log('Received data:', data);
+          this.totalEmptySingleRooms = data.empty_room_count || 0;
+        },
+        async error => {
+          console.error('Error fetching total empty SingleRooms:', error);
+        }
+      );
+  }
+
+  fetchTotalEmptyDoubleRooms() {
+    const url = 'http://ktdiapp.mooo.com/api/get_total_DoubleRoom.php';
+
+    this.http.get<any>(url)
+      .subscribe(
+        (data: any) => {
+          console.log('Received data:', data);
+          this.totalEmptyDoubleRooms = data.empty_room_count || 0;
+        },
+        async error => {
+          console.error('Error fetching total empty SingleRooms:', error);
+        }
+      );
+  }
 }
