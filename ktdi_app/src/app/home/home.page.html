@@ -25,7 +25,7 @@
 
 
   <!--slider-->
-  
+
  <!--
   <swiper-container (slidechange)="swiperSlideChanged($event)" [loop]="true" [pagination]="true">
     <swiper-slide *ngFor="let slide of swiperSlides">
@@ -35,11 +35,11 @@
         <p style="margin-left: 1rem; margin-right: 1rem; font-size: small;">{{slide.description}}</p>
       </div>
     </swiper-slide>
-  </swiper-container>--> 
+  </swiper-container>-->
 
-  
-  <swiper-container (afterinit) = "swiperReady()"    (slidechange)="swiperSlideChanged($event)" [loop]="true" [pagination]="true" [options]="option">
-    <swiper-slide *ngFor = "let image of images"> 
+
+  <swiper-container (afterinit) = "swiperReady()"    (slidechange)="swiperSlideChanged($event)" [loop]="true" [pagination]="true">
+    <swiper-slide *ngFor = "let image of images">
       <div class = "image-style">
       <img [src] = "image"  />
     </div>
@@ -56,45 +56,45 @@
   </ion-button>
   <span (click)="navigate('hallrecord', 'forward')" class="button-caption">Hall Booking</span>
   </div>
-  
+
   <div class="icon-button-container">
   <ion-button color="primary" (click)="navigate('report', 'forward')" class="touchable-button">
     <ion-icon name="document-text"></ion-icon>
   </ion-button>
   <span (click)="navigate('report', 'forward')" class="button-caption">Report</span>
   </div>
-  
+
   <div class="icon-button-container">
   <ion-button color="primary" (click)="navigate('report-status', 'forward')" class="touchable-button">
     <ion-icon name="bar-chart"></ion-icon>
   </ion-button>
   <span (click)="navigate('report-status', 'forward')" class="button-caption">Report Status</span>
   </div>
-  
+
   <div class="icon-button-container">
   <ion-button color="primary" (click)="navigate('room-registration', 'forward')" class="touchable-button">
     <ion-icon name="business"></ion-icon>
   </ion-button>
   <span (click)="navigate('room-registration', 'forward')" class="button-caption">Room Registration</span>
   </div>
-  
+
   <div class="icon-button-container">
   <ion-button color="primary" (click)="navigate('electric', 'forward')" class="touchable-button">
-    <ion-icon name="power"></ion-icon> 
+    <ion-icon name="power"></ion-icon>
   </ion-button>
   <span (click)="navigate('electric', 'forward')" class="button-caption">Register Electrical Appliances</span>
   </div>
-  
+
   <div class="icon-button-container">
   <ion-button color="primary" (click)="navigate('feedback', 'forward')" class="touchable-button">
-    <ion-icon name="chatbubbles"></ion-icon> 
+    <ion-icon name="chatbubbles"></ion-icon>
   </ion-button>
   <span (click)="navigate('feedback', 'forward')" class="button-caption">Feedback & Recommendation</span>
   </div>
 
   <div class="icon-button-container">
     <ion-button color="primary" (click)="navigate('', 'forward')" class="touchable-button">
-      <ion-icon name="extension-puzzle-outline"></ion-icon>> 
+      <ion-icon name="extension-puzzle-outline"></ion-icon>>
     </ion-button>
     <span (click)="navigate('feedback', 'forward')" class="button-caption">Plugin</span>
   </div>

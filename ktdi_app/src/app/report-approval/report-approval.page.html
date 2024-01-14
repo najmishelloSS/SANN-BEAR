@@ -1,4 +1,4 @@
-<!-- report-status.page.html -->
+<!-- report-approval.page.html -->
 
 <ion-header [translucent]="true">
   <ion-toolbar>
@@ -32,7 +32,7 @@
       <ion-item lines="none">
         <ion-label color="primary">{{ formatId(report.id) }}</ion-label>
         <div class="status-background">
-          <ion-label color="primary">{{ report.status }}</ion-label>
+          <ion-label class="status-text">{{ report.status }}</ion-label>
         </div>
       </ion-item>
       <ion-item lines="none">
@@ -42,35 +42,36 @@
       </ion-item>
       <ion-item lines="none">
         <ion-label>
-          {{ report.submitted_at }}
+          {{ report.submitted_at | date: 'dd MMM yyyy' }}
         </ion-label>
       </ion-item>
       <ion-buttons *ngIf="selectedStatus === 'pending'">
         <ion-button button color="primary" (click)="approveReport(report)">Approve</ion-button>
         <ion-button button color="primary" (click)="rejectReport(report)">Not Approved</ion-button>
-      </ion-buttons>      
+      </ion-buttons>
     </ion-card-content>
   </ion-card>
 
   <ion-card *ngFor="let report of approvedReports">
-  <ion-card-content class="ion-no-padding">
-    <ion-item lines="none">
-      <ion-label color="primary">{{ formatId(report.id) }}</ion-label>
-      <div class="status-background">
-        <ion-label color="primary">{{ report.status }}</ion-label>
-      </div>
-    </ion-item>
-    <ion-item lines="none">
-      <ion-label>
-        <strong>{{ report.damage_type }}</strong>
-      </ion-label>
-    </ion-item>
-    <ion-item lines="none">
-      <ion-label>
-        {{ report.submitted_at }}
-      </ion-label>
-    </ion-item>
-  </ion-card-content>
+    <ion-card-content class="ion-no-padding">
+      <ion-item lines="none">
+        <ion-label color="primary">{{ formatId(report.id) }}</ion-label>
+        <div class="status-background">
+          <ion-label class="status-text">{{ report.status }}</ion-label>
+        </div>
+      </ion-item>
+      <ion-item lines="none">
+        <ion-label>
+          <strong>{{ report.damage_type }}</strong>
+        </ion-label>
+      </ion-item>
+      <ion-item lines="none">
+        <ion-label>
+          {{ report.submitted_at | date: 'dd MMM yyyy' }}
+        </ion-label>
+      </ion-item>
+
+    </ion-card-content>
   </ion-card>
 </ion-content>
 

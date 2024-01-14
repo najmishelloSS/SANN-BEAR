@@ -28,8 +28,8 @@ swiper-container {
     width: 80%;
     height: 20%;
   }
-  
-swiper-slide 
+
+swiper-slide
 {
   display: flex;
   flex-direction: column;
@@ -45,7 +45,7 @@ swiper-slide
   //   margin-right: 0.5rem;
   // }
 
-  /*Apply for the categories*/ 
+  /*Apply for the categories*/
    .categories {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(81px, 1fr));
@@ -53,14 +53,14 @@ swiper-slide
     margin-left: 1rem;
     margin-right: 1rem;
   }
-  
+
   .icon-button-container {
     width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
   }
-  
+
   .icon-button {
     height: 86px;
     width: 81px;
@@ -72,11 +72,11 @@ swiper-slide
     cursor: pointer;
     transition: background-color 0.3s;
   }
-  
+
   .icon-button:hover {
     background-color: #2a3c8c;
   }
-  
+
   .button-caption {
     margin-top: 8px; /* Adjust margin as needed */
     font-size: 14px;
@@ -84,12 +84,12 @@ swiper-slide
     cursor: pointer;
     text-align: center;
   }
-  
+
   .button-caption:hover {
     text-decoration: underline;
     color: #e2e2e2;
   }
- 
+
     h4{
         margin-left: 0.5rem;
     }

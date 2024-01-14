@@ -58,6 +58,7 @@ export class ReportPage {
   async submitReport() {
     console.log('Submitting Report');
 
+
     const formData = new FormData();
     formData.append('file_path', this.uploadedFilePath);
     formData.append('damage_type', this.getSelectedDamageType());
@@ -90,6 +91,7 @@ export class ReportPage {
   private getSelectedDamageType(): string {
     const selectedType = this.damageTypes.find(type => type.checked);
     return selectedType ? selectedType.label : '';
+
   }
 
   resetForm() {
