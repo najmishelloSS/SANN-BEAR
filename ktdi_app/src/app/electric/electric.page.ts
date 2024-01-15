@@ -4,7 +4,6 @@ import { DecimalPipe } from '@angular/common';
 import { Stripe, PaymentSheetEventsEnum } from '@capacitor-community/stripe';
 import { environment } from 'src/environments/environment';
 import { lastValueFrom } from 'rxjs';
-import { ActivatedRoute } from '@angular/router';
 
 interface Appliance {
   id: number;
@@ -27,30 +26,21 @@ export class ElectricPage implements OnInit {
   totalPrice = 0;
   selectedAppliances: Appliance[] = [];
   showPaymentSection = false;
-  showQRCodeSection: boolean = false;
   selectedPaymentMethod: string = '';
   submitted = false;
   paymentSuccessful = false;
   data: any = {};
   page: string = '';
-  qrCodeImageUrl: any;
-  paymentId: string | null = null; 
 
   constructor(
     private http: HttpClient,
-    private decimalPipe: DecimalPipe,
-    public route: ActivatedRoute
+    private decimalPipe: DecimalPipe
   ) {}
 
   async ngOnInit(): Promise<void> {
-    if (this.route.snapshot.data['special']) {
-      this.data = this.route.snapshot.data['special'];
-    }
     await this.getAppliances();
     this.checkUserRegistrationStatus();
-    
   }
-
   checkUserRegistrationStatus(): void {
     const userRegisteredFlag = localStorage.getItem('userRegistered');
     this.page = userRegisteredFlag ? 'registeredPage' : 'page1';
@@ -72,8 +62,6 @@ export class ElectricPage implements OnInit {
       const data$ = this.httpPost(environment.api + 'payment-sheet', params);
   
       const { paymentIntent, ephemeralKey, customer } = await lastValueFrom(data$);
-
-      console.log('paymentIntent: ' , paymentIntent);
   
       await Stripe.createPaymentSheet({
         paymentIntentClientSecret: paymentIntent,
@@ -84,41 +72,67 @@ export class ElectricPage implements OnInit {
       const result = await Stripe.presentPaymentSheet();
       console.log('result: ', result);
       if (result && result.paymentResult === PaymentSheetEventsEnum.Completed) {
-        const paymentId = paymentIntent.split('_').slice(0, 2).join('_');
-        this.submitRegistration(paymentId);
+        // Handle successful payment
+        return paymentIntent.split('_').slice(0, 2).join('_');
       }
     } catch (e) {
       console.log(e);
     }
-
   }
+
+  async paymentSheet(): Promise<void> {
+    try {
+      const requestData = { email: 'shah@gmail.com', name: 'Shah', amount: this.totalPrice }; 
+      
+      let params = new HttpParams();
+      Object.keys(requestData).forEach(key => {
+        params = params.append(key, requestData[key]);
+      });
+  
+      const data$ = this.httpPost(environment.api + 'payment-sheet', params);
+  
+      const { paymentIntent, ephemeralKey, customer } = await lastValueFrom(data$);
+  
+      await Stripe.createPaymentSheet({
+        paymentIntentClientSecret: paymentIntent,
+        customerId: customer,
+        customerEphemeralKeySecret: ephemeralKey,
+      });
+  
+      const result = await Stripe.presentPaymentSheet();
+      console.log('result: ', result);
+      if (result && result.paymentResult === PaymentSheetEventsEnum.Completed) {
+        // Handle successful payment
+        return paymentIntent.split('_').slice(0, 2).join('_');
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
   async presentPaymentSheet(): Promise<void> {
     try {
       const result = await Stripe.presentPaymentSheet();
       console.log('Payment sheet presented:', result);
-  
-      if (result) {
-        if (result.paymentResult === PaymentSheetEventsEnum.Completed) {
-          console.log('Payment completed successfully');
-          // Proceed with submitting the registration
-          
-        } else if (result.paymentResult === PaymentSheetEventsEnum.Canceled) {
-          console.log('Payment canceled by user');
-          // Handle cancellation, e.g., show a message to the user
-        } else {
-          console.log('Payment failed or encountered an error');
-          // Handle other payment result scenarios
-        }
+      if (result && result.paymentResult === PaymentSheetEventsEnum.Completed) {
+        // Handle successful payment
+        console.log('Payment completed successfully');
+      } else if (result && result.paymentResult === PaymentSheetEventsEnum.Canceled) {
+        // Handle payment cancellation
+        console.log('Payment canceled by user');
+      } else {
+        // Handle other payment outcomes
+        console.log('Payment failed or encountered an error');
       }
     } catch (error) {
       console.error('Error presenting payment sheet:', error);
     }
   }
-
+  
   async navigateToPage(targetPage: string): Promise<void> {
     this.page = targetPage;
   }
-
+  
   getAppliances(): void {
     this.http.get<any>(this.apiUrl).subscribe(
       (data: any) => {
@@ -150,20 +164,25 @@ export class ElectricPage implements OnInit {
   toggleSelection(appliance: Appliance): void {
     appliance.selected = !appliance.selected;
   
+    // Check if the appliance should be added or removed from selectedAppliances
     if (appliance.selected && !this.selectedAppliances.some(selected => selected.id === appliance.id)) {
+      // Add the appliance to selectedAppliances if it's selected and not already present
       this.selectedAppliances.push(appliance);
     } else if (!appliance.selected && this.selectedAppliances.some(selected => selected.id === appliance.id)) {
+      // Remove the appliance from selectedAppliances if it's deselected and present
       this.selectedAppliances = this.selectedAppliances.filter(selected => selected.id !== appliance.id);
     }
   
+    // Update the total price after updating selected appliances
     this.updateTotalPrice();
   }
 
   updateTotalPrice(): void {
     this.totalPrice = this.selectedAppliances.reduce((acc, curr) => {
-      return acc + parseFloat(curr.price.toString());
+      return acc + parseFloat(curr.price.toString()); // Ensure curr.price is parsed as a number
     }, 0);
-    this.formatTotalPrice();
+    this.formatTotalPrice(); // Call the method to format the total price
+
   }
 
   formatTotalPrice(): string {
@@ -172,59 +191,27 @@ export class ElectricPage implements OnInit {
 
   proceedToPayment(): void {
     if (this.selectedAppliances.length > 0) {
-      this.navigateToPage('page3');
+      this.navigateToPage('page3'); // Navigates to 'page3'
     } else {
-      alert('Please select at least one appliance to proceed to payment.');
+      console.error('Please select at least one appliance to proceed to payment.');
     }
+  }  
+ selectPaymentMethod(method: string): void {
+  this.selectedPaymentMethod = method;
+  if (method === 'Credit Card' || method === 'Debit Card') {
+    // Show the payment section when Credit Card or Debit Card is selected
+    this.showPaymentSection = true;
+  } else {
+    // For other payment methods (like PayPal, QR Code, etc.), hide the payment section
+    this.showPaymentSection = false;
   }
-  
-  selectPaymentMethod(method: string): void {
-    this.selectedPaymentMethod = method;
-    if (method === 'Credit Card' || method === 'Debit Card') {
-      this.showPaymentSection = true;
-    } else {
-      this.showPaymentSection = false;
-    }
-  }
+}
 
   paymentMethods = ['Credit Card', 'Debit Card', 'PayPal'];
 
-  showQRCode(): void {
-    this.selectedPaymentMethod = 'QR Code';
-    this.showPaymentSection = false;
-    this.showQRCodeSection = true;
-  }
+  submitRegistration(): void {
+    // Logic for submitting registration goes here
 
-  navigateToPaymentSuccessful(): void {
-    this.paymentSuccessful = true;
-  }
-
-  submitRegistration(paymentId: string): void {
-    console.log('user data:', this.data); // Log the data to check its contents
-    
-    if (!this.data || !this.data.login || !this.data.login.user_id) {
-      console.error('User is not logged in or user ID is missing.', this.data);
-      return;
-    }
-  
-    const formData = new FormData();
-formData.append('user_id', this.data.login.user_id);
-formData.append('name', this.selectedAppliances.map(appliance => appliance.name).join(', '));
-formData.append('totalPrice', this.totalPrice.toString());
-formData.append('date', new Date().toISOString());
-formData.append('payment_status', 'Pending');
-formData.append('paymentId', paymentId);
-
-this.http.post('http://ktdiapp.mooo.com/api/electrical_registration.php', formData,).subscribe(
-  (response) => {
-    console.log(response);
     this.submitted = true;
-    localStorage.setItem('userRegistered', 'registered');
-    this.page = 'registeredPage';
-  },
-  (error: HttpErrorResponse) => {
-    console.error('Registration API Error:', error);
-  }
-);
   }
 }
