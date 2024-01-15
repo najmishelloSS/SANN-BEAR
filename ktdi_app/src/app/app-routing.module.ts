@@ -133,7 +133,8 @@ const routes: Routes = [
       special:DataResolverService
     },
     loadChildren: () => import('./report-approval/report-approval.module').then( m => m.ReportApprovalPageModule)
-  },  {
+  },
+  {
     path: 'room-details',
     loadChildren: () => import('./room-details/room-details.module').then( m => m.RoomDetailsPageModule)
   },
@@ -144,6 +145,17 @@ const routes: Routes = [
   {
     path: 'hostel',
     loadChildren: () => import('./hostel/hostel.module').then( m => m.HostelPageModule)
+  },
+  {
+    path: 'contact-us',
+    loadChildren: () => import('./contact-us/contact-us.module').then( m => m.ContactUsPageModule)
+  },
+  {
+    path: 'contact-us',
+    resolve:{
+      special:DataResolverService
+    },
+    loadChildren: () => import('./contact-us/contact-us.module').then( m => m.ContactUsPageModule)
   },
 
 

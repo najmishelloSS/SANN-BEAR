@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, Renderer2 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DataService } from '../service/data.service';
 import { ToastController, LoadingController, NavController } from '@ionic/angular';
@@ -16,8 +16,6 @@ export class HomePage implements OnInit{
   swiperRef : ElementRef | undefined; 
   swiper?: Swiper;
 
-
-  contrustor(){}
 
   option = {
     slidesPerView:1,

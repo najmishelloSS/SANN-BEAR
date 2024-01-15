@@ -20,6 +20,12 @@ ion-content{
         }
     }
 
+  .custom-searchbar{
+    width:90%;
+    margin:0 auto;
+    --border-radius:20px;
+  }
+
    /* Apply styles to the swiper-container */
 swiper-container {
     // margin-left: 2rem;
@@ -94,19 +100,6 @@ swiper-slide
         margin-left: 0.5rem;
     }
 
-    .hall-list {
-        font-weight: 700;
-        color: #515151;
-        font-size: 1.8rem;
-        margin-bottom: 1.6rem;
-        margin-top: 2rem;
-        margin-right: 1rem;
-        margin-left: 1rem;
-        display: grid;
-        grid-template-columns:repeat(2, auto);
-        grid-gap:1rem;
-    }
-
 
     /* Add some styling to the image container */
 .image-style {
@@ -130,4 +123,19 @@ swiper-slide
   border: 2px solid #3498db; /* Example: Add a border for the active slide */
 }
 
+}
+////////////////////////////////////////////////////////////////////////////////
+.custom-card {
+  border-radius: 20px;
+  overflow: hidden;
+  position: relative;
+  transition: transform 0.3s ease-in-out;
+}
+
+.custom-card:hover {
+  transform: scale(1.1); // Increase the scale on hover (adjust as needed)
+}
+
+.custom-card ion-img {
+  max-height: 200px;
 }
