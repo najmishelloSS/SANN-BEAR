@@ -1,13 +1,54 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>hostel</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button [defaultHref]="'/admin'"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Hostel</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">hostel</ion-title>
-    </ion-toolbar>
-  </ion-header>
+
+  <ion-segment mode="ios" class="ion-margin" [(ngModel)]="selectedSegment">
+    <ion-segment-button value="double" class="buttonset">
+      <ion-label>Double</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="single" class="buttonset">
+      <ion-label>Single</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+
+
+  <!-- Display different content based on the selected segment -->
+  <ng-container *ngIf="selectedSegment === 'double'">
+
+    <ion-searchbar mode = ios ></ion-searchbar>
+    <!-- Content for Double segment -->
+    <ion-list>
+      <ion-item *ngFor="let room of filteredDoubleRooms" lines="none">
+        <ion-label class="custom-label">
+          <h2>{{ room.roomNumber }}</h2>
+          <p>Block: {{ room.block }}</p>
+          <p>Status: {{ room.status }}</p>
+        </ion-label>
+      </ion-item>
+    </ion-list>
+  </ng-container>
+  
+  <ng-container *ngIf="selectedSegment === 'single'">
+    <ion-searchbar mode = ios ></ion-searchbar>
+    <!-- Content for Single segment -->
+    <ion-list>
+      <ion-item *ngFor="let room of filteredSingleRooms" lines="none">
+        <ion-label class="custom-label">
+          <h2>{{ room.roomNumber }}</h2>
+          <p>Block: {{ room.block }}</p>
+          <p>Status: {{ room.status }}</p>
+        </ion-label>
+      </ion-item>
+    </ion-list>
+  </ng-container>
+  
+  
+
 </ion-content>
