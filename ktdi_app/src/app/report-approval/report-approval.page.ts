@@ -24,12 +24,14 @@ export class ReportApprovalPage implements OnInit {
 
   // Function to handle changes in the selected status
   onStatusChange() {
-    // Clear approved reports when changing status
-    this.approvedReports = [];
-
     // Toggle the visibility of sections based on the selected status
-    this.pendingReports = this.reportData.filter(report => report.status === 'pending');
-    this.approvedReports = this.reportData.filter(report => report.status === 'approved');
+    if (this.selectedStatus === 'pending') {
+      this.pendingReports = this.reportData.filter(report => report.status === 'pending');
+      this.approvedReports = [];  // Clear approved reports when changing status
+    } else if (this.selectedStatus === 'approved') {
+      this.approvedReports = this.reportData.filter(report => report.status === 'approved');
+      this.pendingReports = [];  // Clear pending reports when changing status
+    }
   }
 
   // Function to fetch report data from the server
@@ -52,36 +54,37 @@ export class ReportApprovalPage implements OnInit {
       );
   }
 
-  approveReport(report: any) {
-    const reportId = report.id;
+  // Function to update the report status
+  updateReportStatus(reportId: number, newStatus: string) {
+    const requestData = { reportId, newStatus };
 
-    this.http.post<any>('http://ktdiapp.mooo.com/api/approve_report.php', { reportId })
+    this.http.post<any>('http://ktdiapp.mooo.com/api/update_report_status.php', requestData)
       .subscribe(
-        (data: any) => {
-          if (data.success) {
-            console.log(data.message);
-            // Check if the received data contains the updated reports
-            console.log(data.Reports);
-            this.reportData = data.Reports;
+        (response: any) => {
+          if (response.success) {
+            console.log(response.message);
+            this.reportData = response.Reports;  // Update report data with the latest data
             this.onStatusChange();  // Refresh the categorized reports
           } else {
-            console.error(data.message);
+            console.error(response.message);
           }
         },
         (error) => {
-          console.error('Error approving report:', error);
+          console.error('Error updating report status:', error);
+          // Handle error or display a toast message
         }
       );
   }
 
+  approveReport(report: any) {
+    const reportId = report.id;
+    const newStatus = 'approved';
+
+    this.updateReportStatus(reportId, newStatus);
+  }
+
   rejectReport(report: any) {
-    const isConfirmed = confirm('Are you sure you want to reject this report?');
-
-    if (isConfirmed) {
-      report.status = 'rejected';
-
-      this.pendingReports = this.pendingReports.filter((pendingReport) => pendingReport !== report);
-    }
+    // Add logic for rejecting a report if needed
   }
 
   formatId(id: number): string {

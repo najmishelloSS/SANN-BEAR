@@ -27,44 +27,23 @@ export class ReportStatusPage implements OnInit {
     if (this.selectedStatus === 'active') {
       this.fetchReportData();
     } else {
-      this.fetchReportData(this.selectedStatus);
+      this.fetchReportData('approved');  // Fetch approved reports when 'success' is selected
     }
   }
 
   fetchReportData(status?: string) {
-    const url = 'http://ktdiapp.mooo.com/api/get_status.php';
+    const url = status === 'approved'
+      ? 'http://ktdiapp.mooo.com/api/get_approved_reports.php'
+      : 'http://ktdiapp.mooo.com/api/get_status.php';
 
-    // Use a GET request for fetching data
-    this.http.get<any>(url)
-      .subscribe(
-        (data: any) => {
-          this.handleReportData(data, status);
-        },
-        error => {
-          console.error('Error fetching report data:', error);
-        }
-      );
-  }
-
-  private handleReportData(data: any, status?: string) {
-    console.log('Received data:', data);
-
-    if (status) {
-      this.reportData = data.Reports
-        .filter(report => report.status === status)
-        .map((report: any) => {
-          report.damage_type = report.damage_type ? [report.damage_type] : [];
-          return report;
-        });
-    } else {
-      this.reportData = data.Reports.map((report: any) => {
-        report.damage_type = report.damage_type ? [report.damage_type] : [];
-        report.status = 'Submitted';
-        return report;
-      });
-    }
-
-    console.log(this.reportData);
+    this.http.get(url).subscribe(
+      (data: any) => {
+        this.reportData = data.Reports || [];
+      },
+      error => {
+        console.error(`Error fetching ${status ? status + ' ' : ''}report data:`, error);
+      }
+    );
   }
 
   formatId(id: number): string {
