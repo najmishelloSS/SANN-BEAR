@@ -8,11 +8,11 @@
 </ion-header>
 
 <ion-content *ngFor="let contact of contactList">
+  <ion-card>
   <ion-item>
-    <ion-icon name="person-outline"></ion-icon>
-    <ion-label>{{contact.name}}</ion-label>
+    <ion-icon name="person-outline" slot="start"></ion-icon>
+    <ion-label> {{contact.name}}</ion-label>
   </ion-item>
-
   <ion-item>
     <ion-icon name="call-outline" slot="start"></ion-icon>
     <ion-label>{{contact.contact}}</ion-label>
@@ -20,7 +20,7 @@
 
   <ion-item>
     <ion-icon name="mail-outline" slot="start"></ion-icon>
-    <ion-label>{{contact.email}}</ion-label>
+    <ion-label>{{contact.position}}</ion-label>
   </ion-item>
-
+  </ion-card>
 </ion-content>

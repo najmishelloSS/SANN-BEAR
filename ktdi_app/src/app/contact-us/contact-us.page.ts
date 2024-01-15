@@ -5,7 +5,7 @@ import { HttpClient } from '@angular/common/http';
 interface Contact {
   name: string;
   contact: string;
-  email: string;
+  position: string;
 }
 
 @Component({
