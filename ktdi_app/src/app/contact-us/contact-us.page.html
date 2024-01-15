@@ -7,21 +7,20 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content *ngFor="let contact of contactList">
   <ion-item>
     <ion-icon name="person-outline"></ion-icon>
-    <ion-label> Year 3</ion-label>
+    <ion-label>{{contact.name}}</ion-label>
   </ion-item>
-  
 
   <ion-item>
     <ion-icon name="call-outline" slot="start"></ion-icon>
-    <ion-label></ion-label>
+    <ion-label>{{contact.contact}}</ion-label>
   </ion-item>
 
   <ion-item>
     <ion-icon name="mail-outline" slot="start"></ion-icon>
-    <ion-label></ion-label>
+    <ion-label>{{contact.email}}</ion-label>
   </ion-item>
 
 </ion-content>
