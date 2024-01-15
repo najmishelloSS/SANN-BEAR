@@ -17,7 +17,7 @@ export class ReportStatusPage implements OnInit {
   constructor(private http: HttpClient) {}
 
   ngOnInit() {
-    this.fetchReportData();
+    this.onStatusChange();
   }
 
   onStatusChange() {
@@ -25,9 +25,9 @@ export class ReportStatusPage implements OnInit {
     this.successSectionVisible = this.selectedStatus === 'success';
 
     if (this.selectedStatus === 'active') {
-      this.fetchReportData();
+      this.fetchReportData('pending'); // Set status to 'pending' for the 'active' section
     } else {
-      this.fetchReportData('approved');  // Fetch approved reports when 'success' is selected
+      this.fetchReportData('approved');
     }
   }
 
@@ -38,7 +38,11 @@ export class ReportStatusPage implements OnInit {
 
     this.http.get(url).subscribe(
       (data: any) => {
-        this.reportData = data.Reports || [];
+        if (data.Code === '200' && data.Reports) {
+          this.reportData = data.Reports.filter((report: any) => report.status === status);
+        } else {
+          console.error(`Error fetching ${status ? status + ' ' : ''}report data:`, data.Message);
+        }
       },
       error => {
         console.error(`Error fetching ${status ? status + ' ' : ''}report data:`, error);
