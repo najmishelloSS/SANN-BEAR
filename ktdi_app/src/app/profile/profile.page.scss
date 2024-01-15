@@ -1,14 +1,11 @@
 ion-content {
-  .profile-picture {
-    border-radius: 50%;
-    width: 100px; /* Adjust the width as needed */
-    height: 100px; /* Adjust the height as needed */
-    object-fit: cover; /* Ensure the image covers the entire circle */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
+    .profile-picture {
+      display: block;
+      margin: 0 auto;
+      max-width: 150px;
+      border-radius: 50%;
+      margin-top: 20px;
+    }
   
     h2 {
       text-align: center;

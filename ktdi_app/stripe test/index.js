@@ -15,9 +15,7 @@ layout: {
 defaultCollapsed: false,
 }
 };
-const elements = stripe.elements({ clientSecret, appearance });
-const paymentElement = elements.create('payment', options);
-paymentElement.mount('#payment-element');
+
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -31,7 +29,7 @@ const host = "localhost";
 app.post("/payment-sheet", async (req, res) => {
   try {
     const data = req.body;
-    const { email, name, amount } = data; // Extract email, name, and amount from request body
+    const { email, name, } = data; // Extract email, name, and amount from request body
 
     const params = {
       email,
@@ -46,7 +44,7 @@ app.post("/payment-sheet", async (req, res) => {
     );
 
     const paymentIntent = await stripe.paymentIntents.create({
-      amount: amount * 100, // Convert to the smallest currency unit (assuming 'myr' uses cents)
+      amount: data.amount * 100, // Convert to the smallest currency unit (assuming 'myr' uses cents)
       currency: 'myr',
       customer: customer.id,
       automatic_payment_methods: {
@@ -70,3 +68,5 @@ app.post("/payment-sheet", async (req, res) => {
 app.listen(port, host, () => {
   console.log(`Server is running at ${host}:${port}`);
 });
+
+

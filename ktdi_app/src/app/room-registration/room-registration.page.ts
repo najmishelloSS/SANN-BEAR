@@ -1,9 +1,11 @@
 //////////////DEPENDENCIES///////////////////////
-import { HttpClient } from '@angular/common/http';
-import { Component, Injectable, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { AlertController, NavController } from '@ionic/angular';
+import { Component, OnInit } from '@angular/core';
 import { ComponentsService } from '../service/components.service';
+import { NavController } from '@ionic/angular';
+import { AlertController } from '@ionic/angular';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { from } from 'rxjs';
 import { DataService } from '../service/data.service';
 import { id } from 'date-fns/locale';
 //////////////DEPENDENCIES///////////////////////
@@ -24,9 +26,6 @@ export class RoomRegistrationPage implements OnInit {
 
   emptySingleRooms : any;
   emptyDoubleRooms : any;
-  data: any;
-  dataFromPreviousPage: any;
-  validateSingleRooms : any;
 
   constructor(
     public component: ComponentsService,
@@ -34,17 +33,16 @@ export class RoomRegistrationPage implements OnInit {
     public dataservice:DataService,
     public alertController: AlertController,
     private http: HttpClient,
-    private route: ActivatedRoute
   ) {}
 
   //****************************************** PHP SECTION *************************************************/
 ngOnInit() { //initialization
     this.getEmptySingleRoom() 
     this.getEmptyDoubleRoom()
-    this.fetchPreviousPageData()
   }
 
 
+<<<<<<< Updated upstream
 
   // ******************************** Fetch data from Homepage *****************
 
@@ -74,6 +72,8 @@ async checkSingleRoomForUser(id: number) {
 }
 
 
+=======
+>>>>>>> Stashed changes
   // ********************************* Single Room *********************
 
   
@@ -89,9 +89,6 @@ async checkSingleRoomForUser(id: number) {
         this.component.toast("Something went wrong, please try again later")
     });
   }
-
-
-
 
   filterSingleLevel(Level){
     let Status = "Empty"
@@ -132,11 +129,11 @@ async checkSingleRoomForUser(id: number) {
 
   // ******************************* UPDATE SINGLE ROOM ********************
 
-  async updateSingleRoom(block: string, level: string, roomNumber: string, status: string, user_id: number){ //get all single room
-    // var headers = new Headers();
-    //   headers.append("Accept", 'application/json');
-    //   headers.append('Content-Type', 'application/json');
-    let requestData = { Block: block, Level: level, RoomNumber: roomNumber, Status : status, User_id: user_id };
+  async updateSingleRoom(block: string, level: string, roomNumber: string, status: string){ //get all single room
+    var headers = new Headers();
+      headers.append("Accept", 'application/json');
+      headers.append('Content-Type', 'application/json');
+    let requestData = { Block: block, Level: level, RoomNumber: roomNumber, Status : status };
     this.component.getAPI('http://ktdiapp.mooo.com/api/update_single_room.php', requestData, "POST").subscribe( (response:any) => {
      console.log(response)
     }, error => {
@@ -151,12 +148,7 @@ async checkSingleRoomForUser(id: number) {
     let level = this.selectedLevel
     let room = this.selectedRoom
     let status = 'Full'
-    let user_id = this.data.login.user_id;
-    console.log(this.selectedBlock)
-    console.log(this.selectedLevel)
-    console.log(this.selectedRoom)
-    console.log(user_id)
-    this.updateSingleRoom(block,level,room,status,user_id)
+    this.updateSingleRoom(block,level,room,status)
   }
 
   // ******************************* DOUBLE ROOM ****************************
@@ -385,6 +377,7 @@ async checkSingleRoomForUser(id: number) {
           if (this.selectedRoom === 'default') {
             this.presentAlert('Please choose your room number!');
           } else {
+            this.updateSingleRoomStatus();
             this.navigateModal(location, destination);
           }
           break;

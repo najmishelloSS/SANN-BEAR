@@ -59,42 +59,55 @@
   </div>
 
 <!-- Content for page 3 -->
-  <ion-content>
-    <div *ngIf="page === 'page3'">
-      <h2>Select Payment Type</h2>
-        <!-- Ion-segment buttons for payment methods -->
-        <ion-segment>
-        <ion-segment-button (click)="selectPaymentMethod('Credit Card')">Credit Card</ion-segment-button>
-        <ion-segment-button (click)="selectPaymentMethod('Debit Card')">Debit Card</ion-segment-button>
-        <ion-segment-button (click)="selectPaymentMethod('PayPal')">PayPal</ion-segment-button>
-        <ion-segment-button (click)="selectPaymentMethod('QR Code')">QR Code</ion-segment-button>
-      </ion-segment>
-  
-      <!-- Payment section for Credit Card or Debit Card -->
-      <div *ngIf="showPaymentSection && (selectedPaymentMethod === 'Credit Card' || selectedPaymentMethod === 'Debit Card')">
-          <!-- Button to initiate payment -->
-          <ion-button (click)="initiateStripePayment()">Pay Now</ion-button>
-      </div>
-      
-      <!-- Payment successful message -->
-      <div *ngIf="paymentSuccessful">
-        <h2>Payment Successful!</h2>
-        <!-- Additional details or customization for successful payment -->
-      </div>
+<ion-content>
+  <div *ngIf="page === 'page3'">
+    <h2>Select Payment Type</h2>
+    <!-- Ion-segment buttons for payment methods -->
+    <ion-segment>
+      <ion-segment-button (click)="selectPaymentMethod('Credit Card')">Credit Card</ion-segment-button>
+      <ion-segment-button (click)="selectPaymentMethod('Debit Card')">Debit Card</ion-segment-button>
+      <ion-segment-button (click)="selectPaymentMethod('PayPal')">PayPal</ion-segment-button>
+      <ion-segment-button (click)="showQRCode()">QR Code</ion-segment-button>
+    </ion-segment>
 
-      <!-- Approval message -->
-      <div *ngIf="submitted" style="text-align: center; margin-top: 50px;">
-        <p><strong>Your registration has been approved</strong></p>
-      </div>
+    <!-- Payment section for Credit Card or Debit Card -->
+    <div *ngIf="showPaymentSection && (selectedPaymentMethod === 'Credit Card' || selectedPaymentMethod === 'Debit Card')">
+      <!-- Button to initiate payment -->
+      <ion-button (click)="initiateStripePayment()">Pay Now</ion-button>
     </div>
 
-   <!-- Content for registeredPage (Registration Completed) -->
-   <div *ngIf="page === 'registeredPage'">
+    <!-- QR Code section -->
+<div *ngIf="showQRCodeSection" style="text-align: center;">
+  <ng-container *ngTemplateOutlet="qrCodeContent"></ng-container>
+  <ion-button (click)="navigateToPaymentSuccessful()">Pay</ion-button>
+</div>
+
+<ng-template #qrCodeContent>
+  <!-- Display the QR code image -->
+  <img src="assets\image\qr.jpg" alt="QR Code" style="display: block; margin: 0 auto;">
+</ng-template>
+
+    <!-- Payment successful message -->
+    <div *ngIf="paymentSuccessful">
+      <h2>Payment Successful!</h2>
+      <!-- Additional details or customization for successful payment -->
+      <!-- Button to submit registration after successful payment -->
+      <ion-button (click)="submitRegistration(paymentId)">Submit </ion-button>
+    </div>
+
+    <!-- Approval message -->
+    <div *ngIf="submitted" style="text-align: center; margin-top: 50px;">
+      <p><strong>Your registration has been approved</strong></p>
+    </div>
+  </div>
+
+  <!-- Content for registeredPage (Registration Completed) -->
+  <div *ngIf="page === 'registeredPage'">
     <h2>You have already registered</h2>
     <!-- Navigate back to the default home page -->
     <ion-buttons slot="start">
       <ion-back-button [defaultHref]="'/home'"></ion-back-button>
     </ion-buttons>
-      <ion-label style="text-align: center;">Go back</ion-label>
+    <ion-label style="text-align: center;">Go back</ion-label>
   </div>
 </ion-content>
