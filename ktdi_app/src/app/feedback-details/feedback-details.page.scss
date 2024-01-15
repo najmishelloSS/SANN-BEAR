@@ -25,3 +25,38 @@
   .align-right {
     margin-left: auto; /* This will push the button to the right end */
   }
+
+  .tooltip {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+  
+    &::after {
+      content: attr(data-tooltip);
+      position: absolute;
+      background: rgba(0, 0, 0, 0.8);
+      color: #fff;
+      padding: 0.3em;
+      border-radius: 0.3em;
+      font-size: 0.8em;
+      white-space: nowrap;
+      visibility: hidden;
+      opacity: 0;
+      transition: visibility 0s, opacity 0.3s linear;
+      z-index: 1;
+      bottom: 125%;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+  
+    &:hover::after {
+      visibility: visible;
+      opacity: 0.5;
+    }
+  }
+ 
+  .header-row {
+    height: 60px;
+  }
+  
+  

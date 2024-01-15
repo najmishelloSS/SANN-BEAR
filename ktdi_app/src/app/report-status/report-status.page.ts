@@ -17,7 +17,7 @@ export class ReportStatusPage implements OnInit {
   constructor(private http: HttpClient) {}
 
   ngOnInit() {
-    this.onStatusChange();
+    this.fetchReportData();
   }
 
   onStatusChange() {
@@ -25,29 +25,46 @@ export class ReportStatusPage implements OnInit {
     this.successSectionVisible = this.selectedStatus === 'success';
 
     if (this.selectedStatus === 'active') {
-      this.fetchReportData('pending'); // Set status to 'pending' for the 'active' section
+      this.fetchReportData();
     } else {
-      this.fetchReportData('approved');
+      this.fetchReportData(this.selectedStatus);
     }
   }
 
   fetchReportData(status?: string) {
-    const url = status === 'approved'
-      ? 'http://ktdiapp.mooo.com/api/get_approved_reports.php'
-      : 'http://ktdiapp.mooo.com/api/get_status.php';
+    const url = 'http://ktdiapp.mooo.com/api/get_status.php';
 
-    this.http.get(url).subscribe(
-      (data: any) => {
-        if (data.Code === '200' && data.Reports) {
-          this.reportData = data.Reports.filter((report: any) => report.status === status);
-        } else {
-          console.error(`Error fetching ${status ? status + ' ' : ''}report data:`, data.Message);
+    // Use a GET request for fetching data
+    this.http.get<any>(url)
+      .subscribe(
+        (data: any) => {
+          this.handleReportData(data, status);
+        },
+        error => {
+          console.error('Error fetching report data:', error);
         }
-      },
-      error => {
-        console.error(`Error fetching ${status ? status + ' ' : ''}report data:`, error);
-      }
-    );
+      );
+  }
+
+  private handleReportData(data: any, status?: string) {
+    console.log('Received data:', data);
+
+    if (status) {
+      this.reportData = data.Reports
+        .filter(report => report.status === status)
+        .map((report: any) => {
+          report.damage_type = report.damage_type ? [report.damage_type] : [];
+          return report;
+        });
+    } else {
+      this.reportData = data.Reports.map((report: any) => {
+        report.damage_type = report.damage_type ? [report.damage_type] : [];
+        report.status = 'Submitted';
+        return report;
+      });
+    }
+
+    console.log(this.reportData);
   }
 
   formatId(id: number): string {

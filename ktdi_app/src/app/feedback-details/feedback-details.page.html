@@ -8,30 +8,23 @@
 </ion-header>
 
 <ion-content>
+  <!-- Header Row -->
+  <ion-list-header lines="full" class="header-row">
+    <ion-label class="tooltip" data-tooltip="Feedback ID">ID</ion-label>
+    <ion-label class="tooltip" data-tooltip="College Rating">C.R</ion-label>
+    <ion-label class="tooltip" data-tooltip="Accommodation Rating">A.R</ion-label>
+    <ion-label class="tooltip" data-tooltip="Facilities Rating">F.R</ion-label>
+    <ion-label class="tooltip" data-tooltip="User Recommendation">U.R</ion-label>
+  </ion-list-header>
 
-  <!-- Table to display room information -->
-  <ion-grid class="timetable-grid">
-    <ion-row class="header-row">      
-      <ion-col>User ID</ion-col>
-      <ion-col>Feedback ID</ion-col>
-      <ion-col>Management Rating</ion-col>
-      <ion-col >Accommodation Rating</ion-col>
-      <ion-col>Facilities Rating</ion-col>
-      <ion-col >User Recommendation</ion-col>
-      <ion-col >Submission Date</ion-col>
-      <ion-col >File</ion-col>
-    </ion-row>
-
-    <ion-row *ngFor="let row of tableData" class="data-row">
-      <ion-col >{{ row.user_id }}</ion-col>
-      <ion-col >{{ row.feedback_id }}</ion-col>
-      <ion-col >{{ row.college_management_rating }}</ion-col>
-      <ion-col >{{ row.accommodation_rating }}</ion-col>
-      <ion-col >{{ row.facilities_rating }}</ion-col>
-      <ion-col >{{ row.user_recommendation }}</ion-col>
-      <ion-col >{{ row.submission_date }}</ion-col>
-      <ion-col >{{ row.file_name }}</ion-col>
-    </ion-row>
-  </ion-grid>
-
+  <!-- Feedback Items -->
+  <ion-list>
+    <ion-item *ngFor="let feedback of feedbackList">
+      <ion-label>{{ feedback.feedback_id }}</ion-label>
+      <ion-label>{{ feedback.college_management_rating }}</ion-label>
+      <ion-label>{{ feedback.accommodation_rating }}</ion-label>
+      <ion-label>{{ feedback.facilities_rating }}</ion-label>
+      <ion-label>{{ feedback.user_recommendation }}</ion-label>
+    </ion-item>    
+  </ion-list>
 </ion-content>

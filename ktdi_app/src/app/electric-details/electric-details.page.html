@@ -3,30 +3,26 @@
     <ion-buttons slot="start">
       <ion-back-button [defaultHref]="'/admin'"></ion-back-button>
     </ion-buttons>
-    <ion-title>Electrical Registration</ion-title>
+    <ion-title>Electrical Appliances</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-padding">
-  <ion-grid class="timetable-grid">
-    <ion-row class="header-row">      
-      <ion-col size-sm="2">Registration ID</ion-col>      
-      <ion-col size-sm="2">User ID</ion-col>
-      <ion-col size-sm="2">Name</ion-col>
-      <ion-col size-sm="2">Image Path</ion-col>
-      <ion-col size-sm="2">Registration Date</ion-col>
-      <ion-col size-sm="2">Payment Status</ion-col>
-    </ion-row>
+<ion-content>
+  <ion-list-header lines="full" class="header-row">
+    <ion-label class="tooltip" data-tooltip="Registration ID">R.I</ion-label>
+    <ion-label class="tooltip" data-tooltip="User ID">U.I</ion-label>
+    <ion-label class="tooltip" data-tooltip="Total Price">Price</ion-label>
+    <ion-label class="tooltip" data-tooltip="Appliances">Item</ion-label>
+    <ion-label class="tooltip" data-tooltip="Registration Date">R.D</ion-label>
+  </ion-list-header>
 
-    <ion-row *ngFor="let row of tableData" class="data-row">
-      <ion-col size-sm="2">{{ row.registrationId }}</ion-col>
-      <ion-col size-sm="2">{{ row.userId }}</ion-col>
-      <ion-col size-sm="2">{{ row.name }}</ion-col>
-      <ion-col size-sm="2">{{ row.imagePath }}</ion-col>
-      <ion-col size-sm="2">{{ row.registrationDate }}</ion-col>
-      <ion-col size-sm="2">{{ row.paymentStatus }}</ion-col>
-      <ion-button expand="full" (click)="approveDetails()" shape="round" class="align-right">Approve</ion-button>
-    </ion-row>
-  </ion-grid>
-
+  <ion-list>
+    <ion-item *ngFor="let appliance of electricalList">
+      <ion-label>{{ appliance.registration_id }}</ion-label>
+      <ion-label>{{ appliance.user_id }}</ion-label>
+      <ion-label>{{ appliance.price }}</ion-label>
+      <ion-label>{{ appliance.name }}</ion-label>
+      <ion-label>{{ appliance.registration_date }}</ion-label>
+    </ion-item>
+  </ion-list>
 </ion-content>

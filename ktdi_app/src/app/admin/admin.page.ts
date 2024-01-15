@@ -9,7 +9,7 @@ import { HttpClient } from '@angular/common/http';
 })
 export class AdminPage implements OnInit {
   hallBookings: any[] = [];
-  totalReports: number = 0;
+  totalPendingReports: number = 0;
   totalFeedback: number = 0;
   totalHallBooking: number = 0;
   totalEmptySingleRooms: number = 0;
@@ -37,13 +37,13 @@ export class AdminPage implements OnInit {
   }
 
   fetchTotalReports() {
-    const url = 'http://ktdiapp.mooo.com/api/get_total_report.php';
+    const url = 'http://ktdiapp.mooo.com/api/get_pending_report.php';
 
     this.http.get<any>(url)
       .subscribe(
         (data: any) => {
           console.log('Received data:', data);
-          this.totalReports = data.total_reports || 0;
+          this.totalPendingReports = data.total_pending || 0;
         },
         async error => {
           console.error('Error fetching total reports:', error);
