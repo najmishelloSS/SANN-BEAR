@@ -21,6 +21,7 @@ export class ReportPage {
   damageDescription: string = '';
   submitted: boolean = false;
   uploadedFilePath: string = '';
+
   file: any;
 
   constructor(
