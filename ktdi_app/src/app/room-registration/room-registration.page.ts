@@ -26,6 +26,7 @@ export class RoomRegistrationPage implements OnInit {
   data: any;
   dataFromPreviousPage: any;
   validateSingleRooms : any;
+  validateDoubleRooms : any; 
 
   constructor(
     public component: ComponentsService,
@@ -58,6 +59,7 @@ async  fetchPreviousPageData() {
     }
     console.log(this.data)
     this.checkSingleRoomForUser(this.data.login.user_id)
+    this.checkDoubleRoomForUser(this.data.login.user_id)
     }
 
 // ******************************** Evaluate if user already registered room *****************
@@ -71,7 +73,7 @@ async checkSingleRoomForUser(id: number) {
      console.log(response)
      this.validateSingleRooms = response.Room
      let result = this.validateSingleRooms.filter(e => e["user_id"] == user_id)
-     if (result) {
+     if (result.length > 0) {
       // User has a room
       let roomNumbers = result.map(e => e["RoomNumber"]) // extract the RoomNumber property
       this.selectedRoom = roomNumbers; 
@@ -80,7 +82,32 @@ async checkSingleRoomForUser(id: number) {
       // Now you can use result.RoomNumber as needed
     } else {
       // User does not have a room
-      console.log('User does not have a room');
+      console.log('User does not have a single room');
+    }
+    }, error => {
+        console.log(error)
+        this.component.toast("Something went wrong, please try again later")
+    });
+}
+
+// Function to check if the user has a room in double Room
+async checkDoubleRoomForUser(id: number) {
+  let formData = new FormData();
+  let user_id = id.toString ();
+  this.component.getAPI('http://ktdiapp.mooo.com/api/double_room.php', formData, "get").subscribe( (response:any) => {
+     console.log(response)
+     this.validateDoubleRooms = response.Room
+     let result = this.validateDoubleRooms.filter(e => e["user_id"] == user_id)
+     if (result.length > 0) {
+      // User has a room
+      let roomNumbers = result.map(e => e["RoomNo"]) // extract the RoomNumber property
+      this.selectedRoom = roomNumbers; 
+      console.log(this.selectedRoom);
+      this.navigateToDisplayRoomModal('displayRoomModalDouble')
+      // Now you can use result.RoomNumber as needed
+    } else {
+      // User does not have a room
+      console.log('User does not have a double room');
     }
     }, error => {
         console.log(error)
@@ -174,6 +201,47 @@ async checkSingleRoomForUser(id: number) {
     this.updateSingleRoom(block,level,room,status,user_id)
   }
 
+
+    // ******************************* UPDATE DOUBLE ROOM ********************
+
+    async updateDoubleRoom(block: string, level: string, roomNumber: string, status: string, user_id: number){ //get all single room
+      // var headers = new Headers();
+      //   headers.append("Accept", 'application/json');
+      //   headers.append('Content-Type', 'application/json');
+      let requestData = { Block: block, Level: level, RoomNumber: roomNumber, Status : status, User_id: user_id };
+      this.component.getAPI('http://ktdiapp.mooo.com/api/update_double_room.php', requestData, "POST").subscribe( (response:any) => {
+       console.log(response)
+      }, error => {
+          console.log(error)
+          this.component.toast("Something went wrong, please try again later")
+      });
+    }
+  
+    updateDoubleRoomStatus ()
+    {
+      let block = this.selectedBlock
+      let level = this.selectedLevel
+      let room = this.selectedRoom
+      let user_id = this.data.login.user_id;
+      let status1 = "Half"
+      let status2 = "Full"
+      console.log(this.selectedBlock)
+      console.log(this.selectedLevel)
+      console.log(this.selectedRoom)
+      console.log(user_id)
+
+      if (this.doubleRoomStatus == "Half")
+      {
+        this.updateDoubleRoom(block,level,room,status2,user_id)
+      }
+      else
+      {
+        this.updateDoubleRoom(block,level,room,status1,user_id)
+      }
+
+    }
+
+
   // ******************************* DOUBLE ROOM ****************************
 
   
@@ -190,20 +258,30 @@ async checkSingleRoomForUser(id: number) {
   }
 
   filterDoubleLevel(Level){
+    let Status1 = "Empty"
+    let Status2 = "Half"
     let Block = this.selectedBlock
     let result
     for(let i = 0; i < this.emptyDoubleRooms.length ; i++){
       result = this.emptyDoubleRooms.filter(e => e["Block"] == Block) // filter out block != MA1
       result = result.filter(e => e["Level"] == Level) // filter out level != 1
+      result = result.filter(
+        (e) => e["Status"] == Status1 || e["Status"] == Status2
+      );
     }
     console.log(result)
     return result.length // return count
   }
 
   filterDoubleBlock(Block){
+    let Status1 = "Empty"
+    let Status2 = "Half"
     let result
     for(let i = 0; i < this.emptyDoubleRooms.length ; i++){
       result = this.emptyDoubleRooms.filter(e => e["Block"] == Block) // filter out block != MA1
+      result = result.filter(
+        (e) => e["Status"] == Status1 || e["Status"] == Status2
+      );
     }
     console.log(result)
     return result.length // return array
@@ -212,13 +290,30 @@ async checkSingleRoomForUser(id: number) {
   filterDoubleRoom(Block,Level){
     console.log (this.selectedLevel); 
     console.log(this.selectedBlock);
+    let Status1 = "Empty"
+    let Status2 = "Half"
     let result = this.emptyDoubleRooms.filter(e => e["Block"] == Block) // filter out block != MA1
     result = result.filter(e => e["Level"] == Level) // filter out level != 1
+    result = result.filter(
+      (e) => e["Status"] == Status1 || e["Status"] == Status2
+    );
     let roomNumbers = result.map(e => e["RoomNo"]) // extract the RoomNumber property
     console.log (roomNumbers)
     return roomNumbers // return array of RoomNumber
   }
 
+  getDoubleRoomStatus(Block,Level,Room){
+    console.log (this.selectedLevel); 
+    console.log(this.selectedBlock);
+    console.log(this.selectRoom);
+    
+    let result = this.emptyDoubleRooms.filter(e => e["Block"] == Block) // filter out block != MA1
+    result = result.filter(e => e["Level"] == Level) // filter out level != 1
+    result = result.filter((e) => e["RoomNo"] == Room)
+    let roomNumbers = result.map(e => e["Status"]) // extract the RoomNumber property
+    this.doubleRoomStatus = roomNumbers
+    console.log(this.doubleRoomStatus)
+  }
 
   
   //******************************************************************************************************/
@@ -280,7 +375,7 @@ async checkSingleRoomForUser(id: number) {
   selectedBlock: string = 'default'; 
   selectedLevel: string = 'default'; 
   selectedRoom: string = 'default'; 
-
+  doubleRoomStatus: string ;
 
   // *** Double Room Variable *****
 
@@ -333,6 +428,10 @@ async checkSingleRoomForUser(id: number) {
     else if (modalName == "availableRoomModalDouble")
     {
       this.availableRoomModalDouble = isOpen; 
+    }
+    else if (modalName == "displayRoomModalDouble")
+    {
+      this.displayRoomModalDouble = isOpen; 
     }
 
   }
@@ -415,11 +514,11 @@ async checkSingleRoomForUser(id: number) {
           if (this.selectedRoom === 'default') {
             this.presentAlert('Please choose your room number!');
           } else {
+            this.getDoubleRoomStatus(this.selectedBlock,this.selectedLevel,this.selectedRoom);
+            this.updateDoubleRoomStatus();
             this.navigateModal(location, destination);
           }
           break;
-  
-      
   
       default:
         // Handle unexpected location value
