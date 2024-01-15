@@ -1,5 +1,3 @@
-// report.page.ts
-
 import { Component } from '@angular/core';
 import { NavController, LoadingController, ToastController } from '@ionic/angular';
 import { HttpClient } from '@angular/common/http';
@@ -23,7 +21,8 @@ export class ReportPage {
   damageDescription: string = '';
   submitted: boolean = false;
   uploadedFilePath: string = '';
-  
+
+  file: any;
 
   constructor(
     private navCtrl: NavController,
@@ -59,7 +58,6 @@ export class ReportPage {
   async submitReport() {
     console.log('Submitting Report');
 
-
     const formData = new FormData();
     formData.append('file_path', this.uploadedFilePath);
     formData.append('damage_type', this.getSelectedDamageType());
@@ -92,12 +90,12 @@ export class ReportPage {
   private getSelectedDamageType(): string {
     const selectedType = this.damageTypes.find(type => type.checked);
     return selectedType ? selectedType.label : '';
-
   }
 
   resetForm() {
     this.damageTypes.forEach(type => type.checked = false);
     this.damageDescription = '';
+    this.uploadedFilePath = '';
   }
 
   backToHome() {

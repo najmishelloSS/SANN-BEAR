@@ -20,7 +20,7 @@
   </div>
 
   <!--searchbar-->
-  <ion-searchbar [debounce]="100" style="--border-radius: 20px;" color="light" show-clear-button="always" animated="true" placeholder="Search">
+  <ion-searchbar [debounce]="100" class="custom-searchbar" color="light" show-clear-button="always" animated="true" placeholder="Search">
   </ion-searchbar>
 
 
@@ -48,7 +48,7 @@
 
 
  <!--services-->
- <h4>Services</h4>
+ <h4 style="margin-left: 1rem;">Services</h4>
  <div class="categories">
   <div class="icon-button-container">
   <ion-button color="primary" (click)="navigate('hallrecord', 'forward')" class="touchable-button">
@@ -93,11 +93,13 @@
   </div>
 
   <div class="icon-button-container">
-    <ion-button color="primary" (click)="navigate('', 'forward')" class="touchable-button">
-      <ion-icon name="extension-puzzle-outline"></ion-icon>>
-    </ion-button>
-    <span (click)="navigate('feedback', 'forward')" class="button-caption">Plugin</span>
-  </div>
+    <!-- contact-us.page.html -->
+<ion-button (click)="navigate('contact-us', 'forward')" class="touchable-button">
+  <ion-icon name="call-outline"></ion-icon>
+</ion-button>
+<span (click)="navigate('contact-us', 'forward')" class="button-caption">Contact Us</span>
+
+    </div>
 
   <div class="icon-button-container">
     <ion-button color="primary" (click)="navigate('', 'forward')" class="touchable-button">
@@ -108,12 +110,34 @@
 </div>
 
   <!--hall available-->
-  <h4>Hall Available</h4>
-  <div class="hall-list">
-    <ion-img src="../../assets/image/dewan.jpg" alt="utm"></ion-img>
-    <ion-img src="../../assets/image/dewan.jpg" alt="utm"></ion-img>
-    <ion-img src="../../assets/image/dewan.jpg" alt="utm"></ion-img>
-    <ion-img src="../../assets/image/dewan.jpg" alt="utm"></ion-img>
-  </div>
+  <h4 style="margin-left: 1rem;">Hall Available</h4>
+
+  <ion-grid>
+    <ion-row>
+      <ion-col >
+        <ion-row size="6">
+      <ion-card class="custom-card"  onmouseenter="startHover()" onmouseleave="stopHover()">
+        <ion-img src="../../assets/image/dewan.jpg" alt="utm"></ion-img>
+        <h5 style="margin-left: 0.5rem;">Dewan Sri Resak</h5>
+        <p style="margin-left: 0.5rem;">RM1000 per/day</p>
+      </ion-card>
+      </ion-row>
+      </ion-col>
+        <ion-col>
+          <ion-row size="2">
+            <ion-card class="custom-card">
+              <ion-img src="../../assets/image/dewan.jpg" alt="utm"></ion-img>
+              <div class="card-details">
+              <h5 style="margin-left: 0.5rem;">Dewan Serbaguna</h5>
+              <p style="margin-left: 0.5rem;">RM700 per/day</p>
+              </div>
+            </ion-card>
+          </ion-row>
+          <ion-row size="2">
+         
+          </ion-row>
+        </ion-col>
+        </ion-row>
+  </ion-grid>
 
 </ion-content>

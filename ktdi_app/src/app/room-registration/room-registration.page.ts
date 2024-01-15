@@ -334,6 +334,10 @@ async checkDoubleRoomForUser(id: number) {
     this.navCtrl.navigateRoot('/home');
   }
 
+  navigate(route, direction){
+    this.component.navigate(route, this.data, direction);
+  }
+
   async navigateModal(location, destination) { //close old modal and open new modal
     this.setOpen(false, location) //close old modal
     const loading = await this.component.loadingController.create({ //generate loading interface
