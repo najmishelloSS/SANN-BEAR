@@ -238,7 +238,7 @@
       <ion-toolbar>
         <ion-buttons slot="start">
           <!-- Use the ion-back-button component to navigate back to the roomTypeModal -->
-          <ion-back-button [defaultHref]="'/room-registration'" (click)="navigateModal('availableBlockModalSingle','roomTypeModal')" text = ""></ion-back-button>
+          <ion-back-button [defaultHref]="'/room-registration'" (click)="navigateModal('availableBlockModalDouble','roomTypeModal')" text = ""></ion-back-button>
         </ion-buttons>
         <ion-title class="ion-text-center" style = "font-size: 20px;">Available Blocks</ion-title></ion-toolbar>
     </ion-header>
@@ -269,7 +269,7 @@
         <ion-item lines="none">
           <ion-label>
             <span class="label-text">MA5</span>
-            <span class="additional-text">{{ filterDoubleBlock('MA5') }}0 Rooms Available</span>
+            <span class="additional-text">{{ filterDoubleBlock('MA5') }} Rooms Available</span>
           </ion-label>
           <ion-radio slot="end" value="MA5"></ion-radio>
         </ion-item></ion-card>
@@ -293,7 +293,7 @@
         </ion-item></ion-card>
       </ion-radio-group>
 
-      <ion-button expand="full" shape="round" color="primary" (click)="selectedValue('availableBlockModalDouble','availableLevelModalDOuble')" style="height: 7%;">Continue</ion-button>
+      <ion-button expand="full" shape="round" color="primary" (click)="selectedValue('availableBlockModalDouble','availableLevelModalDouble')" style="height: 7%;">Continue</ion-button>
     </div>
   </div>
 
@@ -304,7 +304,7 @@
         ,<ion-toolbar>
           <ion-buttons slot="start">
             <!-- Use the ion-back-button component to navigate back to the roomTypeModal -->
-            <ion-back-button [defaultHref]="'/room-registration'" (click)="navigateModal('availableLevelModalSingle','availableBlockModalSingle')" text = ""></ion-back-button>
+            <ion-back-button [defaultHref]="'/room-registration'" (click)="navigateModal('availableLevelModalDouble','roomTypeModal')" text = ""></ion-back-button>
           </ion-buttons>
           <ion-title class="ion-text-center">Available Level</ion-title></ion-toolbar>
       </ion-header>
@@ -319,7 +319,7 @@
               <span class="label-text">LG</span>
               <span class="additional-text">{{ filterDoubleLevel('G') }} Rooms Available</span>
             </ion-label>
-            <ion-radio slot="end" value="LG"></ion-radio>
+            <ion-radio slot="end" value="G"></ion-radio>
           </ion-item></ion-card>
 
           <ion-card>
@@ -328,7 +328,7 @@
               <span class="label-text">L1</span>
               <span class="additional-text">{{ filterDoubleLevel('1') }} Rooms Available</span>
             </ion-label>
-            <ion-radio slot="end" value="L1"></ion-radio>
+            <ion-radio slot="end" value="1"></ion-radio>
           </ion-item></ion-card>
 
           <ion-card>
@@ -337,7 +337,7 @@
               <span class="label-text">L2</span>
               <span class="additional-text">{{ filterDoubleLevel('2') }} Rooms Available</span>
             </ion-label>
-            <ion-radio slot="end" value="L2"></ion-radio>
+            <ion-radio slot="end" value="2"></ion-radio>
           </ion-item></ion-card>
 
           <ion-card>
@@ -346,7 +346,7 @@
               <span class="label-text">L3</span>
               <span class="additional-text">{{ filterDoubleLevel('3') }} Rooms Available</span>
             </ion-label>
-            <ion-radio slot="end" value="L3"></ion-radio>
+            <ion-radio slot="end" value="3"></ion-radio>
           </ion-item></ion-card>
 
           <ion-card>
@@ -355,11 +355,11 @@
               <span class="label-text">L4</span>
               <span class="additional-text">{{ filterDoubleLevel('4') }} Rooms Available</span>
             </ion-label>
-            <ion-radio slot="end" value="L4"></ion-radio>
+            <ion-radio slot="end" value="4"></ion-radio>
           </ion-item></ion-card>
         </ion-radio-group>
   
-        <ion-button expand="full" shape="round" color="primary"(click)="selectedValue('availableLevelModalSingle','availableRoomModalSingle')" style="height: 7%;">Continue</ion-button>
+        <ion-button expand="full" shape="round" color="primary"(click)="selectedValue('availableLevelModalDouble','availableRoomModalDouble')" style="height: 7%;">Continue</ion-button>
       </div>
     </div>
 
@@ -369,7 +369,7 @@
         <ion-toolbar>
         <ion-buttons slot="start">
           <!-- Use the ion-back-button component to navigate back to the roomTypeModal -->
-          <ion-back-button [defaultHref]="'/room-registration'" (click)="navigateModal('availableRoomModalSingle','roomTypeModal')" text = ""></ion-back-button>
+          <ion-back-button [defaultHref]="'/room-registration'" (click)="navigateModal('availableRoomModalDouble','roomTypeModal')" text = ""></ion-back-button>
         </ion-buttons>
           <ion-title class="ion-text-center">Available Room</ion-title></ion-toolbar>
       </ion-header>
@@ -386,8 +386,38 @@
             </ion-button>
           </div>
         </ion-card>
-        <ion-button expand="full" shape="round" color="primary" style="height: 7%;" (click)="selectedValue('availableRoomModalSingle','displayRoomModalSingle')" >Confirm</ion-button>
+        <ion-button expand="full" shape="round" color="primary" style="height: 7%;" (click)="selectedValue('availableRoomModalDouble','displayRoomModalDouble')" >Confirm</ion-button>
       </div>
+    </div>
+
+    <div *ngIf="displayRoomModalDouble" class="ion-padding" style="width: 100%; height: 100%; background: white; box-shadow: 4px 4px 4px; display: flex; flex-direction: column; align-items: center;">
+
+      <ion-header>
+        <ion-toolbar color="primary">
+          <ion-title class="ion-text-center">Your Room</ion-title>
+        </ion-toolbar>
+      </ion-header>
+    
+      <div class="ion-padding" style="width: 100%; text-align: center; color: #1F1F1F; font-size: 24px; line-height: 26px; word-wrap: break-word; margin-top: 150px;">
+        Room Number
+      </div>
+    
+      <div style="width: 100%; text-align: center; color: #1F1F1F; font-size: 64px; line-height: 26px; word-wrap: break-word; margin-top: 40px;">
+        {{selectedRoom}}
+      </div>
+    
+      <div style="width: 100%; text-align: center; color: #1F1F1F; font-size: 24px; line-height: 26px; word-wrap: break-word; margin-top: 40px;">
+        Your room has been registered
+      </div>
+    
+      <div style="width: 100%; text-align: center; color: #1F1F1F; font-size: 16px; line-height: 22px; word-wrap: break-word; margin-top: 40px;">
+        An email is sent to you for confirmation
+      </div>
+    
+      <ion-button expand="full" shape="round" color="primary" style="height: 7%; margin-top: 40px;" (click)="navigateToHome()">
+        Back to Home
+      </ion-button>
+    
     </div>
 
 </ion-content>
