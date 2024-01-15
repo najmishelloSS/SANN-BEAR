@@ -23,6 +23,7 @@ export class ReportPage {
   damageDescription: string = '';
   submitted: boolean = false;
   uploadedFilePath: string = '';
+  
 
   constructor(
     private navCtrl: NavController,

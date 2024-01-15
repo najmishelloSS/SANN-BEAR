@@ -67,3 +67,66 @@
   color: #777;
   /* Add other styles as needed */
 }
+
+// Your Appliances has been registered
+.registered {
+color: #1F1F1F;
+ font-size: 24px;
+ font-family: Archivo Black;
+ font-weight: 400;
+ line-height: 26px;
+ word-wrap: break-word
+}
+
+.card-content-container {
+  border: 2px solid #007AFF; /* Blue border for the card content */
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 16px;
+}
+
+.full-name {
+  font-size: 20px;
+  font-weight: bold;
+  color: #007AFF; /* Blue color for the full name */
+  margin-bottom: 10px;
+}
+
+.appliance-name {
+  font-size: 18px;
+  font-weight: bold;
+  color: #1F1F1F; /* Dark color for appliance names */
+}
+
+.additional-info {
+  font-size: 14px;
+  color: #666; /* Gray color for additional information */
+}
+
+.timetable-grid {
+  border: 2px solid #ddd; /* Add border to the entire grid */
+  border-radius: 20px; /* Add border radius */
+}
+
+.header-row,
+.data-row {
+  border-bottom: 1px solid #ddd; /* Add border between rows */
+}
+
+ion-col {
+  padding: 10px;
+  text-align: center;
+}
+
+.header-row ion-col {
+  font-weight: bold;
+  background-color: #6613e1; /* Header background color */
+}
+
+.data-row:hover {
+  background-color: #f9f9f9; /* Highlight on hover */
+}
+
+.align-right {
+  margin-left: auto; /* This will push the button to the right end */
+}
