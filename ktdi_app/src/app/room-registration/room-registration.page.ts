@@ -7,7 +7,6 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { from } from 'rxjs';
 import { DataService } from '../service/data.service';
-import { id } from 'date-fns/locale';
 //////////////DEPENDENCIES///////////////////////
 
 @Injectable({
@@ -56,8 +55,7 @@ async  fetchPreviousPageData() {
       this.navigateToHome();
     }
     console.log(this.data)
-    // Check if user has a room in Single Room
-    this.checkSingleRoomForUser(this.data.login.user_id);
+    this.checkSingleRoomForUser(this.data.login.user_id)
     }
 
 // ******************************** Evaluate if user already registered room *****************
@@ -67,8 +65,25 @@ async  fetchPreviousPageData() {
 async checkSingleRoomForUser(id: number) {
   let formData = new FormData();
   let user_id = id.toString ();
-  let result = this.emptySingleRooms.filter(e => e["user_id"] == user_id)
-  console.log(result)
+  this.component.getAPI('http://ktdiapp.mooo.com/api/single_room.php', formData, "get").subscribe( (response:any) => {
+     console.log(response)
+     this.validateSingleRooms = response.Room
+     let result = this.validateSingleRooms.filter(e => e["user_id"] == user_id)
+     if (result) {
+      // User has a room
+      let roomNumbers = result.map(e => e["RoomNumber"]) // extract the RoomNumber property
+      this.selectedRoom = roomNumbers; 
+      console.log(this.selectedRoom);
+      this.navigateToDisplayRoomModal('displayRoomModalSingle')
+      // Now you can use result.RoomNumber as needed
+    } else {
+      // User does not have a room
+      console.log('User does not have a room');
+    }
+    }, error => {
+        console.log(error)
+        this.component.toast("Something went wrong, please try again later")
+    });
 }
 
 
@@ -227,6 +242,21 @@ async checkSingleRoomForUser(id: number) {
       loading.dismiss(); //close loading interface
     }, 1000);
   }
+
+  async navigateToDisplayRoomModal(destination) {
+    this.roomTypeModal = false;
+    const loading = await this.component.loadingController.create({
+      message: "Please wait"
+    });
+  
+    loading.present();
+  
+    setTimeout(async () => {
+      this.setOpen(true,destination)
+      loading.dismiss();
+    }, 1000);
+  }
+
 
 
   roomTypeModal = true; 
