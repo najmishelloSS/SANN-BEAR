@@ -141,6 +141,10 @@ const routes: Routes = [
     path: 'feedback-details',
     loadChildren: () => import('./feedback-details/feedback-details.module').then( m => m.FeedbackDetailsPageModule)
   },
+  {
+    path: 'hostel',
+    loadChildren: () => import('./hostel/hostel.module').then( m => m.HostelPageModule)
+  },
 
 
 
