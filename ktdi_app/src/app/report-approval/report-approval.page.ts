@@ -85,7 +85,9 @@ export class ReportApprovalPage implements OnInit {
   }
 
   rejectReport(report: any) {
-    // Add logic for rejecting a report if needed
+  const reportId = report.id;
+  const newStatus = 'rejected';
+  this.updateReportStatus(reportId, newStatus);
   }
 
   formatId(id: number): string {
