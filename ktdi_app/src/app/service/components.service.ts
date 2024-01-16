@@ -222,6 +222,14 @@ export class ComponentsService {
         this.language["Navigation"] = "Navigasi"
         this.language["day"] = "hari"
         this.language["Hall Available"] = "Tempah Dewan"
+        this.language["Year"] = "Tahun"
+        this.language["Logout"] = "Log Keluar"
+        this.language["Faculty of Computing"] = "Fakulti Komputer"
+        this.language["Graphic and Multimedia Software"] = "Perisian Grafik dan Multimedia"
+        this.language["Profile"] = "Profil"
+        this.language["Report Damage"] = "Lapor Kerosakan"
+        this.language["Upload File"] = "Muat Naik"
+        this.language["Description"] = "Penerangan"
         break;
       default:
         this.language["Home"] = "Home"
@@ -341,6 +349,14 @@ export class ComponentsService {
         this.language["Navigation"] = "Navigation"
         this.language["day"] = "day"
         this.language["Hall Available"] = "Hall Available"
+        this.language["Year"] = "Year"
+        this.language["Logout"] = "Logout"
+        this.language["Faculty of Computing"] = "Faculty of Computing"
+        this.language["Graphic and Multimedia Software"] = "Graphic and Multimedia Software"
+        this.language["Profile"] = "Profile"
+        this.language["Report Damage"] = "Report Damage"
+        this.language["Upload File"] = "Upload File"
+        this.language["Description"] = "Description"
 
       }
     return this.language

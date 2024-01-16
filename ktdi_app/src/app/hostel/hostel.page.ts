@@ -46,7 +46,7 @@ export class HostelPage implements OnInit {
   async getEmptyDoubleRoom(){ //get all single room
     let formData = new FormData();
 
-    this.component.getAPI(environment.ktdi_api +' double_room.php', formData, "get").subscribe( (response:any) => {
+    this.component.getAPI(environment.ktdi_api +'double_room.php', formData, "get").subscribe( (response:any) => {
      console.log(response)
      this.emptyDoubleRooms = response.Room
      // Create an array of objects with all the room properties

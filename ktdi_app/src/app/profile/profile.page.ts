@@ -11,7 +11,8 @@ import { ComponentsService } from '../service/components.service';
 export class ProfilePage implements OnInit {
 
   name: any;
-  data : any 
+  data : any;
+  language : any;
   
 
   constructor(
@@ -28,10 +29,10 @@ async ngOnInit() {
   if(this.route.snapshot.data['special']){
     this.data = this.route.snapshot.data['special'];
   }
-
+  this.language = this.component.getLanguage(this.data.language) 
   if(this.data == undefined){
     this.data.page = 1;
-    this.navigate();
+    this.navigate("splashscreen", "back");
   }
   console.log(this.data)
 }
@@ -43,8 +44,8 @@ async ngOnInit() {
     console.log(this.name)
   }
 
-  navigate(){
-    this.router.navigateByUrl("home");
+  navigate(route, direction){
+    this.component.navigate(route, this.data, direction);
   }
 
   inputValue = '';

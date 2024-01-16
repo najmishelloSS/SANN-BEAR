@@ -2,25 +2,25 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-back-button [defaultHref]="'/home'"></ion-back-button>
+      <ion-back-button  (click)="navigate('home','back')"></ion-back-button>
     </ion-buttons>
-    <ion-title>Report Damage</ion-title>
+    <ion-title>{{ language['Report Damage'] }}</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
   <ion-header collapse="condense">
     <ion-toolbar>
-      <ion-title size="large">Report Damage</ion-title>
+      <ion-title size="large">{{ language['Report Damage'] }}</ion-title>
     </ion-toolbar>
   </ion-header>
 
   <!-- Add this inside the <ion-content> tag -->
 
-  <div *ngIf="!submitted">
+  <div *ngIf="!submitted" class="ion-padding">
     <!-- Upload File Section -->
     <ion-item>
-      &nbsp;<ion-label>Upload File : </ion-label>&nbsp;
+      <ion-label>{{ language['Upload File'] }} : </ion-label>
       <label class="file-input-label">
         <input type="file" class="file-input" />
       </label>
@@ -35,14 +35,14 @@
     </ion-list>
 
     <!-- Description Section -->
-    <ion-label>Description : </ion-label><br>
+    <ion-label>{{ language['Description'] }} : </ion-label><br>
     &nbsp;<ion-textarea [(ngModel)]="damageDescription" labelPlacement="floating" fill="outline" placeholder="Enter the damage description"></ion-textarea>&nbsp;
 
     <!-- Submit Button -->
     <ion-col>
       <ion-item detail="false" button color="primary" style="--border-radius: 20px; --border-width: 2px; --height: 4rem; color: white;"
                 (click)="submitReport()">
-        <ion-label style="text-align: center;">Submit</ion-label>
+        <ion-label style="text-align: center;">{{ language['Submit'] }}</ion-label>
       </ion-item>
     </ion-col>
   </div>
@@ -54,7 +54,7 @@
 
     <!-- Back to Home Button -->
     <ion-col>
-      <ion-item (click)="backToHome()" detail="false" button color="primary"
+      <ion-item (click)="navigate('home','back')" detail="false" button color="primary"
                 style="--border-radius: 20px; --border-width: 2px; --height: 4rem; color: white; margin-top: 20px;">
         <ion-label style="text-align: center;">Back to Home</ion-label>
       </ion-item>
