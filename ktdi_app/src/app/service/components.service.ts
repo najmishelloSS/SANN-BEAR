@@ -230,6 +230,18 @@ export class ComponentsService {
         this.language["Report Damage"] = "Lapor Kerosakan"
         this.language["Upload File"] = "Muat Naik"
         this.language["Description"] = "Penerangan"
+        this.language["Fan"] = "Kipas"
+        this.language["Lamp"] = "Lampu"
+        this.language["Clogged Sink"] = "Sinki Tersumbat"
+        this.language["Wall Plug"] = "Plag Dinding"
+        this.language["Other"] = "Lain-lain"
+        this.language["Pipe Leakage"] = "Paip Bocor"
+        this.language["Enter the damage description"] = "Nyatakan penerangan kerosakan"
+        this.language["Your report has been submitted"] = "Laporan anda telah dihantar"
+        this.language["An email has been sent to you for confirmation"] = "E-mel pengesahan telah dihantar"
+        this.language["inc. of all taxes"] = "termasuk cukai"
+        this.language["Proceed"] = "Teruskan"
+        this.language["Make Payment"] = "Buat Pembayaran"
         break;
       default:
         this.language["Home"] = "Home"
@@ -357,7 +369,18 @@ export class ComponentsService {
         this.language["Report Damage"] = "Report Damage"
         this.language["Upload File"] = "Upload File"
         this.language["Description"] = "Description"
-
+        this.language["Fan"] = "Fan"
+        this.language["Lamp"] = "Lamp"
+        this.language["Clogged Sink"] = "Clogged Sink"
+        this.language["Wall Plug"] = "Wall Plug"
+        this.language["Other"] = "Other"
+        this.language["Pipe Leakage"] = "Pipe Leakage"
+        this.language["Enter the damage description"] = "Enter the damage description"
+        this.language["Your report has been submitted"] = "Your report has been submitted"
+        this.language["An email has been sent to you for confirmation"] = "An email has been sent to you for confirmation"
+        this.language["inc. of all taxes"] = "inc. of all taxes"
+        this.language["Proceed"] = "Proceed"
+        this.language["Make Payment"] = "Make Payment"
       }
     return this.language
   }

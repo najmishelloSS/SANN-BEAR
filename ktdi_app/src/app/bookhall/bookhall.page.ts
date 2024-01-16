@@ -424,6 +424,7 @@ export class BookhallPage implements OnInit {
 
     let formData = new FormData();
     formData.append('user_id', this.data.login.user_id);
+    formData.append('user_email', this.data.login.email);
     formData.append('programme_name', this.booking.name!);
     formData.append('programme_venue', this.booking.hall_name!);
     formData.append('programme_date', JSON.stringify(this.booking.rent_date!));
@@ -451,25 +452,48 @@ export class BookhallPage implements OnInit {
 
     loading.present();
 
-    // this.component.getAPI(environment.ktdi_api +'book_hall.php', formData, "post").subscribe( async (data:any) => { //login API
-    this.component.getAPI('http://localhost/stripe/test.php', formData, "post").subscribe( async (data:any) => { //login API
-    console.log(data)
+    this.component.getAPI('http://localhost/stripe/test.php', formData, "post").subscribe( async (data:any) => { 
+      console.log(data)
       data.forEach( async item => {
         if(item.Code == '200'){
-          console.log(data)
-          loading.dismiss();
+          console.log(data, item.programme_id, item.url)
+          formData.append('programme_id', item.programme_id);
+          formData.append('url', item.url);
+          let link = item.url
+
+              this.component.getAPI(environment.ktdi_api +'book_hall.php', formData, "post").subscribe( async (data:any) => { 
+                console.log(data)
+                  data.forEach( async item => {
+                    if(item.Code == '200'){
+                      console.log(data)
+                      loading.dismiss();
+                      this.component.openBrowser(link)
+                      this.component.navigate('hallrecord',this.data,'back')
+                    }else{
+                      this.component.toast(this.language["Something went wrong, please try again later"])
+                      console.log(item.Booking, item.Message)
+                      loading.dismiss();
+                    }
+                  });
+                }, async error => {
+                    console.log(error)
+                    this.component.toast(this.language["Something went wrong, please try again later"])
+                    console.log("error 2")
+                    loading.dismiss();
+                });
         }else{
           this.component.toast(this.language["Something went wrong, please try again later"])
-          console.log(item.Booking, item.Message)
           loading.dismiss();
         }
       });
     }, async error => {
-        console.log(error)
-        this.component.toast(this.language["Something went wrong, please try again later"])
-        console.log("error 2")
-        loading.dismiss();
+      console.log(error)
+      this.component.toast(this.language["Something went wrong, please try again later"])
+      loading.dismiss();
     });
+
+
+
   }
 
 }

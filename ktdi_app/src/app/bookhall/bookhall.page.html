@@ -473,13 +473,13 @@
           <h6>
             <b>RM {{booking.total | number: '1.2'}}</b>
           </h6>
-          <p><span style="color:#777">inc. of all taxes</span></p>
+          <p><span style="color:#777">{{language["inc. of all taxes"]}}</span></p>
         </ion-label>
       </ion-item>
     </ion-col>
     <ion-col>
       <ion-item (click)="bookHall()" detail="false" button color="primary" style="--border-radius: 20px;--border-width: 2px;--height:4rem; color: white;">
-        <ion-label style="text-align: center;">Proceed</ion-label>
+        <ion-label style="text-align: center;">{{language["Proceed"]}}</ion-label>
       </ion-item>
     </ion-col>
   </ion-row>

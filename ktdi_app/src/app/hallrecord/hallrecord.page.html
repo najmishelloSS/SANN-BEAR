@@ -80,10 +80,12 @@
               <div *ngFor="let item of active">
                 <ion-item-sliding>
                   <ion-item-options side="start">
-                    <ion-item-option color="success" (click)="goToLink(item.approval_letter_filepath)" href="http://ktdiapp.mooo.com/{{item.approval_letter_filepath}}">{{language['Approval Letter']}}<ion-icon name="document-sharp" slot="bottom"></ion-icon></ion-item-option>
+                    <ion-item-option [disabled]="!item.url" color="warning" (click)="goToLink(item.url)" href="http://ktdiapp.mooo.com/{{item.approval_letter_filepath}}">{{language['Make Payment']}}<ion-icon name="wallet-sharp" slot="bottom"></ion-icon></ion-item-option>
+                    <!-- <ion-item-option color="success" (click)="goToLink(item.approval_letter_filepath)" href="http://ktdiapp.mooo.com/{{item.approval_letter_filepath}}">{{language['Approval Letter']}}<ion-icon name="document-sharp" slot="bottom"></ion-icon></ion-item-option> -->
                   </ion-item-options>
     
                   <ion-item>
+
                     <ion-label>
                       <ion-row class="ion-align-items-center">
                         <ion-col class="ion-text-start">
@@ -112,6 +114,7 @@
                   <ion-item-options side="end">
                     <ion-item-option color="secondary" (click)="goToLink(item.programme_tentative_filepath)" href="http://ktdiapp.mooo.com/{{item.programme_tentative_filepath}}">{{language['Programme Tentative']}}<ion-icon name="eye-sharp" slot="bottom"></ion-icon></ion-item-option>
                   </ion-item-options>
+                  
                 </ion-item-sliding>
     
               </div>
