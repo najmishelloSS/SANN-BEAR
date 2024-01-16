@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <network-security-config>
-  <domain-config cleartextTrafficPermitted="true">
-    <domain includeSubdomains="true">
-      http://ktdiapp.mooo.com/api/hall.php
-    </domain>
-  </domain-config>
+    <domain-config cleartextTrafficPermitted="true">
+      <domain includeSubdomains="true">http://ktdiapp.mooo.com</domain>
+      <domain includeSubdomains="true">http://ktdiapp.mooo.com/api</domain>
+    </domain-config>
 </network-security-config>

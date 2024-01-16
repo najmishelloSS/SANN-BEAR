@@ -173,6 +173,14 @@ export class LoginPage implements OnInit {
     //     this.login.email = error.message
     // });
 
+    // this.component.getAPI(environment.ktdi_api + 'get_status.php', [], "get").subscribe( (data:any) => { //login API
+    //   console.log(data)
+    // }, async error => {
+    //     console.log(error)
+    // });
+
+
+
     let result = this.component.emailValid(this.login.email) //check email validity (must have @ eg email@gmail)
 
     if(this.login.email == "" || this.login.email == " " || this.login.email == null || this.login.email == undefined || result == false){ //check input filled or validity
@@ -189,7 +197,6 @@ export class LoginPage implements OnInit {
         message: this.language["Logging In..."]
       });
       loading.present();
-      loading.dismiss();
 
       var headers = new Headers();
       headers.append("Accept", 'application/json');
@@ -199,7 +206,7 @@ export class LoginPage implements OnInit {
       formData.append('login',this.login.email);
       formData.append('password',this.login.password);
 
-      this.component.getAPI('http://ktdiapp.mooo.com/api/login_auth.php', formData, "post").subscribe( (data:any) => { //login API
+      this.component.getAPI(environment.ktdi_api +'login_auth.php', formData, "post").subscribe( (data:any) => { //login API
         console.log(data)
         data.forEach( async item => {
           if(item.Code == '200'){
@@ -260,7 +267,7 @@ export class LoginPage implements OnInit {
       let formData = new FormData();
       formData.append('email',this.forgot.email);
 
-      this.component.getAPI('http://ktdiapp.mooo.com/api/code.php', formData, "post").subscribe( (data:any) => {
+      this.component.getAPI(environment.ktdi_api +' code.php', formData, "post").subscribe( (data:any) => {
         console.log(data)
         data.forEach( async item => {
           if(item.Code == '200'){
@@ -329,7 +336,7 @@ export class LoginPage implements OnInit {
       formData.append('password',this.register.password);
       formData.append('repassword',this.register.repassword);
 
-      this.component.getAPI('http://ktdiapp.mooo.com/api/register.php', formData, "post").subscribe( (data:any) => {
+      this.component.getAPI(environment.ktdi_api +' register.php', formData, "post").subscribe( (data:any) => {
       console.log(data)
       data.forEach( async item => {
         if(item.Code == '200'){
@@ -378,7 +385,7 @@ export class LoginPage implements OnInit {
       formData.append('email',this.verify.email);
       formData.append('PIN',this.verify.PIN);
 
-      this.component.getAPI('http://ktdiapp.mooo.com/api/verify.php', formData, "post").subscribe( (data:any) => {
+      this.component.getAPI(environment.ktdi_api +' verify.php', formData, "post").subscribe( (data:any) => {
         console.log(data)
         data.forEach( async item => {
           if(item.Code == '200'){
@@ -446,7 +453,7 @@ export class LoginPage implements OnInit {
       formData.append('password',this.forgot.password);
       
       console.log(this.verify.email)
-      this.component.getAPI('http://ktdiapp.mooo.com/api/reset_password.php', formData, "post").subscribe( (data:any) => {
+      this.component.getAPI(environment.ktdi_api +' reset_password.php', formData, "post").subscribe( (data:any) => {
         console.log(data)
         data.forEach( async item => {
           if(item.Code == '200'){
@@ -490,7 +497,7 @@ export class LoginPage implements OnInit {
       formData.append('email',this.verify.email);
       
       console.log(this.verify.email)
-      this.component.getAPI('http://ktdiapp.mooo.com/api/code.php', formData, "post").subscribe( (data:any) => {
+      this.component.getAPI(environment.ktdi_api +' code.php', formData, "post").subscribe( (data:any) => {
         console.log(data)
         data.forEach( async item => {
           if(item.Code == '200'){

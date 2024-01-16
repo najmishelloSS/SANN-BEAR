@@ -6,4 +6,7 @@ export const environment = {
   },
   api: 'http://localhost:3000/',
   ktdi_api : 'http://ktdiapp.mooo.com/api/'
+  // ktdi_api : 'http://localhost/ktdiapp/api/'
+  // ktdi_api : 'http://10.201.102.131:8100/ktdiapp/api/'
+
 };

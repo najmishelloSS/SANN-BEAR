@@ -57,6 +57,7 @@ export class HomePage implements OnInit{
   }
 
   data : any ;
+  language;
 
   constructor(
     private route:ActivatedRoute,
@@ -72,6 +73,7 @@ export class HomePage implements OnInit{
     if(this.route.snapshot.data['special']){
       this.data = this.route.snapshot.data['special'];
     }
+    this.language = this.component.getLanguage(this.data.language) 
     if(this.data == undefined){
       this.data.page = 1;
       this.navigate("splashscreen", "back");

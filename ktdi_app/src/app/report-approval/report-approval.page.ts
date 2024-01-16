@@ -2,6 +2,7 @@
 
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-report-approval',
@@ -36,7 +37,7 @@ export class ReportApprovalPage implements OnInit {
 
   // Function to fetch report data from the server
   fetchReportData() {
-    const url = 'http://ktdiapp.mooo.com/api/get_status.php';
+    const url = environment.ktdi_api +'get_status.php';
 
     // You might need to adjust the request parameters based on your server-side implementation
     const params = {};
@@ -58,7 +59,7 @@ export class ReportApprovalPage implements OnInit {
   updateReportStatus(reportId: number, newStatus: string) {
     const requestData = { reportId, newStatus };
 
-    this.http.post<any>('http://ktdiapp.mooo.com/api/update_report_status.php', requestData)
+    this.http.post<any>(environment.ktdi_api +'update_report_status.php', requestData)
       .subscribe(
         (response: any) => {
           if (response.success) {

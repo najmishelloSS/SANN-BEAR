@@ -4,6 +4,7 @@ import { LoadingController, IonDatetime } from '@ionic/angular';
 import { ComponentsService } from '../service/components.service';
 import { DataService } from '../service/data.service';
 import {format, parse, parseISO} from 'date-fns';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-bookhall',
@@ -179,7 +180,7 @@ export class BookhallPage implements OnInit {
 
     let formData = new FormData();
     
-    this.component.getAPI('http://ktdiapp.mooo.com/api/hall.php', formData, "get").subscribe( (data:any) => { //login API
+    this.component.getAPI(environment.ktdi_api +'hall.php', formData, "get").subscribe( (data:any) => { //login API
       console.log(data)
       if(data.Code == '200'){
         this.data.hall = data.Hall
@@ -450,7 +451,7 @@ export class BookhallPage implements OnInit {
 
     loading.present();
 
-    // this.component.getAPI('http://ktdiapp.mooo.com/api/book_hall.php', formData, "post").subscribe( async (data:any) => { //login API
+    // this.component.getAPI(environment.ktdi_api +'book_hall.php', formData, "post").subscribe( async (data:any) => { //login API
     this.component.getAPI('http://localhost/stripe/test.php', formData, "post").subscribe( async (data:any) => { //login API
     console.log(data)
       data.forEach( async item => {

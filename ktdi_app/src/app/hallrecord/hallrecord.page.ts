@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ComponentsService } from '../service/components.service';
 import { ActivatedRoute } from '@angular/router';
 import format from 'date-fns/format';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-hallrecord',
@@ -51,7 +52,7 @@ export class HallrecordPage implements OnInit {
 
     let formData = new FormData();
     
-    this.component.getAPI('http://ktdiapp.mooo.com/api/booking_record.php', formData, "get").subscribe( (data:any) => { //login API
+    this.component.getAPI(environment.ktdi_api +'booking_record.php', formData, "get").subscribe( (data:any) => { //login API
       console.log(data)
       if(data.Code == '200'){
         // this.component.toast("Data Retrieved")

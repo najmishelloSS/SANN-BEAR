@@ -57,6 +57,13 @@ const routes: Routes = [
     loadChildren: () => import('./bookhall/bookhall.module').then( m => m.BookhallPageModule)
   },
   {
+    path: 'hallrecord/:id',
+    resolve:{
+      special:DataResolverService
+    },
+    loadChildren: () => import('./hallrecord/hallrecord.module').then( m => m.HallrecordPageModule)
+  },
+  {
     path: 'room-registration',
     loadChildren: () => import('./room-registration/room-registration.module').then( m => m.RoomRegistrationPageModule)
   },
@@ -151,7 +158,7 @@ const routes: Routes = [
     loadChildren: () => import('./contact-us/contact-us.module').then( m => m.ContactUsPageModule)
   },
   {
-    path: 'contact-us',
+    path: 'contact-us/:id',
     resolve:{
       special:DataResolverService
     },

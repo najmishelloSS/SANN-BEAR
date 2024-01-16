@@ -211,6 +211,17 @@ export class ComponentsService {
         this.language["Meal Break"] = "Waktu Makan"
         this.language["Yes"] = "Ada"
         this.language["No"] = "Tiada"
+        this.language["Services"] = "Perkhidmatan"
+        this.language["Search"] = "Cari"
+        this.language["Report"] = "Laporan"
+        this.language["Report Status"] = "Status Laporan"
+        this.language["Room Registration"] = "Daftar Bilik"
+        this.language["Register Electrical Appliances"] = "Daftar Barang Elektrik"
+        this.language["Feedback & Recommendation"] = "Maklum Balas & Cadangan"
+        this.language["Contact Us"] = "Hubungi Kami"
+        this.language["Navigation"] = "Navigasi"
+        this.language["day"] = "hari"
+        this.language["Hall Available"] = "Tempah Dewan"
         break;
       default:
         this.language["Home"] = "Home"
@@ -319,6 +330,18 @@ export class ComponentsService {
         this.language["Meal Break"] = "Meal Break"
         this.language["Yes"] = "Yes"
         this.language["No"] = "No"
+        this.language["Services"] = "Services"
+        this.language["Search"] = "Search"
+        this.language["Report"] = "Report"
+        this.language["Report Status"] = "Report Status"
+        this.language["Room Registration"] = "Room Registration"
+        this.language["Register Electrical Appliances"] = "Register Electrical Appliances"
+        this.language["Feedback & Recommendation"] = "Feedback & Recommendation"
+        this.language["Contact Us"] = "Contact Us"
+        this.language["Navigation"] = "Navigation"
+        this.language["day"] = "day"
+        this.language["Hall Available"] = "Hall Available"
+
       }
     return this.language
   }

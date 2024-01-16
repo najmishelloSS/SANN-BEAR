@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { AlertController, NavController } from '@ionic/angular';
 import { ComponentsService } from '../service/components.service';
 import { DataService } from '../service/data.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-hostel',
@@ -45,7 +46,7 @@ export class HostelPage implements OnInit {
   async getEmptyDoubleRoom(){ //get all single room
     let formData = new FormData();
 
-    this.component.getAPI('http://ktdiapp.mooo.com/api/double_room.php', formData, "get").subscribe( (response:any) => {
+    this.component.getAPI(environment.ktdi_api +' double_room.php', formData, "get").subscribe( (response:any) => {
      console.log(response)
      this.emptyDoubleRooms = response.Room
      // Create an array of objects with all the room properties
@@ -63,7 +64,7 @@ export class HostelPage implements OnInit {
   async getEmptySingleRoom(){ //get all single room
     let formData = new FormData();
   
-    this.component.getAPI('http://ktdiapp.mooo.com/api/single_room.php', formData, "get").subscribe( (response:any) => {
+    this.component.getAPI(environment.ktdi_api +'single_room.php', formData, "get").subscribe( (response:any) => {
       console.log(response)
       this.emptySingleRooms = response.Room
   

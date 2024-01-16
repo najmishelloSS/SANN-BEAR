@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-admin',
@@ -37,7 +38,7 @@ export class AdminPage implements OnInit {
   }
 
   fetchTotalReports() {
-    const url = 'http://ktdiapp.mooo.com/api/get_pending_report.php';
+    const url = environment.ktdi_api +'get_pending_report.php';
 
     this.http.get<any>(url)
       .subscribe(
@@ -52,7 +53,7 @@ export class AdminPage implements OnInit {
   }
 
   fetchTotalFeedback() {
-    const url = 'http://ktdiapp.mooo.com/api/get_total_feedback.php';
+    const url = environment.ktdi_api +'get_total_feedback.php';
 
     this.http.get<any>(url)
       .subscribe(
@@ -67,7 +68,7 @@ export class AdminPage implements OnInit {
   }
 
   fetchTotalHallBooking() {
-    const url = 'http://ktdiapp.mooo.com/api/get_total_hallbooking.php';
+    const url = environment.ktdi_api +'get_total_hallbooking.php';
 
     this.http.get<any>(url)
       .subscribe(
@@ -82,7 +83,7 @@ export class AdminPage implements OnInit {
   }
 
   fetchTotalEmptySingleRooms() {
-    const url = 'http://ktdiapp.mooo.com/api/get_total_SingleRoom.php';
+    const url = environment.ktdi_api +'get_total_SingleRoom.php';
 
     this.http.get<any>(url)
       .subscribe(
@@ -97,7 +98,7 @@ export class AdminPage implements OnInit {
   }
 
   fetchTotalEmptyDoubleRooms() {
-    const url = 'http://ktdiapp.mooo.com/api/get_total_DoubleRoom.php';
+    const url = environment.ktdi_api +'get_total_DoubleRoom.php';
 
     this.http.get<any>(url)
       .subscribe(

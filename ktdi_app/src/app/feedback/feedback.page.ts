@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { NavController } from '@ionic/angular';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-feedback',
@@ -55,7 +56,7 @@ export class FeedbackPage {
     formData.append('user_id', this.data.login.user_id); 
 
     // Replace the URL with your actual PHP backend endpoint
-    const feedbackEndpoint = 'http://ktdiapp.mooo.com/api/feedback.php';
+    const feedbackEndpoint = environment.ktdi_api +'feedback.php';
 
     this.http.post(feedbackEndpoint, formData).subscribe(
       (data: any) => {

@@ -1,6 +1,7 @@
 // report-status.page.ts
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-report-status',
@@ -32,7 +33,7 @@ export class ReportStatusPage implements OnInit {
   }
 
   fetchReportData(status?: string) {
-    const url = 'http://ktdiapp.mooo.com/api/get_status.php';
+    const url = environment.ktdi_api +'get_status.php';
 
     // Use a GET request for fetching data
     this.http.get<any>(url)

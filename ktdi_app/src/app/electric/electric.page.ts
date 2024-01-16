@@ -24,7 +24,7 @@ interface Appliance {
   styleUrls: ['./electric.page.scss'],
 })
 export class ElectricPage implements OnInit {
-  apiUrl = 'http://ktdiapp.mooo.com/api/electric.php';
+  apiUrl = environment.ktdi_api +'electric.php';
 
   appliances: Appliance[] = [];
   registeredAppliances: Appliance[] = [];  // Add this property
@@ -62,7 +62,7 @@ export class ElectricPage implements OnInit {
   
   loadRegisteredPageData(): void {
     if (this.data && this.data.login && this.data.login.user_id) {
-      const apiUrl = 'http://ktdiapp.mooo.com/api/registered_electrical.php';
+      const apiUrl = environment.ktdi_api +'registered_electrical.php';
       
       // Make an HTTP GET request to fetch user's registered appliances
       this.http.get<any>(apiUrl, { params: { user_id: this.data.login.user_id } }).subscribe(
@@ -257,7 +257,7 @@ export class ElectricPage implements OnInit {
 
     console.log('Data sent to server:', formData);
   
-    this.http.post('http://ktdiapp.mooo.com/api/electrical_registration.php', formData).subscribe(
+    this.http.post(environment.ktdi_api +'electrical_registration.php', formData).subscribe(
       (response) => {
         console.log(response);
         this.submitted = true;

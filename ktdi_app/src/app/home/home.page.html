@@ -16,11 +16,11 @@
   <div class="header" style="margin: 5%">
     <ion-icon name="person-circle-outline" size="large" (click)="navigate('profile', 'forward')"></ion-icon>
     <h3>Hi {{data.login.full_name}}!</h3>
-    <ion-icon name="notifications-outline"></ion-icon>
+    <ion-icon name="settings-outline"></ion-icon>
   </div>
 
   <!--searchbar-->
-  <ion-searchbar [debounce]="100" class="custom-searchbar" color="light" show-clear-button="always" animated="true" placeholder="Search">
+  <ion-searchbar [debounce]="100" class="custom-searchbar" color="light" show-clear-button="always" animated="true" placeholder="{{ language['Search'] }}">
   </ion-searchbar>
 
 
@@ -38,7 +38,7 @@
   </swiper-container>-->
 
 
-  <swiper-container (afterinit) = "swiperReady()"    (slidechange)="swiperSlideChanged($event)" [loop]="true" [pagination]="true">
+  <swiper-container (afterinit) = "swiperReady()" (slidechange)="swiperSlideChanged($event)" [loop]="true" [pagination]="true">
     <swiper-slide *ngFor = "let image of images">
       <div class = "image-style">
       <img [src] = "image"  />
@@ -48,48 +48,48 @@
 
 
  <!--services-->
- <h4 style="margin-left: 1rem;">Services</h4>
+ <h4 style="margin-left: 1rem;">{{ language['Services'] }}</h4>
  <div class="categories">
   <div class="icon-button-container">
   <ion-button color="primary" (click)="navigate('hallrecord', 'forward')" class="touchable-button">
     <ion-icon name="calendar"></ion-icon>
   </ion-button>
-  <span (click)="navigate('hallrecord', 'forward')" class="button-caption">Hall Booking</span>
+  <span (click)="navigate('hallrecord', 'forward')" class="button-caption">{{ language['Hall Booking'] }}</span>
   </div>
 
   <div class="icon-button-container">
   <ion-button color="primary" (click)="navigate('report', 'forward')" class="touchable-button">
     <ion-icon name="document-text"></ion-icon>
   </ion-button>
-  <span (click)="navigate('report', 'forward')" class="button-caption">Report</span>
+  <span (click)="navigate('report', 'forward')" class="button-caption">{{ language['Report'] }}</span>
   </div>
 
   <div class="icon-button-container">
   <ion-button color="primary" (click)="navigate('report-status', 'forward')" class="touchable-button">
     <ion-icon name="bar-chart"></ion-icon>
   </ion-button>
-  <span (click)="navigate('report-status', 'forward')" class="button-caption">Report Status</span>
+  <span (click)="navigate('report-status', 'forward')" class="button-caption">{{ language['Report Status'] }}</span>
   </div>
 
   <div class="icon-button-container">
   <ion-button color="primary" (click)="navigate('room-registration', 'forward')" class="touchable-button">
     <ion-icon name="business"></ion-icon>
   </ion-button>
-  <span (click)="navigate('room-registration', 'forward')" class="button-caption">Room Registration</span>
+  <span (click)="navigate('room-registration', 'forward')" class="button-caption">{{ language['Room Registration'] }}</span>
   </div>
   
   <div class="icon-button-container">
   <ion-button color="primary" (click)="navigate('electric', 'forward')" class="touchable-button">
     <ion-icon name="power"></ion-icon>
   </ion-button>
-  <span (click)="navigate('electric', 'forward')" class="button-caption">Register Electrical Appliances</span>
+  <span (click)="navigate('electric', 'forward')" class="button-caption">{{ language['Register Electrical Appliances'] }}</span>
   </div>
 
   <div class="icon-button-container">
   <ion-button color="primary" (click)="navigate('feedback', 'forward')" class="touchable-button">
     <ion-icon name="chatbubbles"></ion-icon>
   </ion-button>
-  <span (click)="navigate('feedback', 'forward')" class="button-caption">Feedback & Recommendation</span>
+  <span (click)="navigate('feedback', 'forward')" class="button-caption">{{ language['Feedback & Recommendation'] }}</span>
   </div>
 
   <div class="icon-button-container">
@@ -97,7 +97,7 @@
 <ion-button (click)="navigate('contact-us', 'forward')" class="touchable-button">
   <ion-icon name="call-outline"></ion-icon>
 </ion-button>
-<span (click)="navigate('contact-us', 'forward')" class="button-caption">Contact Us</span>
+<span (click)="navigate('contact-us', 'forward')" class="button-caption">{{ language['Contact Us'] }}</span>
 
     </div>
 
@@ -105,31 +105,31 @@
     <ion-button color="primary" (click)="navigate('', 'forward')" class="touchable-button">
       <ion-icon name="navigate-outline"></ion-icon>
     </ion-button>
-    <span (click)="navigate('feedback', 'forward')" class="button-caption">Navigate</span>
+    <span (click)="navigate('feedback', 'forward')" class="button-caption">{{ language['Navigation'] }}</span>
   </div>
 </div>
 
   <!--hall available-->
-  <h4 style="margin-left: 1rem;">Hall Available</h4>
+  <h4 style="margin-left: 1rem;">{{ language['Hall Available'] }}</h4>
 
   <ion-grid>
     <ion-row>
       <ion-col >
         <ion-row size="6">
-      <ion-card class="custom-card"  onmouseenter="startHover()" onmouseleave="stopHover()">
+      <ion-card class="custom-card" (click)="navigate('bookhall','forward')" onmouseenter="startHover()" onmouseleave="stopHover()">
         <ion-img src="../../assets/image/dewan.jpg" alt="utm"></ion-img>
         <h5 style="margin-left: 0.5rem;">Dewan Sri Resak</h5>
-        <p style="margin-left: 0.5rem;">RM1000 per/day</p>
+        <p style="margin-left: 0.5rem;">RM1000 / {{ language['day'] }}</p>
       </ion-card>
       </ion-row>
       </ion-col>
         <ion-col>
           <ion-row size="2">
-            <ion-card class="custom-card">
+            <ion-card class="custom-card" (click)="navigate('bookhall','forward')">
               <ion-img src="../../assets/image/dewan.jpg" alt="utm"></ion-img>
               <div class="card-details">
               <h5 style="margin-left: 0.5rem;">Dewan Serbaguna</h5>
-              <p style="margin-left: 0.5rem;">RM700 per/day</p>
+              <p style="margin-left: 0.5rem;">RM700 / {{ language['day'] }}</p>
               </div>
             </ion-card>
           </ion-row>

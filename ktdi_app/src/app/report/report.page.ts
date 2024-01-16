@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController, LoadingController, ToastController } from '@ionic/angular';
 import { HttpClient } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-report',
@@ -43,7 +44,7 @@ export class ReportPage {
     const formData = new FormData();
     formData.append('file', file);
 
-    this.http.post<any>('http://ktdiapp.mooo.com/api/submit-report.php', formData)
+    this.http.post<any>(environment.ktdi_api +'submit-report.php', formData)
       .subscribe(
         (response) => {
           console.log('File uploaded successfully:', response);
@@ -71,7 +72,7 @@ export class ReportPage {
     });
     loading.present();
 
-    this.http.post<any>('http://ktdiapp.mooo.com/api/submit-report.php', formData)
+    this.http.post<any>(environment.ktdi_api +'submit-report.php', formData)
       .subscribe(
         (response) => {
           console.log('Report submitted successfully:', response);

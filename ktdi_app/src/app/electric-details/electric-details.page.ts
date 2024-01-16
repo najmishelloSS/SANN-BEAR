@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-electric-details',
@@ -16,7 +17,7 @@ export class ElectricDetailsPage implements OnInit {
   }
   
   fetchElectricalList() {
-    const url = 'http://ktdiapp.mooo.com/api/get_list_electrical.php';
+    const url = environment.ktdi_api +'get_list_electrical.php';
 
     this.http.get<any>(url)
       .subscribe(
